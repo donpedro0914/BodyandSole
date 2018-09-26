@@ -22,7 +22,7 @@
 	        <li class="float-left">
 	            <a href="index.html" class="logo">
 	                <span class="logo-lg">
-	                    Body and Sole
+	                    {{ HTML::image('img/body-and-sole-logo.jpg', 'Body and Sole', array('style' => 'width:100%')) }}
 	                </span>
 	                <span class="logo-sm">
 	                    BS

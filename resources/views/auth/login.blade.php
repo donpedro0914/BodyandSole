@@ -10,7 +10,7 @@
                         <div class="account-box">
                             <div class="account-logo-box">
                                 <h2 class="text-uppercase text-center">
-                                    <span>Body and Sole</span>
+                                    <span>{{ HTML::image('img/body-and-sole-logo.jpg', 'Body and Sole', array('style' => 'width:100%')) }}</span>
                                 </h2>
                             </div>
                             <div class="account-content">
@@ -26,9 +26,9 @@
                                         @endif
                                     </div>
                                     <div class="form-group mb-3">
-                                        <a href="auth-recoverpassword.html" class="text-muted float-right"><small>Forgot your password?</small></a>
                                         <label for="password" class="font-weight-medium">Password</label>
                                         <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" type="password" required="" id="password" placeholder="Enter your password">
+                                        <a href="auth-recoverpassword.html" class="text-muted float-right"><small>Forgot your password?</small></a>
                                         @if ($errors->has('password'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('password') }}</strong>
