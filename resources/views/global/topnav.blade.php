@@ -12,7 +12,7 @@
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="dripicons-user"></i> <span>My Account</span>
                     </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <a href="/logout" class="dropdown-item notify-item">
                         <i class="dripicons-power"></i> <span>Logout</span>
                     </a>
                 </div>
