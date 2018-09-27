@@ -14,7 +14,7 @@
 	                </a>
 	            </li>
 				<li>
-	                <a href="/services">
+	                <a href="/packages">
 	                    <i class="mdi mdi-package"></i> <span> Packages </span>
 	                </a>
 	            </li>
@@ -24,7 +24,7 @@
 	                </a>
 	            </li>
 				<li>
-	                <a href="/therapist">
+	                <a href="/clients">
 	                    <i class="mdi mdi-account-group"></i> <span> Clients </span>
 	                </a>
 	            </li>
@@ -48,11 +48,12 @@
 	            	</ul>
 	            </li>
 				<li>
-	                <a href="/therapist">
+	                <a href="/settings">
 	                    <i class="mdi mdi-settings"></i> <span> Settings </span>
 	                </a>
 	            </li>
 			</ul>
 		</div>
+		<div class="clearfix"></div>
 	</div>
 </div>

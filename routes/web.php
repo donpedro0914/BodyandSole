@@ -17,5 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+/* Dashboard */
 Route::get('/dashboard', 'AdminController@index')->name('home');
 Route::get('/logout', 'AdminController@logout');
+
+/* Therapist */
+Route::get('/therapist', 'TherapistController@index');

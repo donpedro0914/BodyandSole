@@ -20,7 +20,7 @@
 		</ul>
 		<ul class="list-unstyled menu-left mb-0">
 	        <li class="float-left">
-	            <a href="index.html" class="logo">
+	            <a href="/dashboard" class="logo">
 	                <span class="logo-lg">
 	                    {{ HTML::image('img/body-and-sole-logo.jpg', 'Body and Sole', array('style' => 'width:100%')) }}
 	                </span>

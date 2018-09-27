@@ -19,9 +19,16 @@
     <link href="{{ asset('css/webfont.css') }}" rel="stylesheet">
     <link href="{{ asset('css/simple-line-icons.css') }}" rel="stylesheet">
 </head>
+@if(\Request::is('login'))
+<body class="bg-account-pages">
+@else
 <body>
+@endif
     <div id="app">
+        @include('global.topnav')
+        @include('global.sidemenu')
         @yield('content')
+        @include('global.footer')
     </div>
 
     <!-- Scripts -->
@@ -31,6 +38,7 @@
     <script src="{{ asset('js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('js/jquery.core.js') }}"></script>
     <script src="{{ asset('js/jquery.app.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
 
 </body>
 </html>

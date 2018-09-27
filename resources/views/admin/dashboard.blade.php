@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-	@include('global.topnav')
-    @include('global.sidemenu')
     <div class="content-page">
     	<div class="content">
     		<div class="container-fluid">
