@@ -6,7 +6,8 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 			</div>
 			<div class="modal-body">
-				<form id="therapistForm">
+				<form id="therapistForm" action="{{ URL::to('therapist/store') }}" method="post" enctype="multipart/form-data">
+					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-6 col-xs-12">
 							<label>First Name</label>
@@ -34,7 +35,7 @@
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 						<div class="clearfix text-right mt-3">
-							<button type="button" id="therapistFormBtn" class="btn btn-success">
+							<button type="submit" id="therapistFormBtn" class="btn btn-success">
 								<i class="mdi mdi-send mr-l">
 								</i>
 								Submit

@@ -9,9 +9,9 @@
     			<div class="page-title-box">
                     <ol class="breadcrumb float-right">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Body and Sole</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">Settings</li>
                     </ol>
-                    <h4 class="page-title">Dashboard</h4>
+                    <h4 class="page-title">Settings</h4>
     			</div>
     			<div clas="row">
     			</div>

@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'FrontController@index');
 
 Auth::routes();
 
@@ -23,3 +21,7 @@ Route::get('/logout', 'AdminController@logout');
 
 /* Therapist */
 Route::get('/therapist', 'TherapistController@index');
+Route::post('therapist/store', 'TherapistController@store');
+
+/* Settings */
+Route::get('settings', 'AdminController@settings');

@@ -14,11 +14,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/materialdesignicons.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/webfont.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/simple-line-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/front/app.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/front/materialdesignicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/front/webfont.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/front/simple-line-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/front/style.css') }}" rel="stylesheet">
 </head>
 @if(\Request::is('login'))
 <body class="bg-account-pages">

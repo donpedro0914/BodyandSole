@@ -8,5 +8,5 @@ class Therapist extends Model
 {
     protected $table = 'therapists';
 
-    protected $filalble = ['first_name', 'last_name', 'email', 'phone', 'address', 'avatar'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'avatar', 'status'];
 }

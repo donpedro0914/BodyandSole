@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Therapist;
 use Illuminate\Http\Request;
+use File;
 
 class TherapistController extends Controller
 {
@@ -14,72 +15,44 @@ class TherapistController extends Controller
      */
     public function index()
     {
-        return view('admin.therapist');
+        $therapist = Therapist::where('status', '!=', 'Terminated')->get();
+        return view('admin.therapist', compact('therapist'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
-    }
+        if($request->hasFile('avatar')) {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Therapist  $therapist
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Therapist $therapist)
-    {
-        //
-    }
+            $path = public_path().'/avatar/';
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Therapist  $therapist
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Therapist $therapist)
-    {
-        //
-    }
+            if(!File::exists($path)) {
+                File::makeDirectory($path, $mode = 0777, true, true);
+            }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Therapist  $therapist
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Therapist $therapist)
-    {
-        //
-    }
+            $filename = $request->file('avatar')->getClientOriginalName();
+            $filename = 'avatar-'.time().'-'.$filename;
+            $request->file('avatar')->move($path, $filename);
+            $avatar = $filename;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Therapist  $therapist
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Therapist $therapist)
-    {
-        //
+        } else {
+
+            $avatar = "";
+
+        }
+
+        $data = array(
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'avatar' => $avatar,
+            'status' => 'Active'
+        );
+
+        $therapist = Therapist::create($data);
+
+        return response()->json($therapist);
+
     }
 }

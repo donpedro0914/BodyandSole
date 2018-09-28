@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('global.topnav')
+    @include('global.sidemenu')
     <div class="content-page">
     	<div class="content">
     		<div class="container-fluid">
@@ -20,14 +22,19 @@
                     </div>
     			</div>
                 <div class="row">
+                    @foreach($therapist as $t)
                     <div class="col-lg-6 col-xl-3">
                         <div class="card m-b-30">
-                            {{ HTML::image('img/default-user.png', 'Default User', array('class' => 'card-img-top img-fluid', 'style' => 'width: 100%;')) }}
+                            <img src="avatar/{{ $t->avatar }}" class="card-img-top img-fluid" style="width: 100%;" alt="Default User">
                             <div class="card-body">
-                                <h5 class="card-title">John Doe</h5>
+                                <div class="float-right">
+                                    <span class="badge badge-success">Available</span>
+                                </div>
+                                <h5 class="card-title">{{ $t->first_name }} {{ $t->last_name }}</h5>
                             </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
     		</div>
     	</div>
