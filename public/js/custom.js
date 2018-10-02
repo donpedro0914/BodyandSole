@@ -96,7 +96,7 @@ $(document).ready(function() {
 				swal(
 	                {
 	                    title: 'Done!',
-	                    text: 'Therapist added!',
+	                    text: 'Client added!',
 	                    type: 'success',
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }

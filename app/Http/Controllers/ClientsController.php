@@ -11,7 +11,8 @@ class ClientsController extends Controller
     
     public function index()
     {
-        return view('admin.clients');
+        $client = Clients::all();
+        return view('admin.clients', compact('client'));
     }
 
     public function store(Request $request)
@@ -29,10 +30,5 @@ class ClientsController extends Controller
         $client = Clients::create($data);
 
         return response()->json($client);
-    }
-
-    public function client_list() {
-        $client = Clients::all();
-        return DataTables::of($client)->make(true);
     }
 }
