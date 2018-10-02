@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Clients;
 use Illuminate\Http\Request;
+use DataTables;
 
 class ClientsController extends Controller
 {
@@ -25,8 +26,13 @@ class ClientsController extends Controller
             'sc_id' => $request->input('sc_id')
         );
 
-        $client = Therapist::create($data);
+        $client = Clients::create($data);
 
         return response()->json($client);
+    }
+
+    public function client_list() {
+        $client = Clients::all();
+        return DataTables::of($client)->make(true);
     }
 }

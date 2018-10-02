@@ -30,3 +30,4 @@ Route::post('admin/settings', 'AdminController@save_settings');
 /* Clients */
 Route::get('clients', 'ClientsController@index');
 Route::post('client/store', 'ClientsController@store');
+Route::get('client/client_list', 'ClientsController@client_list')->name('client.client_list');

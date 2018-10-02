@@ -72,9 +72,12 @@
                     processing: "<img src='../img/ajax-loader.gif'>",
                     emptyTable: "No positions yet."
                 },
-                ajax: "{{ route('position.position_list') }}",
+                ajax: "{{ route('client.client_list') }}",
                 columns: [
-                    { data : "position_name" },
+                    { data : "first_name" },
+                    { data : "first_name" },
+                    { data : "first_name" },
+                    { data : "first_name" },
                     { data : "action" }
                 ],
                 columnDefs: [
@@ -83,9 +86,24 @@
                             return "<a href= '" + document.location.origin + "/position/info/" + full["id"] + "'>" + data + "</a>";
                         }
                     },
+                    { className: "text-center", targets: [ 1 ], 
+                        render: function(data,type,full,meta){
+                            return "<a href= '" + document.location.origin + "/position/info/" + full["id"] + "'>" + data + "</a>";
+                        }
+                    },
+                    { className: "text-center", targets: [ 2 ], 
+                        render: function(data,type,full,meta){
+                            return "<a href= '" + document.location.origin + "/position/info/" + full["id"] + "'>" + data + "</a>";
+                        }
+                    },
+                    { className: "text-center", targets: [ 3 ], 
+                        render: function(data,type,full,meta){
+                            return "<a href= '" + document.location.origin + "/position/info/" + full["id"] + "'>" + data + "</a>";
+                        }
+                    },
                     { 
                         className: "text-center",  
-                        targets: [ 1 ], //action column
+                        targets: [ 4 ], //action column
                         render: function(data,type,full,meta){
                             var result = "";
                             var view ="<a href= '" + document.location.origin + "/position/info/" + full["id"] + "' class='btn btn-xs btn-default btn-edit' data-toggle='tooltip' data-original-title='View Information'>" + 
