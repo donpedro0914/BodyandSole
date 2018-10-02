@@ -48,9 +48,12 @@
 	            	</ul>
 	            </li>
 				<li>
-	                <a href="/settings">
-	                    <i class="mdi mdi-settings"></i> <span> Settings </span>
+	                <a href="javascript: void(0);"><i class="mdi mdi-settings"></i> <span> Settings </span> <span class="menu-arrow"></span>
 	                </a>
+	                <ul class="nav-second-level" aria-expanded="false">
+	                	<li><a href="/settings">General</a></li>
+	                	<li><a href="/rooms">Rooms</a></li>
+	                </ul>
 	            </li>
 			</ul>
 		</div>

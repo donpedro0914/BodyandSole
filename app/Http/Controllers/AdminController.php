@@ -30,8 +30,7 @@ class AdminController extends Controller
 
     public function save_settings(Request $request) {
         $data = array(
-            'title' => $request->input('system_title'),
-            'rooms' => $request->input('system_room')
+            'title' => $request->input('system_title')
         );
 
         $settings = Settings::create($data);

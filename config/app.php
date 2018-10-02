@@ -164,6 +164,7 @@ return [
          * Custom Providers
          */
         Collective\Html\HtmlServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
 
     ],
 
@@ -215,6 +216,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
     ],
 

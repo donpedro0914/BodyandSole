@@ -26,3 +26,7 @@ Route::post('therapist/store', 'TherapistController@store');
 /* Settings */
 Route::get('settings', 'AdminController@settings');
 Route::post('admin/settings', 'AdminController@save_settings');
+
+/* Clients */
+Route::get('clients', 'ClientsController@index');
+Route::post('client/store', 'ClientsController@store');

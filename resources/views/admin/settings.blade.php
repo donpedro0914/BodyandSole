@@ -16,7 +16,6 @@
     			<div clas="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <h4 class="m-t-0 header-title">System's Settings</h4>
                             <form class="form-horizontal" method="post" action="{{ URL::to('admin/settings') }}" id="settingsForm">
                                 @csrf
                                 <div class="form-group row">
@@ -26,16 +25,6 @@
                                         <input type="text" class="form-control" name="system_title" value="{{ $settings->title }}"/>
                                         @else
                                         <input type="text" class="form-control" name="system_title"/>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">No of Rooms</label>
-                                    <div class="col-sm-8">
-                                        @if(!empty($settings->rooms))
-                                        <input type="text" class="form-control" name="system_room" value="{{ $settings->rooms }}"/>
-                                        @else
-                                        <input type="text" class="form-control" name="system_room"/>
                                         @endif
                                     </div>
                                 </div>
