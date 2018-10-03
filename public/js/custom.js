@@ -92,6 +92,7 @@ $(document).ready(function() {
 			success:function(data) {
 				$('#clientsFormBtn').html('Add Client').removeAttr("disabled");
 				$('#addclient').modal('hide');
+				$('.ajax-table-campaigns').DataTable().ajax.reload();
 				$('#clientsForm')[0].reset();
 				swal(
 	                {
@@ -101,7 +102,6 @@ $(document).ready(function() {
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }
 	            );
-				location.reload();
 			},
 			error: function(xhr, status, error) {
 				console.log(xhr);
@@ -143,6 +143,53 @@ $(document).ready(function() {
 				swal(
 	                {
 	                    title: 'Saved!',
+	                    type: 'success',
+	                    confirmButtonClass: 'btn btn-confirm mt-2'
+	                }
+	            );
+				location.reload();
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+
+	});
+
+	//Services
+	$('#serviceForm').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#serviceForm')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend:function() {
+				$('#serviceFormBtn').html('<img src="../img/ajax-loader.gif">').attr("disabled","disabled");
+			},
+			success:function(data) {
+				$('#serviceFormBtn').html('Add Service').removeAttr("disabled");
+				$('#serviceForm')[0].reset();
+				swal(
+	                {
+	                    title: 'Done!',
+	                    text: data['service_name']+' service added!',
 	                    type: 'success',
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }

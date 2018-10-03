@@ -34,3 +34,8 @@ Route::get('client/client_list', 'ClientsController@client_list')->name('client.
 
 /* Services */
 Route::get('services', 'ServicesController@index');
+Route::post('services/store', 'ServicesController@store');
+
+/* Packages */
+Route::get('packages', 'PackagesController@index');
+Route::get('/packages/add', 'PackagesController@add_page');

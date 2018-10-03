@@ -22,6 +22,7 @@
     <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/responsive.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/select-multiple.css') }}" rel="stylesheet">
 </head>
 @if(\Request::is('login'))
 <body class="bg-account-pages">
@@ -45,6 +46,7 @@
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.select-multiple.js') }}"></script>
     @stack('scripts');
 </body>
 </html>

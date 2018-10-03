@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Therapist;
 use Illuminate\Http\Request;
 use File;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class TherapistController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $therapist = Therapist::where('status', '!=', 'Terminated')->get();

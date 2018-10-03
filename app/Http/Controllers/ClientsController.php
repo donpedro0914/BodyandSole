@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Clients;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class ClientsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     
     public function index()
     {
