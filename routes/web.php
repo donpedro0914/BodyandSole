@@ -39,3 +39,7 @@ Route::post('services/store', 'ServicesController@store');
 /* Packages */
 Route::get('packages', 'PackagesController@index');
 Route::get('/packages/add', 'PackagesController@add_page');
+
+/* Rooms */
+Route::get('/rooms', 'AdminController@rooms_view');
+Route::post('room/add_room', 'AdminController@add_room');

@@ -2,20 +2,22 @@
 
 @section('content')
     @include('global.front_topnav')
+    @include('modal.joborder')
     <div class="wrapper">
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    @php
-                        $i = $settings->rooms;
-                        for($x=1;$x<=$i;$x++) {
-                    @endphp
+                    @foreach($rooms as $r)
                     <div class="col-xl-4">
                         <div class="card-box ribbon-box room">
+                            @if($r->status == '0')
                             <div class="ribbon ribbon-success">Available</div>
-                            <p class="header-title">Room # {!! $x !!}</p>
+                            @else
+                            <div class="ribbon ribbon-danger">Unvailable</div>
+                            @endif
+                            <p class="header-title">{{ $r->room_name}}</p>
                             <form class="form-horizontal">
-                                <input type="hidden" id="room_no" value=" {!! $x !!}" />
+                                <input type="hidden" id="room_no" value="{{ $r->id }}" />
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Job Order #</label>
                                     <div class="col-sm-8">
@@ -37,9 +39,7 @@
                             </form>
                         </div>
                     </div>
-                    @php
-                        }
-                    @endphp
+                    @endforeach
                 </div>
             </div>
         </div>

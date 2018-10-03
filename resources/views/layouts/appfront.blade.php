@@ -18,6 +18,7 @@
     <link href="{{ asset('css/front/materialdesignicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/webfont.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/simple-line-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/style.css') }}" rel="stylesheet">
 </head>
@@ -38,6 +39,7 @@
     <script src="{{ asset('js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('js/jquery.core.js') }}"></script>
     <script src="{{ asset('js/jquery.app.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
 
