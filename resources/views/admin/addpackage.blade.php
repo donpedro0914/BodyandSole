@@ -17,6 +17,9 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
+                            <form class="form-horizontal">
+                                
+                            </form>
                         </div>
                     </div>
                 </div>
