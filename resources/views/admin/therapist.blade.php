@@ -30,7 +30,7 @@
                                 <div class="float-right">
                                     <span class="badge badge-success">Available</span>
                                 </div>
-                                <h5 class="card-title">{{ $t->first_name }} {{ $t->last_name }}</h5>
+                                <h5 class="card-title">{{ $t->fullname }}</h5>
                             </div>
                         </div>
                     </div>

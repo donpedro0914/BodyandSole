@@ -7,15 +7,11 @@
 			</div>
 			<div class="modal-body">
 				<form id="clientsForm" action="{{ URL::to('client/store') }}" method="post" enctype="multipart/form-data">
-					{{ csrf_field() }}
+					@csrf
 					<div class="form-row">
-						<div class="form-group col-md-6 col-xs-12">
-							<label>First Name</label>
-							<input type="text" class="form-control" name="first_name" placeholder="Enter first name.."/>
-						</div>
-						<div class="form-group col-md-6 col-xs-12">
-							<label>Last Name</label>
-							<input type="text" class="form-control" name="last_name" placeholder="Enter last name.."/>
+						<div class="form-group col-md-12 col-xs-12">
+							<label>Full Name</label>
+							<input type="text" class="form-control" name="fullname" placeholder="Enter full name.."/>
 						</div>
 						<div class="form-group col-md-6 col-xs-12">
 							<label>Phone</label>

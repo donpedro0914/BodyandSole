@@ -7,16 +7,25 @@
 			</div>
 			<div class="modal-body">
 				<form id="clientsForm" action="{{ URL::to('joborder/store') }}" method="post" enctype="multipart/form-data">
-					{{ csrf_field() }}
+					@csrf
 					<input type="hidden" name="room_no" id="room_no_form" value="" />
 					<div class="form-row">
-						<div class="form-group col-md-6 col-xs-12">
-							<label>First Name</label>
-							<input type="text" class="form-control" name="first_name" placeholder="Enter first name.."/>
+						<div class="form-group col-md-12 col-xs-12">
+							<label>Date</label>
+							<input type="text" class="form-control" value="{!! date('Y-m-d') !!}" disabled/>
 						</div>
-						<div class="form-group col-md-6 col-xs-12">
-							<label>Last Name</label>
+						<div class="form-group col-md-12 col-xs-12">
+							<label>Client</label>
 							<input type="text" class="form-control" name="last_name" placeholder="Enter last name.."/>
+						</div>
+						<div class="form-group col-md-12 col-xs-12">
+							<label>Therapist</label>
+							<select class="form-control select2 select2-selection__rendered">
+								<option value="">--Select Therapist--</option>
+								@foreach($therapists as $t)
+								<option value="{{ $t->id }}">{{ $t->fullname }}</option>
+								@endforeach
+							</select>
 						</div>
 						<div class="form-group col-md-6 col-xs-12">
 							<label>Phone</label>

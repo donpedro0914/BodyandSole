@@ -39,6 +39,7 @@ Route::post('services/store', 'ServicesController@store');
 /* Packages */
 Route::get('packages', 'PackagesController@index');
 Route::get('/packages/add', 'PackagesController@add_page');
+Route::post('/package/ajaxService', 'PackagesController@ajaxService');
 
 /* Rooms */
 Route::get('/rooms', 'AdminController@rooms_view');

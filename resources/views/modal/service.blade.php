@@ -7,7 +7,7 @@
 			</div>
 			<div class="modal-body">
 				<form id="serviceForm" action="{{ URL::to('services/store') }}" method="post" enctype="multipart/form-data">
-					{{ csrf_field() }}
+					@csrf
 					<div class="form-row">
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Service Name</label>

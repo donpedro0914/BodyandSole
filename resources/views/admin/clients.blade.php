@@ -35,7 +35,7 @@
                                 <tbody>
                                     @foreach($client as $cl)
                                     <tr>
-                                        <td>{{ $cl->first_name }} {{ $cl->last_name }}</td>
+                                        <td>{{ $cl->fullname }}</td>
                                         <td>{{ $cl->phone }}</td>
                                         <td class="text-center">
                                             <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-eye"></i></a>

@@ -42,8 +42,7 @@ class TherapistController extends Controller
         }
 
         $data = array(
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
+            'fullname' => $request->input('fullname'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
             'dob' => $request->input('dob'),

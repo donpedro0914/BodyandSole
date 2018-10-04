@@ -34,8 +34,6 @@
 	            	<ul class="nav-second-level" aria-expanded="false">
 	            		<li><a href="#">Job Order Register</a></li>
 	            		<li><a href="#">Gift Certificate Register</a></li>
-	            		<li><a href="#">Loyalty Card Register</a></li>
-	            		<li><a href="#">Discount Card Register</a></li>
 	            	</ul>
 	            </li>
 	            <li>

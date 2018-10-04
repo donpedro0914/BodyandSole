@@ -24,8 +24,7 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $data = array(
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
+            'fullname' => $request->input('fullname'),
             'phone' => $request->input('phone'),
             'email' => $request->input('email'),
             'dob' => $request->input('dob'),

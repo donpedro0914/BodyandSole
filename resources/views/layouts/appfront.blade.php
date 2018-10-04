@@ -21,6 +21,8 @@
     <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
 </head>
 @if(\Request::is('login'))
 <body class="bg-account-pages">
@@ -42,6 +44,7 @@
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
 
 </body>
 </html>
