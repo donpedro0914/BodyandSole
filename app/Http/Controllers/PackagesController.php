@@ -35,6 +35,7 @@ class PackagesController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = array(
+            '')
     }
 }

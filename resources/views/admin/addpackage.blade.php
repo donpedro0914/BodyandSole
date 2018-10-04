@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" id="clientsForm" action="{{ URL::to('packages/store') }}" method="post">
                                 @csrf
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Package Name</label>
@@ -61,6 +61,15 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="clearfix text-right mt-3">
+                                            <button type="submit" id="roomsFormBtn" class="btn btn-success">
+                                                Add Package
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
