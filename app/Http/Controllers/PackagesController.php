@@ -36,6 +36,14 @@ class PackagesController extends Controller
     public function store(Request $request)
     {
         $data = array(
-            '')
+            'package_name' => $request->input('package_name'),
+            'services' => $request->input('services'),
+            'price' => $request->input('price'),
+            'status' => 'Active'
+        );
+
+        $package = Packages::create($data);
+        return back();
+
     }
 }

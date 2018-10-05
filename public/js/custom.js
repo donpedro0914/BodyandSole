@@ -312,6 +312,42 @@ $(document).ready(function() {
 				$('#package_total').html('₱'+total+'.00');
 			}
 		});
-	})
+	});
 
+	$('#addPackageForm').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#addPackageForm')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend:function() {
+				$('#addPackageFormBtn').html('<img src="../img/ajax-loader.gif">').attr("disabled","disabled");
+			},
+			success:function(data) {
+				$('#addPackageFormBtn').html('Add Package').removeAttr("disabled");
+				$('#addPackageForm')[0].reset();
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+
+	});
 });
