@@ -19,6 +19,7 @@
                         <div class="card-box">
                             <form class="form-horizontal" id="addPackageForm" action="{{ URL::to('packages/store') }}" method="post">
                                 @csrf
+                                <input type="hidden" name="service" id="service" value=""/>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Package Name</label>
                                     <div class="col-sm-8">
@@ -61,6 +62,20 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Package Price</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class='input-group-text'>₱</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="price" />
+                                            <div class="input-group-prepend">
+                                                <span class='input-group-text'>.00</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">

@@ -296,6 +296,8 @@ $(document).ready(function() {
 
 		var services = $('#package_services').val();
 
+		$('#service').val(services);
+
 		$.ajax({
 			type: 'POST',
 			dataType: 'json',

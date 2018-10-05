@@ -37,7 +37,7 @@ class PackagesController extends Controller
     {
         $data = array(
             'package_name' => $request->input('package_name'),
-            'services' => $request->input('services'),
+            'services' => $request->input('service'),
             'price' => $request->input('price'),
             'status' => 'Active'
         );
