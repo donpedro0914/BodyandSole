@@ -216,6 +216,56 @@ $(document).ready(function() {
 
 	});
 
+	//Update Service
+	$('#serviceFormUpdate').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#serviceFormUpdate')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend:function() {
+				$('#serviceFormBtnUpdate').html('<img src="../img/ajax-loader.gif">').attr("disabled","disabled");
+			},
+			success:function(data) {
+				$('#serviceFormBtnUpdate').html('Update Service').removeAttr("disabled");
+				swal(
+	                {
+	                    title: 'Done!',
+	                    text: data['service_name']+' service updated!',
+	                    type: 'success',
+	                    confirmButtonClass: 'btn btn-confirm mt-2'
+	                }
+	            );
+	            $('#service_name').empty();
+				$('#service_name').val(data['service_name']);
+				$('#labor_s').val(data['labor_s']);
+				$('#labor_p').val(data['labor_p']);
+				$('#charge').val(data['charge']);
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+
+	});
+
 	//Rooms
 	$('#roomsForm').on('submit', function(e) {
 

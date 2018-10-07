@@ -35,6 +35,8 @@ Route::get('client/client_list', 'ClientsController@client_list')->name('client.
 /* Services */
 Route::get('services', 'ServicesController@index');
 Route::post('services/store', 'ServicesController@store');
+Route::get('services/edit/{id}', 'ServicesController@edit');
+Route::post('services/update/{id}', 'ServicesController@update');
 
 /* Packages */
 Route::get('packages', 'PackagesController@index');

@@ -28,12 +28,29 @@
                                     <tr>
                                         <th>Package Name</th>
                                         <th>Price</th>
-                                        <th>No of Services Included</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($package as $p)
+                                    <tr>
+                                        <td>{{ $p->package_name }}</td>
+                                        <td>{{ $p->price }}</td>
+                                        <td class="text-center">
+                                            @if($p->status == 'Active')
+                                            <span class="badge badge-success">Active</span>
+                                            @else
+                                            <span class="badge badge-danger">Inactive</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-eye"></i></a>
+                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

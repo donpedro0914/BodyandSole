@@ -35,4 +35,23 @@ class ServicesController extends Controller
 
     }
 
+    public function edit($id, Request $request) {
+        $services = Services::where('id', $id)->first();
+
+        return view('admin.edit.services', ['services' => $services]);
+    }
+
+    public function update($id, Request $request) {
+
+        $data = array(
+            'service_name' => $request->input('service_name'),
+            'labor_s' => $request->input('labor_s'),
+            'labor_p' => $request->input('labor_p'),
+            'charge' => $request->input('charge'),
+        );
+
+        $updateService = Services::where('id', $id)->update($data);
+        return response()->json($updateService);
+    }
+
 }

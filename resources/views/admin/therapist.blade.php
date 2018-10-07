@@ -22,21 +22,45 @@
                     </div>
     			</div>
                 <div class="row">
-                    @foreach($therapist as $t)
-                    <div class="col-lg-6 col-xl-3">
-                        <div class="card m-b-30">
-                            <img src="avatar/{{ $t->avatar }}" class="card-img-top img-fluid" style="width: 100%;" alt="Default User">
-                            <div class="card-body">
-                                <div class="float-right">
-                                    <span class="badge badge-success">Available</span>
-                                </div>
-                                <h5 class="card-title">{{ $t->fullname }}</h5>
-                            </div>
+                    <div class="col-12">
+                        <div class="card-box">
+                            <table class="table table-bordered dataTable no-footer table-striped ajax-table-therapist">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($therapist as $t)
+                                    <tr>
+                                        <td>{{ $t->fullname }}</td>
+                                        <td>{{ $t->phone }}</td>
+                                        <td>{{ $t->status }}</td>
+                                        <td class="text-center">
+                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-eye"></i></a>
+                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    @endforeach
                 </div>
     		</div>
     	</div>
     </div>
 @endsection
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.ajax-table-therapist').DataTable({
+            keys: true
+        });
+    });
+</script>
+@endpush
