@@ -10,42 +10,94 @@
 					@csrf
 					<input type="hidden" name="room_no" id="room_no_form" value="" />
 					<div class="form-row">
-						<div class="form-group col-md-12 col-xs-12">
-							<label>Date</label>
-							<input type="text" class="form-control" value="{!! date('Y-m-d') !!}" disabled/>
+						<div class="form-group row col-md-12 col-xs-12">
+							<label class="col-sm-4 col-form-label">Date</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" value="{!! date('Y-m-d') !!}" disabled/>
+							</div>
 						</div>
-						<div class="form-group col-md-12 col-xs-12">
-							<label>Client</label>
-							<input type="text" class="form-control" name="last_name" placeholder="Enter last name.."/>
+						<div class="form-group row col-md-12 col-xs-12">
+							<label class="col-sm-4 col-form-label">Client</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" name="client_fullname" placeholder="Enter client name.."/>
+							</div>
 						</div>
-						<div class="form-group col-md-12 col-xs-12">
-							<label>Therapist</label>
+						<div class="form-group row col-md-12 col-xs-12">
+							<label class="col-sm-4 col-form-label">Therapist</label>
+							<div class="col-sm-8">
+								<select class="form-control select2 select2-selection__rendered">
+									<option value="">--Select Therapist--</option>
+									@foreach($therapists as $t)
+									<option value="{{ $t->id }}">{{ $t->fullname }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="form-group row col-md-12 col-xs-12">
+							<label class="col-sm-4 col-form-label">Category</label>
+							<div class="col-sm-8">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio1" name="category" class="custom-control-input" value="Service">
+                                    <label class="custom-control-label" for="customRadio1">Service(s)</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio2" name="category" class="custom-control-input" value="Package">
+                                    <label class="custom-control-label" for="customRadio2">Package</label>
+                                </div>
+							</div>
+						</div>
+						<div id="Service" class="form-group row col-md-12 col-xs-12" style="display: none;">
+							<div class="form-group row col-md-12 col-xs-12">
+								<label class="col-sm-4 col-form-label">Services</label>
+	                            <div class="col-sm-8">
+	                                <select id="package_services" class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
+	                                    <option value="">--Select Service(s)--</option>
+	                                    @foreach($service as $s)
+	                                    <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}</option>
+	                                    @endforeach
+	                                </select>
+	                                <button type="button" id="package_servicec_btn" class="btn btn-primary" disabled="">Add Service(s)</button>
+	                            </div>
+							</div>
+							<div class="form-group row col-md-12 col-xs-12">
+								<label class="col-sm-4 col-form-label"></label>
+	                            <div class="col-sm-8">
+	                                <table class="table m-t-50" id="package_inclusion">
+	                                    <thead>
+	                                        <tr>
+	                                            <th>ID</th>
+	                                            <th>Service Name</th>
+	                                            <th>Price</th>
+	                                        </tr>
+	                                    </thead>
+	                                    <tbody>
+	                                        <tr>
+	                                            <td class="text-center" colspan="3">
+	                                                No Services Yet
+	                                            </td>
+	                                        </tr>
+	                                    </tbody>
+	                                    <tfoot>
+	                                        <tr>
+	                                            <th></th>
+	                                            <th class="text-right">Total</th>
+	                                            <th id="package_total">₱ 0.00</th>
+	                                        </tr>
+	                                    </tfoot>
+	                                </table>
+	                            </div>
+                            </div>
+						</div>
+						<div id="Package" class="form-group row col-md-12 col-xs-12" style="display: none;">
+							<label class="col-sm-4 col-form-label">Package</label>
+                            <div class="col-sm-8">
 							<select class="form-control select2 select2-selection__rendered">
-								<option value="">--Select Therapist--</option>
-								@foreach($therapists as $t)
-								<option value="{{ $t->id }}">{{ $t->fullname }}</option>
+								<option value="">--Select Package--</option>
+								@foreach($packages as $p)
+								<option value="{{ $p->id }}">{{ $p->package_name }}</option>
 								@endforeach
 							</select>
-						</div>
-						<div class="form-group col-md-6 col-xs-12">
-							<label>Phone</label>
-							<input type="text" class="form-control" name="phone" placeholder="Enter valid phone number.."/>
-						</div>
-						<div class="form-group col-md-6 col-xs-12">
-							<label>Email</label>
-							<input type="text" class="form-control" name="email" placeholder="Enter valid email address.."/>
-						</div>
-						<div class="form-group col-md-4 col-xs-12">
-							<label>Date of Birth</label>
-							<input type="text" class="form-control" name="dob" placeholder="mm/dd/yyyy" id="datepicker-autoclose">
-						</div>
-						<div class="form-group col-md-4 col-xs-12">
-							<label>Occupation</label>
-							<input type="text" class="form-control" name="occupation" placeholder="Enter occupation.."/>
-						</div>
-						<div class="form-group col-md-4 col-xs-12">
-							<label>Senior Citizen ID</label>
-							<input type="text" class="form-control" name="sc_id" placeholder="Enter occupation.."/>
+                            </div>
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<div class="clearfix text-right mt-3">

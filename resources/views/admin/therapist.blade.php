@@ -38,10 +38,15 @@
                                     <tr>
                                         <td>{{ $t->fullname }}</td>
                                         <td>{{ $t->phone }}</td>
-                                        <td>{{ $t->status }}</td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-eye"></i></a>
-                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
+                                            @if($t->status == 'Active')
+                                            <span class="badge badge-success">Active</span>
+                                            @else
+                                            <span class="badge badge-danger">Not Active</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="/therapist/edit/{{ $t->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
                                             <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
                                         </td>
                                     </tr>

@@ -70,10 +70,6 @@
 							<input type="text" class="form-control" name="others">
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
-							<label>Photo</label>
-							<input type="file" class="form-control" name="avatar" />
-						</div>
-						<div class="form-group col-md-12 col-xs-12">
 							<div class="clearfix text-right mt-3">
 								<button type="submit" id="therapistFormBtn" class="btn btn-success">
 									Add Therapist

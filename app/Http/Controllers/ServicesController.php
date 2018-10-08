@@ -26,7 +26,7 @@ class ServicesController extends Controller
             'labor_s' => $request->input('labor_s'),
             'labor_p' => $request->input('labor_p'),
             'charge' => $request->input('charge'),
-            'status' => '0'
+            'status' => 'Active'
         );
 
         $services = Services::create($data);
@@ -50,7 +50,9 @@ class ServicesController extends Controller
             'charge' => $request->input('charge'),
         );
 
-        $updateService = Services::where('id', $id)->update($data);
+        Services::where('id', $id)->update($data);
+
+        $updateService = Services::where('id', $id)->first();
         return response()->json($updateService);
     }
 

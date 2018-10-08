@@ -16,16 +16,12 @@
     			<div clas="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <form class="form-horizontal" method="post" action="{{ URL::to('admin/settings') }}" id="settingsForm">
+                            <form class="form-horizontal" method="post" action="{{ URL::to('admin/settings', $settings->id) }}" id="settingsForm">
                                 @csrf
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">System Identity</label>
                                     <div class="col-sm-8">
-                                        @if(!empty($settings->title))
-                                        <input type="text" class="form-control" name="system_title" value="{{ $settings->title }}"/>
-                                        @else
-                                        <input type="text" class="form-control" name="system_title"/>
-                                        @endif
+                                        <input type="text" class="form-control" name="system_title" id="system_title" value="{{ $settings->title }}"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 col-xs-12">

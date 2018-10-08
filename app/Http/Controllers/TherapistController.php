@@ -22,24 +22,6 @@ class TherapistController extends Controller
 
     public function store(Request $request)
     {
-        if($request->hasFile('avatar')) {
-
-            $path = public_path().'/avatar/';
-
-            if(!File::exists($path)) {
-                File::makeDirectory($path, $mode = 0777, true, true);
-            }
-
-            $filename = $request->file('avatar')->getClientOriginalName();
-            $filename = 'avatar-'.time().'-'.$filename;
-            $request->file('avatar')->move($path, $filename);
-            $avatar = $filename;
-
-        } else {
-
-            $avatar = "";
-
-        }
 
         $data = array(
             'fullname' => $request->input('fullname'),
@@ -56,7 +38,6 @@ class TherapistController extends Controller
             'uniform' => $request->input('uniform'),
             'fare' => $request->input('fare'),
             'others' => $request->input('others'),
-            'avatar' => $avatar,
             'status' => 'Active'
         );
 
@@ -64,5 +45,37 @@ class TherapistController extends Controller
 
         return response()->json($therapist);
 
+    }
+
+    public function edit($id, Request $request) {
+        $therapist = Therapist::where('id', $id)->first();
+
+        return view('admin.edit.therapist', ['therapist' => $therapist]);
+    }
+
+    public function update($id, Request $request) {
+
+        $data = array(
+            'fullname' => $request->input('fullname'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'dob' => $request->input('dob'),
+            'hired' => $request->input('hired'),
+            'resigned' => $request->input('resigned'),
+            'lodging' => $request->input('lodging'),
+            'allowance' => $request->input('allowance'),
+            'sss' => $request->input('sss'),
+            'phealth' => $request->input('phealth'),
+            'hdf' => $request->input('hdf'),
+            'uniform' => $request->input('uniform'),
+            'fare' => $request->input('fare'),
+            'others' => $request->input('others'),
+            'status' => $request->input('status')
+        );
+
+        Therapist::where('id', $id)->update($data);
+
+        $updateTherapist = Therapist::where('id', $id)->first();
+        return response()->json($updateTherapist);
     }
 }

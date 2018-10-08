@@ -23,7 +23,7 @@ class PackagesController extends Controller
 
     public function add_page() {
 
-        $service = Services::where('status', '0')->get();
+        $service = Services::where('status', 'Active')->get();
         return view('admin.addpackage', compact('service'));
     }
 

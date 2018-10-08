@@ -22,15 +22,18 @@ Route::get('/logout', 'AdminController@logout');
 /* Therapist */
 Route::get('/therapist', 'TherapistController@index');
 Route::post('therapist/store', 'TherapistController@store');
+Route::get('therapist/edit/{id}', 'TherapistController@edit');
+Route::post('therapist/update/{id}', 'TherapistController@update');
 
 /* Settings */
 Route::get('settings', 'AdminController@settings');
-Route::post('admin/settings', 'AdminController@save_settings');
+Route::post('admin/settings/{id}', 'AdminController@save_settings');
 
 /* Clients */
 Route::get('clients', 'ClientsController@index');
 Route::post('client/store', 'ClientsController@store');
-Route::get('client/client_list', 'ClientsController@client_list')->name('client.client_list');
+Route::get('client/edit/{id}', 'ClientsController@edit');
+Route::post('client/update/{id}', 'ClientsController@update');
 
 /* Services */
 Route::get('services', 'ServicesController@index');
@@ -47,3 +50,5 @@ Route::post('packages/store', 'PackagesController@store');
 /* Rooms */
 Route::get('/rooms', 'AdminController@rooms_view');
 Route::post('room/add_room', 'AdminController@add_room');
+Route::get('room/edit/{id}', 'AdminController@edit_room');
+Route::post('rooms/update/{id}', 'AdminController@update_room');

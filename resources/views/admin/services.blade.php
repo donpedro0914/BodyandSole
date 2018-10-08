@@ -43,10 +43,10 @@
                                         <td class="text-center">₱{{ $s->labor_p }}.00</td>
                                         <td class="text-center">₱{{ $s->charge }}.00</td>
                                         <td class="text-center">
-                                            @if($s->status == '0')
-                                            <span class="badge badge-success">Available</span>
+                                            @if($s->status == 'Active')
+                                            <span class="badge badge-success">Active</span>
                                             @else
-                                            <span class="badge badge-danger">Unavailable</span>
+                                            <span class="badge badge-danger">Not Active</span>
                                             @endif
                                         </td>
                                         <td class="text-center">

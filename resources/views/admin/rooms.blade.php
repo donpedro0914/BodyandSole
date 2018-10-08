@@ -37,15 +37,14 @@
                                     <tr>
                                         <td>{{ $r->room_name }}</td>
                                         <td class="text-center">
-                                            @if($r->status == '0')
+                                            @if($r->status == 'Available')
                                             <span class="badge badge-success">Available</span>
                                             @else
                                             <span class="badge badge-danger">Unavailable</span>
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-eye"></i></a>
-                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="/room/edit/{{ $r->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
                                             <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
                                         </td>
                                     </tr>

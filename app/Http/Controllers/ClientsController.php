@@ -36,4 +36,28 @@ class ClientsController extends Controller
 
         return response()->json($client);
     }
+
+    public function edit($id, Request $request) {
+        $client = Clients::where('id', $id)->first();
+
+        return view('admin.edit.client', ['client' => $client]);
+    }
+
+    public function update($id, Request $request) {
+
+        $data = array(
+            'fullname' => $request->input('fullname'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'dob' => $request->input('dob'),
+            'occupation' => $request->input('occupation'),
+            'sc_id' => $request->input('sc_id')
+        );
+
+        Clients::where('id', $id)->update($data);
+
+        $updateClient = Clients::where('id', $id)->first();
+        return response()->json($updateClient);
+        
+    }
 }

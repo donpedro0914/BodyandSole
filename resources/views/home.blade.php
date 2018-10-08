@@ -10,7 +10,7 @@
                     @foreach($rooms as $r)
                     <div class="col-xl-4">
                         <div class="card-box ribbon-box room">
-                            @if($r->status == '0')
+                            @if($r->status == 'Available')
                             <div class="ribbon ribbon-success">Available</div>
                             @else
                             <div class="ribbon ribbon-danger">Unvailable</div>
