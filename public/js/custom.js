@@ -15,16 +15,29 @@ $(document).ready(function() {
         autoclose: true,
         todayHighlight: true
     });
+	$('.date').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
 
     $(".select2").select2();
 
 	//Add Job Order
+	$('#joborder').on('hide.bs.modal', function() {
+		$('#clientsForm')[0].reset();
+		$('#Service').hide();
+		$('#Package').hide();
+		$('#Service select').removeAttr('name');
+		$('#Package select').removeAttr('name');
+	});
+
+
 	$('.room').on('click', function() {
 		$('#joborder').modal('show');
 		var room_id = $(this).find('#room_no').val();
 
 		$('#room_no_form').val(room_id);
-	})
+	});
 
 	//Therapist
 	$('#therapistForm').on('submit', function(e) {
@@ -490,15 +503,13 @@ $(document).ready(function() {
 
 	});
 
-	$('#package_servicec_btn').on('click', function(e) {
+	$('#package_servicec_btn').on('click', function() {
 
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			}
 		});
-
-		e.preventDefault();
 
 		var services = $('#package_services').val();
 
@@ -559,8 +570,56 @@ $(document).ready(function() {
 
 	});
 
+	//GC
+	$('#gcForm').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#gcForm')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend:function() {
+				$('#gcFormBtn').html('<img src="/img/ajax-loader.gif">').attr("disabled","disabled");
+			},
+			success:function(data) {
+				$('#gcFormBtn').html('Add Gift Certificate').removeAttr("disabled");
+				$('#addgc').modal('hide');
+				$('#gcForm')[0].reset();
+				swal(
+	                {
+	                    title: 'Done!',
+	                    text: 'GC no #'+data['room_name']+' added!',
+	                    type: 'success',
+	                    confirmButtonClass: 'btn btn-confirm mt-2'
+	                }
+	            );
+				location.reload();
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+
+	});
+
 	//Job Order Front
-	$('input[type=radio][name=category]').on('click', function(e) {
+	$('input[type=radio][name=category]').on('click', function() {
 		var category = $('input[type=radio][name=category]:checked').val();
 
 		if(category == 'Service') {
@@ -586,4 +645,66 @@ $(document).ready(function() {
 
 		}
 	});
+
+	$('input[type=radio][name=payment]').on('click', function() {
+		var payment = $('input[type=radio][name=payment]:checked').val();
+
+		if(payment == 'Care of') {
+			$('#careof').show();
+			$('#gc_no').hide();
+			$('.gc_checker').empty();
+			$('.gc_checker').html('Gift Cert');
+		} else if(payment == 'Gift Cert') {
+			$('#gc_no').show();
+			$('#careof').hide();
+		} else {
+			$('#careof').hide();
+			$('#gc_no').hide();
+			$('.gc_checker').empty();
+			$('.gc_checker').html('Gift Cert');
+		}
+	});
+
+	function ifValid(data) {
+		if(data) {
+			$('#jobOrderFormBtn').removeAttr('disabled');
+		} else {
+			$('#jobOrderFormBtn').attr('disabled', 'disabled');
+		}		
+	}
+
+	function checkgc(gc){
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		$.ajax({
+			type: 'POST',
+			url: baseurl + '/gc/checker',
+			data: {'gc_no':gc},
+			success:function(data) {
+				if(data) {
+					$('.gc_checker').empty();
+					$('.gc_checker').html('Gift Cert <i class="text-success mdi mdi-check-circle"></i>');
+					$('#gc_no').addClass('validuser');
+					ifValid(data);
+				} else {
+					$('.gc_checker').empty();
+					$('.gc_checker').html('Gift Cert <i class="text-danger mdi mdi-close-circle"></i>');
+					$('#gc_no').removeClass('validuser');
+					ifValid()
+				}
+			}
+		});
+	}
+
+	$('#gc_no').on('blur keyup change click', function() {
+		var gc = $('#gc_no').val();
+		checkgc(gc);
+	});
+
+
 });

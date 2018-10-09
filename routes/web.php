@@ -52,3 +52,8 @@ Route::get('/rooms', 'AdminController@rooms_view');
 Route::post('room/add_room', 'AdminController@add_room');
 Route::get('room/edit/{id}', 'AdminController@edit_room');
 Route::post('rooms/update/{id}', 'AdminController@update_room');
+
+/* Gift Certificate */
+Route::get('gift-certificate', 'GiftcertificateController@index');
+Route::post('gc/store', 'GiftcertificateController@store');
+Route::post('/gc/checker', 'GiftcertificateController@checker');
