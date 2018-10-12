@@ -11,7 +11,12 @@
 |
 */
 
+/* Job Order Front */
 Route::get('/', 'FrontController@index');
+Route::post('package/getpackagedetails', 'FrontController@getpackagedetails');
+Route::post('front/ajaxService', 'FrontController@ajaxService');
+Route::post('joborder/store', 'FrontController@store');
+Route::post('joborder/update', 'FrontController@update');
 
 Auth::routes();
 
@@ -44,7 +49,7 @@ Route::post('services/update/{id}', 'ServicesController@update');
 /* Packages */
 Route::get('packages', 'PackagesController@index');
 Route::get('/packages/add', 'PackagesController@add_page');
-Route::post('/package/ajaxService', 'PackagesController@ajaxService');
+Route::post('package/ajaxService', 'PackagesController@ajaxService');
 Route::post('packages/store', 'PackagesController@store');
 
 /* Rooms */

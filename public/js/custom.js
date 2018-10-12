@@ -24,7 +24,6 @@ $(document).ready(function() {
 
 	//Add Job Order
 	$('#joborder').on('hide.bs.modal', function() {
-		$('#clientsForm')[0].reset();
 		$('#Service').hide();
 		$('#Package').hide();
 		$('#Service select').removeAttr('name');
@@ -37,6 +36,175 @@ $(document).ready(function() {
 		var room_id = $(this).find('#room_no').val();
 
 		$('#room_no_form').val(room_id);
+	});
+
+	$('#package_id').on('change', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+
+		var package_id = $('#package_id').val();
+
+		$.ajax({
+			type: 'post',
+			url: baseurl + 'package/getpackagedetails',
+			data:{'id':package_id},
+			success: function(data) {
+				$('#price').empty();
+				$('#price').val(data['price']);
+			}
+		});
+	});
+
+	$('#package_services_front').on('change', function(e){
+
+		var package_services = $(this).val();
+
+		if(package_services != '') {
+
+		$('#package_servicec_btn_front').removeAttr('disabled');
+
+		} else {
+
+		$('#package_servicec_btn_front').attr('disabled');
+		$('#package_inclusion tbody').empty();
+		$('#package_labor_total').empty();
+		$('#package_labor_total').html('₱0.00');
+		$('#package_total').empty();
+		$('#package_total').html('₱0.00');
+
+		}
+
+	});
+
+	$('#package_servicec_btn_front').on('click', function(e) {
+
+		e.preventDefault();
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		var services = $('#package_services_front').val();
+
+		$('#service').val(services);
+
+		$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			url: baseurl + 'front/ajaxService',
+			data: {'id':services},
+			success: function(data) {
+				$('#package_inclusion tbody').empty();
+				var total = 0;
+				var labor = 0;
+				for(var i=0; i<data.length;i++){
+					$('#package_inclusion tbody').append('<tr><td>'+data[i].id+'</td><td>'+data[i].service_name+'</td><td>'+data[i].labor_s+'</td><td>'+data[i].charge+'</td></tr>');
+					total += Number(data[i].charge);
+					labor += Number(data[i].labor_s);
+				}
+				$('#package_labor_total').empty();
+				$('#package_labor_total').html('₱'+labor+'.00');
+				$('#package_total').empty();
+				$('#package_total').html('₱'+total+'.00');
+				$('#price').val(total)
+			}
+		});
+	});
+
+	$('#jobOrderForm').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#jobOrderForm')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend: function() {
+				$('#jobOrderFormBtn').html('<img src="../img/ajax-loader.gif">').attr("disabled","disabled");				
+			},
+			success: function(data) {
+				$('#jobOrderFormBtn').html('<i class="mdi mdi-send mr-l"></i> Submit').removeAttr("disabled");
+				$('#joborder').modal('hide');
+				$('#jobOrderForm')[0].reset();
+				swal(
+	                {
+	                    title: 'Done!',
+	                    text: 'Job Order #: '+data['job_order']+' added!',
+	                    type: 'success'
+	                }
+	            );
+				setTimeout(function() {
+					location.reload();
+				}, 3000)
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});	
+
+	});
+
+	$('.doneJobOrder').on('click', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var job_order = $(this).attr('data-id');
+
+		swal({
+			title: 'Are you sure?',
+			text: 'Job Order #' + job_order + ' is done?',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes!'
+		}).then((result) => {
+		  if (result.value) {
+		  	$.ajax({
+				type:'POST',
+				url: baseurl + 'joborder/update',
+				data:{'job_order':job_order},
+				success: function(data) {
+				    swal(
+				      'Done!',
+				      'Job Order #' + job_order + ' is done!',
+				      'success'
+				    )
+					setTimeout(function() {
+						location.reload();
+					}, 1000)
+				}
+			});
+		  }
+		});
 	});
 
 	//Therapist
@@ -503,7 +671,9 @@ $(document).ready(function() {
 
 	});
 
-	$('#package_servicec_btn').on('click', function() {
+	$('#package_servicec_btn').on('click', function(e) {
+
+		e.preventDefault();
 
 		$.ajaxSetup({
 			headers: {
@@ -516,15 +686,15 @@ $(document).ready(function() {
 		$('#service').val(services);
 
 		$.ajax({
-			type: 'POST',
+			type: 'post',
 			dataType: 'json',
-			url: baseurl + '/package/ajaxService',
+			url: baseurl + 'package/ajaxService',
 			data: {'id':services},
 			success: function(data) {
 				$('#package_inclusion tbody').empty();
 				var total = 0;
 				for(var i=0; i<data.length;i++){
-					$('#package_inclusion tbody').append('<tr><td>'+data[i].id+'</td><td>'+data[i].service_name+'</td><td>'+data[i].charge+'</td></tr>');
+					$('#package_inclusion tbody').append('<tr><td>'+data[i].id+'</td><td>'+data[i].service_name+'</td><td>'+data[i].labor_s+'</td><td>'+data[i].charge+'</td></tr>');
 					total += Number(data[i].charge);
 				}
 				$('#package_total').empty();
@@ -622,7 +792,7 @@ $(document).ready(function() {
 	$('input[type=radio][name=category]').on('click', function() {
 		var category = $('input[type=radio][name=category]:checked').val();
 
-		if(category == 'Service') {
+		if(category == 'Single') {
 
 			$('#Service').show();
 			$('#Service select').attr('name', 'service');

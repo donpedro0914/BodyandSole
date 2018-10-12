@@ -44,6 +44,7 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Service Name</th>
+                                                    <th>Labor</th>
                                                     <th>Price</th>
                                                 </tr>
                                             </thead>

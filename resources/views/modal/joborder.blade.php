@@ -6,26 +6,31 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 			</div>
 			<div class="modal-body">
-				<form id="clientsForm" action="{{ URL::to('joborder/store') }}" method="post" enctype="multipart/form-data">
+				<form id="jobOrderForm" action="{{ URL::to('joborder/store') }}" method="post" novalidate>
 					@csrf
+					@php
+						$jobOrderCount = $jobOrderCount + 1;
+						$jobOrderCount = sprintf("%05d", $jobOrderCount);
+					@endphp
+					<input type="hidden" name="job_order" value="{!! date('y') !!}-{!! $jobOrderCount !!}"/>
 					<input type="hidden" name="room_no" id="room_no_form" value="" />
 					<div class="form-row">
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Date</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" value="{!! date('Y-m-d') !!}" disabled/>
+								<input type="text" class="form-control" value="{!! date('Y-m-d') !!}" readonly/>
 							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Client</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" name="client_fullname" placeholder="Enter client name.."/>
+								<input type="text" class="form-control" name="client_fullname" placeholder="Enter client name.." required="" />
 							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Therapist</label>
 							<div class="col-sm-8">
-								<select class="form-control select2 select2-selection__rendered" name="therapist_fullname">
+								<select class="form-control select2 select2-selection__rendered" name="therapist_fullname" required="">
 									@foreach($therapists as $t)
 									<option value="{{ $t->id }}">{{ $t->fullname }}</option>
 									@endforeach
@@ -36,8 +41,8 @@
 							<label class="col-sm-4 col-form-label">Category</label>
 							<div class="col-sm-8">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="customRadio1" name="category" class="custom-control-input" value="Service">
-                                    <label class="custom-control-label" for="customRadio1">Service(s)</label>
+                                    <input type="radio" id="customRadio1" name="category" class="custom-control-input" value="Single" required>
+                                    <label class="custom-control-label" for="customRadio1">Single</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio2" name="category" class="custom-control-input" value="Package">
@@ -49,12 +54,16 @@
 							<div class="form-group row col-md-12 col-xs-12">
 								<label class="col-sm-4 col-form-label">Services</label>
 	                            <div class="col-sm-8">
-	                                <select id="package_services" class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
-	                                    @foreach($service as $s)
-	                                    <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}</option>
-	                                    @endforeach
-	                                </select>
-	                                <button type="button" id="package_servicec_btn" class="btn btn-primary" disabled="">Add Service(s)</button>
+	                            	<div class="input-group">
+		                                <select id="package_services_front" class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ..." name="service" required="">
+		                                    @foreach($service as $s)
+		                                    <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}</option>
+		                                    @endforeach
+		                                </select>
+		                                <div class="input-group-append">
+	                                		<button type="button" id="package_servicec_btn_front" class="btn btn-primary waves-effect waves-light" disabled="">Apply Service(s)</button>
+		                                </div>
+	                            	</div>
 	                            </div>
 							</div>
 							<div class="form-group row col-md-12 col-xs-12">
@@ -65,12 +74,13 @@
 	                                        <tr>
 	                                            <th>ID</th>
 	                                            <th>Service Name</th>
+	                                            <th>Labor</th>
 	                                            <th>Price</th>
 	                                        </tr>
 	                                    </thead>
 	                                    <tbody>
 	                                        <tr>
-	                                            <td class="text-center" colspan="3">
+	                                            <td class="text-center" colspan="4">
 	                                                No Services Yet
 	                                            </td>
 	                                        </tr>
@@ -79,6 +89,7 @@
 	                                        <tr>
 	                                            <th></th>
 	                                            <th class="text-right">Total</th>
+	                                            <th id="package_labor_total">₱ 0.00</th>
 	                                            <th id="package_total">₱ 0.00</th>
 	                                        </tr>
 	                                    </tfoot>
@@ -89,7 +100,7 @@
 						<div id="Package" class="form-group row col-md-12 col-xs-12" style="display: none;">
 							<label class="col-sm-4 col-form-label">Package</label>
                             <div class="col-sm-8">
-							<select class="form-control select2 select2-selection__rendered">
+							<select class="form-control select2 select2-selection__rendered" id="package_id" name="service" required="">
 								<option value="">--Select Package--</option>
 								@foreach($packages as $p)
 								<option value="{{ $p->id }}">{{ $p->package_name }}</option>
@@ -101,7 +112,7 @@
 							<label class="col-sm-4 col-form-label">Payment Method</label>
 							<div class="col-sm-8">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="customRadio3" name="payment" class="custom-control-input" value="Cash">
+                                    <input type="radio" id="customRadio3" name="payment" class="custom-control-input" value="Cash" required="">
                                     <label class="custom-control-label" for="customRadio3">Cash</label>
                                 </div>
                                 <div class="custom-control custom-radio">
@@ -119,7 +130,15 @@
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Price</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="price" name="price" disabled/>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class='input-group-text'>₱</span>
+									</div>
+									<input type="text" class="form-control" name="price" id="price" readonly="" />
+									<div class="input-group-prepend">
+										<span class='input-group-text'>.00</span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="form-group col-md-12 col-xs-12">

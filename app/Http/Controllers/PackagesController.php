@@ -29,7 +29,7 @@ class PackagesController extends Controller
 
     public function ajaxService(Request $request) {
 
-        $service = Services::whereIn('id', request('id'))->get();
+        $service = Services::whereIn('id', $request->input('id'))->get();
         return response()->json($service);
 
     }
