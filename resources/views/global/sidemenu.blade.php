@@ -32,7 +32,7 @@
 	            	<a href="javascript: void(0);"><i class="mdi mdi-file-document-box"></i> <span> Jobs & Cards </span> <span class="menu-arrow"></span>
 	            	</a>
 	            	<ul class="nav-second-level" aria-expanded="false">
-	            		<li><a href="#">Job Order</a></li>
+	            		<li><a href="/job-order">Job Order</a></li>
 	            		<li><a href="/gift-certificate">Gift Certificate</a></li>
 	            	</ul>
 	            </li>
@@ -40,7 +40,7 @@
 	            	<a href="javascript: void(0);"><i class="mdi mdi-finance"></i> <span> Reports </span> <span class="menu-arrow"></span>
 	            	</a>
 	            	<ul class="nav-second-level" aria-expanded="false">
-	            		<li><a href="#">Sales Reports</a></li>
+	            		<li><a href="/sales-reports">Sales Reports</a></li>
 	            		<li><a href="#">Therapist Reports</a></li>
 	            		<li><a href="#">Petty Expense Reports</a></li>
 	            	</ul>

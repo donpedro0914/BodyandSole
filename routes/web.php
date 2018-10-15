@@ -17,6 +17,8 @@ Route::post('package/getpackagedetails', 'FrontController@getpackagedetails');
 Route::post('front/ajaxService', 'FrontController@ajaxService');
 Route::post('joborder/store', 'FrontController@store');
 Route::post('joborder/update', 'FrontController@update');
+Route::post('joborder/cancelupdate', 'FrontController@cancelupdate');
+Route::post('joborder/duration', 'FrontController@duration');
 
 Auth::routes();
 
@@ -62,3 +64,9 @@ Route::post('rooms/update/{id}', 'AdminController@update_room');
 Route::get('gift-certificate', 'GiftcertificateController@index');
 Route::post('gc/store', 'GiftcertificateController@store');
 Route::post('/gc/checker', 'GiftcertificateController@checker');
+
+/* Job order */
+Route::get('/job-order', 'JobOrderController@index');
+
+/* Reports */
+Route::get('/sales-reports', 'ReportsController@index');

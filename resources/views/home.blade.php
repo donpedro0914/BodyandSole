@@ -24,7 +24,7 @@
                             @endif
                             <div class="clearfix"></div>
                             <p class="header-title">{{ $r->roomname}}</p>
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" id="room_id_{{ $r->roomid }}" data-room="{{ $r->roomid }}">
                                 <input type="hidden" id="room_no" value="{{ $r->roomid }}" />
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Job Order #</label>
@@ -54,6 +54,32 @@
                                         @else
                                         <input type="text" class="form-control" readonly="" />
                                         @endif
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Time</label>
+                                    <div class="col-sm-8" id="enter_time">
+                                        <div class="input-group">
+                                        @if($r->status == 'Active')
+                                            @if($r->duration)
+                                                <div id="countdown" data-timer="{{ $r->duration }}"></div>
+                                            @else
+                                                <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="Hour"/>
+                                                <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="Minute"/>
+                                                <div class="input-group-append">
+                                                    <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect waves-light" type="button">Start</button>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <input type="text" class="col-sm-6 form-control" placeholder="Hour" readonly="" />
+                                            <input type="text" class="col-sm-6 form-control" placeholder="Minute" readonly="" />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary waves-effect waves-light" type="button" disabled>Start</button>
+                                            </div>
+                                        @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8" id="show_timer" style="display: none">
                                     </div>
                                 </div>
                             </form>

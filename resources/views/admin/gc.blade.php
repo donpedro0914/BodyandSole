@@ -43,7 +43,7 @@
                                         <td>{{ $g->purchased_by }}</td>
                                         <td>{{ $g->value }}</td>
                                         <td>{{ $g->service_name }}</td>
-                                        <td>{{ $g->use }}</td>
+                                        <td>{!! $g->gcounts !!} / {{ $g->use }}</td>
                                         <td class="text-center">
                                             @if($g->status == 'Active')
                                             <span class="badge badge-success">Active</span>

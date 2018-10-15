@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Giftcertificate;
 use App\Services;
+use App\JobOrder;
 use DB;
 use Illuminate\Http\Request;
 
@@ -17,9 +18,22 @@ class GiftcertificateController extends Controller
 
     public function index()
     {
-        $gc = Giftcertificate::select('giftcertificates.*', 'services.service_name')
-        ->leftJoin('services', 'services.id', '=', 'giftcertificates.service')
-        ->get();
+        // $gc = Giftcertificate::select('giftcertificates.*', 'services.service_name', 'giftcertificates.gc')
+        // ->leftJoin('services', 'services.id', '=', 'giftcertificates.service')
+        // ->get();
+
+        $gc = DB::select('select t.*, COALESCE(a.gcount,0) gcounts, service_name
+            from giftcertificates t
+            left join (
+                select gcno, status, count(*) gcount
+                from job_orders
+                WHERE status = "Done"
+                group by gcno
+            ) a on t.gc_no = a.gcno
+            left join (
+                select id, service_name
+                from services
+            ) b on t.service = b.id');
         $services = Services::where('status', 'Active')->get();
         return view('admin.gc', compact('services', 'gc'));
     }

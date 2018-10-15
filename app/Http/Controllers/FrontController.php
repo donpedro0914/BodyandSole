@@ -74,4 +74,29 @@ class FrontController extends Controller
 
         return response()->json($jobOrderUpdate);
     }
+
+    public function cancelupdate(Request $request) {
+
+        $data = array(
+            'status' => 'Cancelled'
+        );
+
+        $jobOrderUpdate = JobOrder::where('job_order', request('job_order'))->update($data);
+
+        return response()->json($jobOrderUpdate);
+    }
+
+    public function duration(Request $request) {
+
+        $date = date('Y-m-d H:i:s');
+
+        $data = array(
+            'duration' => date('Y-m-d H:i:s', strtotime('+'.request('hr').' hour +'.request('min').' minutes', strtotime($date)))
+        );
+
+        JobOrder::where('job_order', request('job_order'))->update($data);
+        $jobOrderDuration = JobOrder::where('job_order', request('job_order'))->first();
+
+        return response()->json($jobOrderDuration);
+    }
 }

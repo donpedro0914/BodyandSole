@@ -3,83 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\JobOrder;
+use DB;
 use Illuminate\Http\Request;
 
 class JobOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+
+        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->orderBy('job_orders.id', 'desc')->get();
+
+        return view('admin.job_order', compact('joborder'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\JobOrder  $jobOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function show(JobOrder $jobOrder)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\JobOrder  $jobOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(JobOrder $jobOrder)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\JobOrder  $jobOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, JobOrder $jobOrder)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\JobOrder  $jobOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(JobOrder $jobOrder)
-    {
-        //
-    }
 }

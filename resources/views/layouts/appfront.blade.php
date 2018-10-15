@@ -45,5 +45,6 @@
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
 </body>
 </html>

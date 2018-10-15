@@ -23,6 +23,16 @@ $(document).ready(function() {
     $(".select2").select2();
 
 	//Add Job Order
+	$('[data-timer]').each(function() {
+		var $this = $(this), finalDuration = $(this).data('timer');
+		$this.countdown(finalDuration, function(event) {
+			$(this).html(event.strftime(''
+		    + '<span>%H</span> hr '
+		    + '<span>%M</span> min '
+		    + '<span>%S</span> sec'));
+		})
+	});
+
 	$('#joborder').on('hide.bs.modal', function() {
 		$('#Service').hide();
 		$('#Package').hide();
@@ -205,6 +215,81 @@ $(document).ready(function() {
 			});
 		  }
 		});
+	});
+
+	$('.cancelJobOrder').on('click', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var job_order = $(this).attr('data-id');
+
+		swal({
+			title: 'Are you sure?',
+			text: 'Job Order #' + job_order + ' is cancelled?',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes!'
+		}).then((result) => {
+		  if (result.value) {
+		  	$.ajax({
+				type:'POST',
+				url: baseurl + 'joborder/cancelupdate',
+				data:{'job_order':job_order},
+				success: function(data) {
+				    swal(
+				      'Done!',
+				      'Job Order #' + job_order + ' is cancelled!',
+				      'success'
+				    )
+					setTimeout(function() {
+						location.reload();
+					}, 1000)
+				}
+			});
+		  }
+		});
+	});
+
+	$('#start_timer').on('click', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+
+		var hr = $('#time_in_hr').val();
+		var min = $('#time_in_min').val();
+		var job_order = $(this).attr('data-id');
+		var room_id = $(this).attr('data-room');
+
+		$.ajax({
+			type: 'POST',
+			url: baseurl + 'joborder/duration',
+			data:{'job_order':job_order,'hr':hr,'min':min},
+			success: function(data) {
+				$('#room_id_'+room_id+' #enter_time').hide();
+				$('#room_id_'+room_id+' #show_timer').show();
+
+				$('#room_id_'+room_id+' #show_timer').countdown(data['duration'], function(event) {
+				  $(this).html(event.strftime(''
+				    + '<span>%H</span> hr '
+				    + '<span>%M</span> min '
+				    + '<span>%S</span> sec'));
+				});
+				location.reload();
+			}
+		});
+
 	});
 
 	//Therapist
