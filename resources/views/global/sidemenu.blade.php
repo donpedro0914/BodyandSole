@@ -43,6 +43,8 @@
 	            		<li><a href="/sales-reports">Sales Reports</a></li>
 	            		<li><a href="#">Therapist Reports</a></li>
 	            		<li><a href="#">Petty Expense Reports</a></li>
+	            		<li><a href="/payroll-reports">Payroll Reports</a></li>
+	            		<li><a href="/weekly-commission-reports">Weekly Commission Reports</a></li>
 	            	</ul>
 	            </li>
 				<li>

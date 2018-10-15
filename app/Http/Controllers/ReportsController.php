@@ -7,79 +7,22 @@ use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function sales_reports() {
+        return view('admin.report.sales');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function payroll_reports() {
+        return view('admin.report.payroll');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Reports  $reports
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Reports $reports)
-    {
-        //
+    public function weekly_commission_reports() {
+        return view('admin.report.weekly_commission');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Reports  $reports
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reports $reports)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Reports  $reports
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Reports $reports)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Reports  $reports
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Reports $reports)
-    {
-        //
-    }
+    
 }

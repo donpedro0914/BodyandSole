@@ -69,4 +69,6 @@ Route::post('/gc/checker', 'GiftcertificateController@checker');
 Route::get('/job-order', 'JobOrderController@index');
 
 /* Reports */
-Route::get('/sales-reports', 'ReportsController@index');
+Route::get('/sales-reports', 'ReportsController@sales_reports');
+Route::get('/payroll-reports', 'ReportsController@payroll_reports');
+Route::get('/weekly-commission-reports', 'ReportsController@weekly_commission_reports');

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Updatejoborder extends Migration
+class Updatejoborder4 extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class Updatejoborder extends Migration
     public function up()
     {
         Schema::table('job_orders', function (Blueprint $table) {
-            $table->string('job_order')->nullable()->after('id');
-            $table->string('status')->nullable()->after('gcno');
+            $table->string('price')->nullable()->after('room_no_form');
         });
     }
 

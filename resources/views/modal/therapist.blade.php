@@ -35,11 +35,27 @@
 						</div>
 						<div class="form-group col-md-6 col-xs-12">
 							<label>Lodging</label>
-							<input type="text" class="form-control" name="lodging">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>₱</span>
+                                </div>
+                                <input type="text" class="form-control" name="lodging" id="lodging"/>
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>.00</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="form-group col-md-6 col-xs-12">
 							<label>Allowance</label>
-							<input type="text" class="form-control" name="allowance">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>₱</span>
+                                </div>
+                                <input type="text" class="form-control" name="allowance" id="allowance"/>
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>.00</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<h4 class="header-title">Deductions</h4>
@@ -47,27 +63,75 @@
 						</div>
 						<div class="form-group col-md-4 col-xs-12">
 							<label>S.S.S</label>
-							<input type="text" class="form-control" name="sss">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>₱</span>
+                                </div>
+                                <input type="text" class="form-control" name="sss" id="sss"/>
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>.00</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="form-group col-md-4 col-xs-12">
 							<label>Phil Health</label>
-							<input type="text" class="form-control" name="phealth">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>₱</span>
+                                </div>
+                                <input type="text" class="form-control" name="phealth" id="phealth"/>
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>.00</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="form-group col-md-4 col-xs-12">
 							<label>H.D.F</label>
-							<input type="text" class="form-control" name="hdf">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>₱</span>
+                                </div>
+                                <input type="text" class="form-control" name="hdf" id="hdf"/>
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>.00</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="form-group col-md-4 col-xs-12">
 							<label>Uniform</label>
-							<input type="text" class="form-control" name="uniform">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>₱</span>
+                                </div>
+                                <input type="text" class="form-control" name="uniform" id="uniform"/>
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>.00</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="form-group col-md-4 col-xs-12">
 							<label>Fare</label>
-							<input type="text" class="form-control" name="fare">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>₱</span>
+                                </div>
+                                <input type="text" class="form-control" name="fare" id="fare"/>
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>.00</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="form-group col-md-4 col-xs-12">
 							<label>Others</label>
-							<input type="text" class="form-control" name="others">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>₱</span>
+                                </div>
+                                <input type="text" class="form-control" name="others" id="others"/>
+                                <div class="input-group-prepend">
+                                    <span class='input-group-text'>.00</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<div class="clearfix text-right mt-3">

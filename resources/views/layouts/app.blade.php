@@ -25,6 +25,7 @@
     <link href="{{ asset('css/select-multiple.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/daterangepicker.css') }}" rel="stylesheet">
 </head>
 @if(\Request::is('login'))
 <body class="bg-account-pages">
@@ -51,6 +52,8 @@
     <script src="{{ asset('js/jquery.select-multiple.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ asset('js/daterangepicker.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
     @stack('scripts');
 </body>
 </html>
