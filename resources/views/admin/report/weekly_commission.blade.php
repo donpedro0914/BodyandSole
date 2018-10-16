@@ -20,28 +20,34 @@
                             <div class="form-group">
                                 <label>Date Range Filter</label>
                                 <div class="input-group">
-                                    <input class="form-control input-daterange-datepicker" type="text" name="daterange"/>
+                                    <input class="form-control input-daterange-datepicker" id="daterange" type="text" name="daterange" value="{{ $startDate }} - {{ $endDate }}"/>
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary waves-effect waves-light" type="button">Filter</button>
+                                        <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="button">Filter</button>
                                     </div>
                                 </div>
                             </div>
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-weekly-commission">
                                 <thead>
                                     <tr>
-                                        <th>Therapist</th>
-                                        <th>Day 1</th>
-                                        <th>Day 2</th>
-                                        <th>Day 3</th>
-                                        <th>Day 4</th>
-                                        <th>Day 5</th>
-                                        <th>Day 6</th>
-                                        <th>Day 7</th>
-                                        <th># of Days</th>
-                                        <th>Total</th>
+                                        <th class='text-center'>Therapist</th>
+                                        <th class='text-center'>Day 1</th>
+                                        <th class='text-center'>Day 2</th>
+                                        <th class='text-center'>Day 3</th>
+                                        <th class='text-center'>Day 4</th>
+                                        <th class='text-center'>Day 5</th>
+                                        <th class='text-center'>Day 6</th>
+                                        <th class='text-center'>Day 7</th>
+                                        <th class='text-center'># of Days</th>
+                                        <th class='text-center'>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($commission as $c)
+                                    <tr>
+                                        <td>{{ $c->fullname }}</td>
+                                        <td>{{ $c->labor_s }}</td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -54,9 +60,27 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.ajax-table-weekly-commission').DataTable({
-            keys: true
+
+        $('.input-daterange-datepicker').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            buttonClasses: ['btn', 'btn-sm'],
+            applyClass: 'btn-success',
+            cancelClass: 'btn-light',
+        }, function(start, end, label) {
+
+            var dateStart = start.format('YYYY-MM-DD');
+            var dateEnd = end.format('YYYY-MM-DD');
+
+            $('#date_filter').on('click', function() {
+                alert(dateStart);
+            });
         });
+
+
+        var table = $('.ajax-table-weekly-commission').DataTable();
+
     });
 </script>
 @endpush

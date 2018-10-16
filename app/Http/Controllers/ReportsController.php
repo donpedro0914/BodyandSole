@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Reports;
+use App\JobOrder;
+use App\Therapist;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use DB;
 
 class ReportsController extends Controller
 {
@@ -22,7 +25,26 @@ class ReportsController extends Controller
     }
 
     public function weekly_commission_reports() {
-        return view('admin.report.weekly_commission');
+
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $day = $start->format('N');
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+
+        // $commission = Therapist::select('therapists.*', 'job_orders.*')
+        //             ->leftJoin('job_orders', 'job_orders.therapist_fullname', '=', 'therapists.id')
+        //             ->where('job_orders.status', 'Done')
+        //             ->groupBy('job_orders.therapist_fullname')
+        //             ->get();
+
+        $commission = DB::select('select a.fullname, DATE_FORMAT(b.created_at, "%M %d %Y") as mydate, sum(c.labor_s) as labor_s
+            from therapists a, job_orders b, services c where a.id = b.therapist_fullname
+            and b.service = c.id
+            group by a.fullname, mydate, labor_s');
+
+        return view('admin.report.weekly_commission', compact('commission'),['startDate' => $startDate, 'endDate' => $endDate]);
     }
     
 }

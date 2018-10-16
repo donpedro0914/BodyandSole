@@ -19,11 +19,6 @@ $(document).ready(function() {
         autoclose: true,
         todayHighlight: true
     });
-    $('.input-daterange-datepicker').daterangepicker({
-            buttonClasses: ['btn', 'btn-sm'],
-            applyClass: 'btn-success',
-            cancelClass: 'btn-light'
-        });
 
     $(".select2").select2();
 

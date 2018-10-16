@@ -16,7 +16,9 @@ class FrontController extends Controller
     public function index() {
 
     	$day = Carbon::now()->format( 'N' );
-    	$therapists = Therapist::where('status', 'Active')->get();
+    	$therapists = DB::select('select * from therapists where id not in (select therapist_fullname from job_orders where status ="Active")
+            union
+            select * from therapists where id not in (select therapist_fullname from job_orders)');
 
         $rooms = DB::select('
             select rooms.status as roomstatus, rooms.room_name as roomname, rooms.id as roomid, a.*, b.fullname as therapistname from rooms
