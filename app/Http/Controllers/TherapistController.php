@@ -16,7 +16,7 @@ class TherapistController extends Controller
 
     public function index()
     {
-        $therapist = Therapist::where('status', '!=', 'Terminated')->get();
+        $therapist = Therapist::where('status', '!=', 'Terminated')->orderBy('fullname', 'asc')->get();
         return view('admin.therapist', compact('therapist'));
     }
 
@@ -30,6 +30,7 @@ class TherapistController extends Controller
             'dob' => $request->input('dob'),
             'hired' => $request->input('hired'),
             'resigned' => $request->input('resigned'),
+            'basic' => $request->input('basic'),
             'lodging' => $request->input('lodging'),
             'allowance' => $request->input('allowance'),
             'sss' => $request->input('sss'),
@@ -63,6 +64,7 @@ class TherapistController extends Controller
             'hired' => $request->input('hired'),
             'resigned' => $request->input('resigned'),
             'lodging' => $request->input('lodging'),
+            'basic' => $request->input('basic'),
             'allowance' => $request->input('allowance'),
             'sss' => $request->input('sss'),
             'phealth' => $request->input('phealth'),

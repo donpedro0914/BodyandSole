@@ -20,6 +20,19 @@ $(document).ready(function() {
         todayHighlight: true
     });
 
+    jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
+        return this.flatten().reduce( function ( a, b ) {
+            if ( typeof a === 'string' ) {
+                a = a.replace(/[^\d.-]/g, '') * 1;
+            }
+            if ( typeof b === 'string' ) {
+                b = b.replace(/[^\d.-]/g, '') * 1;
+            }
+
+            return a + b;
+        }, 0 );
+    } );
+
     $(".select2").select2();
 
 	//Add Job Order
@@ -122,6 +135,7 @@ $(document).ready(function() {
 				}
 				$('#package_labor_total').empty();
 				$('#package_labor_total').html('₱'+labor+'.00');
+				$('#commission').val(labor);
 				$('#package_total').empty();
 				$('#package_total').html('₱'+total+'.00');
 				$('#price').val(total)
@@ -163,7 +177,7 @@ $(document).ready(function() {
 	            );
 				setTimeout(function() {
 					location.reload();
-				}, 3000)
+				}, 1000)
 			},
 			error: function(xhr, status, error) {
 				console.log(xhr);

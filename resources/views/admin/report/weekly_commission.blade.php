@@ -45,10 +45,78 @@
                                     @foreach($commission as $c)
                                     <tr>
                                         <td>{{ $c->fullname }}</td>
-                                        <td>{{ $c->labor_s }}</td>
+                                        <td class='text-center'>{{ $c->Thurs }}.00</td>
+                                        <td class='text-center'>{{ $c->Fri }}.00</td>
+                                        <td class='text-center'>{{ $c->Sat }}.00</td>
+                                        <td class='text-center'>{{ $c->Sun }}.00</td>
+                                        <td class='text-center'>{{ $c->Mon }}.00</td>
+                                        <td class='text-center'>{{ $c->Tue }}.00</td>
+                                        <td class='text-center'>{{ $c->Wed }}.00</td>
+                                        <td class='text-center'>
+                                            @php
+                                                $day = '0';
+                                                if($c->Thurs) {
+                                                $day += '1';
+                                                } else {
+                                                $day += '0';
+                                                }
+
+                                                if($c->Fri) {
+                                                $day += '1';
+                                                } else {
+                                                $day += '0';
+                                                }
+
+                                                if($c->Sat) {
+                                                $day += '1';
+                                                } else {
+                                                $day += '0';
+                                                }
+
+                                                if($c->Sun) {
+                                                $day += '1';
+                                                } else {
+                                                $day += '0';
+                                                }
+
+                                                if($c->Mon) {
+                                                $day += '1';
+                                                } else {
+                                                $day += '0';
+                                                }
+
+                                                if($c->Tue) {
+                                                $day += '1';
+                                                } else {
+                                                $day += '0';
+                                                }
+
+                                                if($c->Wed) {
+                                                $day += '1';
+                                                } else {
+                                                $day += '0';
+                                                }
+                                                echo $day;
+                                            @endphp
+                                        </td>
+                                        <td class='text-center'>{{ $c->total }}.00</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th class="text-right">Total</th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -78,9 +146,140 @@
             });
         });
 
+        $('.ajax-table-weekly-commission').dataTable({
+            paging: false,
+            "footerCallback": function (row,data,start,end,display) {
+                var api = this.api(), data;
 
-        var table = $('.ajax-table-weekly-commission').DataTable();
+                var intVal = function(i) {
+                    return typeof i === 'string'?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                    i:0;
+                };
 
+                total1 = api
+                .column(1)
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                total2 = api
+                .column(2)
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                total3 = api
+                .column(3)
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                total4 = api
+                .column(4)
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                total5 = api
+                .column(5)
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                total6 = api
+                .column(6)
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                total7 = api
+                .column(7)
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                total9 = api
+                .column(9)
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                pagetotal1 = api
+                .column(1, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal2 = api
+                .column(2, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal3 = api
+                .column(3, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal4 = api
+                .column(4, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal5 = api
+                .column(5, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal6 = api
+                .column(6, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal7 = api
+                .column(7, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal9 = api
+                .column(9, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                $(api.column(1).footer()).html(pagetotal1+'.00');
+                $(api.column(2).footer()).html(pagetotal2+'.00');
+                $(api.column(3).footer()).html(pagetotal3+'.00');
+                $(api.column(4).footer()).html(pagetotal4+'.00');
+                $(api.column(5).footer()).html(pagetotal5+'.00');
+                $(api.column(6).footer()).html(pagetotal6+'.00');
+                $(api.column(7).footer()).html(pagetotal7+'.00');
+                $(api.column(9).footer()).html(pagetotal9+'.00');
+            }
+        });
     });
 </script>
 @endpush

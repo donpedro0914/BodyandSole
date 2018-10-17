@@ -26,30 +26,39 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-bordered dataTable no-footer table-striped ajax-table-payroll">
+                            <table class="table table-bordered dataTable no-footer table-striped ajax-table-expense">
                                 <thead>
                                     <tr>
                                         <th>Employee Name</th>
-                                        <th>Basic Pay</th>
-                                        <th>Allowance</th>
-                                        <th>Comm Earning</th>
-                                        <th>Gross Pay</th>
+                                        <th>SSS</th>
+                                        <th>PhilHlt</th>
+                                        <th>HDMF</th>
+                                        <th>Lodging</th>
+                                        <th>Others</th>
+                                        <th>Total Deduct</th>
+                                        <th>Netpay</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($payroll as $p)
+                                    @foreach($expense as $e)
                                     <tr>
-                                        <td>{{ $p->fullname }}</td>
-                                        <td class="text-right">{{ $p->basic }}.00</td>
-                                        <td class="text-right">{{ $p->allowance }}.00</td>
-                                        <td class="text-right">{{ $p->total }}.00</td>
-                                        <td class="text-right">{{ $p->basic + $p->allowance + $p->total }}.00</td>
+                                        <td>{{ $e->fullname }}</td>
+                                        <td>{{ $e->sss }}.00</td>
+                                        <td>{{ $e->phealth }}.00</td>
+                                        <td>{{ $e->hdf }}.00</td>
+                                        <td>{{ $e->lodging }}.00</td>
+                                        <td>{{ $e->others }}.00</td>
+                                        <td>{{ $e->sss + $e->phealth + $e->hdf + $e->lodging + $e->others }}.00</td>
+                                        <td>{{ $e->total + $e->allowance - $e->sss - $e->phealth - $e->hdf-+ $e->lodging - $e->others }}.00</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th class="text-right">Grand Total</th>
+                                        <th class="text-right">Total</th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
                                         <th class="text-center"></th>
                                         <th class="text-center"></th>
                                         <th class="text-center"></th>
@@ -67,7 +76,7 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.ajax-table-payroll').dataTable({
+        $('.ajax-table-expense').dataTable({
             paging: false,
             "footerCallback": function (row,data,start,end,display) {
                 var api = this.api(), data;
@@ -107,10 +116,34 @@
                     return intVal(a) + intVal(b);
                 },0);
 
+                pagetotal5 = api
+                .column(5, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal6 = api
+                .column(6, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal7 = api
+                .column(7, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
                 $(api.column(1).footer()).html(pagetotal1+'.00');
                 $(api.column(2).footer()).html(pagetotal2+'.00');
                 $(api.column(3).footer()).html(pagetotal3+'.00');
                 $(api.column(4).footer()).html(pagetotal4+'.00');
+                $(api.column(5).footer()).html(pagetotal5+'.00');
+                $(api.column(6).footer()).html(pagetotal6+'.00');
+                $(api.column(7).footer()).html(pagetotal7+'.00');
             }
         });
     });

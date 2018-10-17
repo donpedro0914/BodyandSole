@@ -72,3 +72,4 @@ Route::get('/job-order', 'JobOrderController@index');
 Route::get('/sales-reports', 'ReportsController@sales_reports');
 Route::get('/payroll-reports', 'ReportsController@payroll_reports');
 Route::get('/weekly-commission-reports', 'ReportsController@weekly_commission_reports');
+Route::get('/expense-reports', 'ReportsController@expense_reports');

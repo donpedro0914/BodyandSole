@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateJoborder extends Migration
+class Updatetherapist3 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateJoborder extends Migration
      */
     public function up()
     {
-        Schema::table('job_orders', function (Blueprint $table) {
-            $table->string('duration')->nullable()->after('status');
+        Schema::table('therapists', function (Blueprint $table) {
+            $table->string('basic')->nullable()->after('resigned');
         });
     }
 

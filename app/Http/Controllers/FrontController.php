@@ -15,7 +15,13 @@ class FrontController extends Controller
 {
     public function index() {
 
-    	$day = Carbon::now()->format( 'N' );
+    	$now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $currentDay = $now->dayOfWeekIso;
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+
     	$therapists = DB::select('select * from therapists where id not in (select therapist_fullname from job_orders where status ="Active")
             union
             select * from therapists where id not in (select therapist_fullname from job_orders)');
@@ -28,7 +34,7 @@ class FrontController extends Controller
         $service = Services::where('status', 'Active')->get();
         $packages = Packages::where('status', 'Active')->get();
         $jobOrderCount = JobOrder::count();
-        return view('home', compact('rooms', 'therapists', 'day', 'service', 'packages'), ['jobOrderCount' => $jobOrderCount]);
+        return view('home', compact('rooms', 'therapists', 'day', 'service', 'packages'), ['jobOrderCount' => $jobOrderCount, 'currentDay' => $currentDay]);
     }
 
     public function getpackagedetails(Request $request) {
@@ -46,6 +52,7 @@ class FrontController extends Controller
 
     public function store(Request $request) {
 
+        $day = $request->input('day');
     	$data = array(
     		'job_order' => $request->input('job_order'),
     		'room_no_form' => $request->input('room_no'),
@@ -57,7 +64,8 @@ class FrontController extends Controller
     		'careof' => $request->input('careof'),
             'gcno' => $request->input('gcno'),
     		'price' => $request->input('price'),
-    		'status' => 'Active'
+    		'status' => 'Active',
+            $day => $request->input('commmission')
     	);
 
     	$jo = JobOrder::create($data);
