@@ -22,9 +22,9 @@ class FrontController extends Controller
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
-    	$therapists = DB::select('select * from therapists where id not in (select therapist_fullname from job_orders where status ="Active")
+    	$therapists = DB::select('select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders where status ="Active")
             union
-            select * from therapists where id not in (select therapist_fullname from job_orders)');
+            select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders)');
 
         $rooms = DB::select('
             select rooms.status as roomstatus, rooms.room_name as roomname, rooms.id as roomid, a.*, b.fullname as therapistname from rooms

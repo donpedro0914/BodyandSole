@@ -6,8 +6,10 @@ use Auth;
 use DB;
 use App\Settings;
 use App\Rooms;
+use App\JobOrder;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -19,7 +21,18 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $day = $start->format('Y-m-d');
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $dailySales = DB::table('job_orders')
+                    ->where('status', 'Done')
+                    ->whereDate('created_at', '=', $day)
+                    ->sum('price');
+        return view('admin.dashboard',['day' => $day, 'dailySales' => $dailySales]);
     }
 
     public function settings() {
