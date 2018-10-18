@@ -41,9 +41,55 @@
                                     <tr>
                                         <td>{{ $p->fullname }}</td>
                                         <td class="text-right">{{ $p->basic }}.00</td>
-                                        <td class="text-right">{{ $p->allowance }}.00</td>
+                                        @php
+                                            $day = '0';
+                                            if($p->Thurs) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Fri) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Sat) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Sun) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Mon) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Tue) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Wed) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            $totalAllowance = $p->allowance * $day;
+                                        @endphp
+                                        <td class="text-right">{{ $totalAllowance }}.00</td>
                                         <td class="text-right">{{ $p->total }}.00</td>
-                                        <td class="text-right">{{ $p->basic + $p->allowance + $p->total }}.00</td>
+                                        <td class="text-right">{{ $p->basic + $totalAllowance + $p->total }}.00</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

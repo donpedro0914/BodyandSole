@@ -23,7 +23,7 @@ Route::post('joborder/duration', 'FrontController@duration');
 Auth::routes();
 
 /* Dashboard */
-Route::get('/dashboard', 'AdminController@index')->name('home');
+Route::get('/dashboard', 'AdminController@index');
 Route::get('/logout', 'AdminController@logout');
 
 /* Therapist */
@@ -73,3 +73,10 @@ Route::get('/sales-reports', 'ReportsController@sales_reports');
 Route::get('/payroll-reports', 'ReportsController@payroll_reports');
 Route::get('/weekly-commission-reports', 'ReportsController@weekly_commission_reports');
 Route::get('/expense-reports', 'ReportsController@expense_reports');
+
+/* Test */
+Route::get('home', 'HomeController@index');
+Route::get('home/index', 'HomeController@index');
+Route::get('home/printESCPOS', 'PrintESCPOSController@index');
+Route::get('PrintESCPOSController', 'PrintESCPOSController@printCommands');
+Route::any('WebClientPrintController', 'WebClientPrintController@processRequest');

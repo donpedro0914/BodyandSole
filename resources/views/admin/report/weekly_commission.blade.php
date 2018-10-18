@@ -45,13 +45,13 @@
                                     @foreach($commission as $c)
                                     <tr>
                                         <td>{{ $c->fullname }}</td>
-                                        <td class='text-center'>{{ $c->Thurs }}.00</td>
                                         <td class='text-center'>{{ $c->Fri }}.00</td>
                                         <td class='text-center'>{{ $c->Sat }}.00</td>
                                         <td class='text-center'>{{ $c->Sun }}.00</td>
                                         <td class='text-center'>{{ $c->Mon }}.00</td>
                                         <td class='text-center'>{{ $c->Tue }}.00</td>
                                         <td class='text-center'>{{ $c->Wed }}.00</td>
+                                        <td class='text-center'>{{ $c->Thurs }}.00</td>
                                         <td class='text-center'>
                                             @php
                                                 $day = '0';
