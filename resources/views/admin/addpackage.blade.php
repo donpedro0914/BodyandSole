@@ -20,6 +20,7 @@
                             <form class="form-horizontal" id="addPackageForm" action="{{ URL::to('packages/store') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="service" id="service" value=""/>
+                                <input type="hidden" name="labor" id="package_labor" value=""/>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Package Name</label>
                                     <div class="col-sm-8">
@@ -29,13 +30,17 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Services</label>
                                     <div class="col-sm-8">
-                                        <select id="package_services" class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
-                                            <option value="">--Select Service(s)--</option>
-                                            @foreach($service as $s)
-                                            <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <button type="button" id="package_servicec_btn" class="m-t-50 btn btn-primary" disabled="">Add Service(s)</button>
+                                        <div class="input-group">
+                                            <select id="package_services" class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
+                                                <option value="">--Select Service(s)--</option>
+                                                @foreach($service as $s)
+                                                <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button type="button" id="package_servicec_btn" class="btn btn-primary waves-effect waves-light" disabled="">Add Service(s)</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <label class="col-sm-4 col-form-label"></label>
                                     <div class="col-sm-8">
@@ -59,6 +64,7 @@
                                                 <tr>
                                                     <th></th>
                                                     <th class="text-right">Total</th>
+                                                    <th id="package_labor_total">₱ 0.00</th>
                                                     <th id="package_total">₱ 0.00</th>
                                                 </tr>
                                             </tfoot>

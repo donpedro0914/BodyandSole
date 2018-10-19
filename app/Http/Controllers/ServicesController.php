@@ -48,6 +48,7 @@ class ServicesController extends Controller
             'labor_s' => $request->input('labor_s'),
             'labor_p' => $request->input('labor_p'),
             'charge' => $request->input('charge'),
+            'status' => $request->input('status')
         );
 
         Services::where('id', $id)->update($data);

@@ -26,7 +26,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-bordered dataTable no-footer table-striped ajax-table-weekly-commission">
+                            <table id="commission" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
                                 <thead>
                                     <tr>
                                         <th class='text-center'>Therapist</th>
@@ -158,8 +158,18 @@
             });
         });
 
-        $('.ajax-table-weekly-commission').dataTable({
+        $('#commission').dataTable({
             paging: false,
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    header: true,
+                    footer: true,
+                    message: '<h3>Weekly Commission Report</h3><strong>For the period: {{ $startDate }} - {{ $endDate }}</strong>'
+                }
+            ],
             "footerCallback": function (row,data,start,end,display) {
                 var api = this.api(), data;
 

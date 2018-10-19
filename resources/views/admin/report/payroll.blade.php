@@ -127,6 +127,17 @@
         } );
         $('.ajax-table-payroll').dataTable({
             paging: false,
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    header: true,
+                    footer: true,
+                    message: '<h3>Payroll Report</h3><strong>For the period: {{ $startDate }} - {{ $endDate }}</strong>',
+                    messageBottom: null
+                }
+            ],
             "footerCallback": function (row,data,start,end,display) {
                 var api = this.api(), data;
 

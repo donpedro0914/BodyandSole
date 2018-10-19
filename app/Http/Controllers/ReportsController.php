@@ -33,6 +33,7 @@ class ReportsController extends Controller
                 select therapists.fullname, COALESCE(therapists.basic,0) as basic, COALESCE(therapists.allowance,0) as allowance, sum(COALESCE(job_orders.day0,0) + COALESCE(job_orders.day1,0) + COALESCE(job_orders.day2,0) + COALESCE(job_orders.day3,0) + COALESCE(job_orders.day4,0) + COALESCE(job_orders.day5,0) + COALESCE(job_orders.day6,0)) as total, sum(COALESCE(job_orders.day0,0)) as Fri, sum(COALESCE(job_orders.day1,0)) as Sat, sum(COALESCE(job_orders.day2,0)) as Sun, sum(COALESCE(job_orders.day3,0)) as Mon, sum(COALESCE(job_orders.day4,0)) as Tue, sum(COALESCE(job_orders.day5,0)) as Wed, sum(COALESCE(job_orders.day6,0)) as Thurs
                 from therapists
                 left join job_orders on therapists.id = job_orders.therapist_fullname
+                where 
                 group by therapists.fullname');
 
         return view('admin.report.payroll', compact('payroll'), ['startDate' => $startDate, 'endDate' => $endDate]);

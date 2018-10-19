@@ -26,15 +26,6 @@
 	                </span>
 	            </a>
 	        </li>
-            <li class="float-left">
-                <a class="button-menu-mobile open-left navbar-toggle">
-                    <div class="lines">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </a>
-            </li>
 		</ul>
 	</nav>
 </header>

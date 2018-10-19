@@ -40,6 +40,7 @@ class PackagesController extends Controller
             'package_name' => $request->input('package_name'),
             'services' => $request->input('service'),
             'price' => $request->input('price'),
+            'labor' => $request->input('labor'),
             'status' => 'Active'
         );
 

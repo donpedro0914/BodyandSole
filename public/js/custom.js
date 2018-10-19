@@ -65,6 +65,8 @@ $(document).ready(function() {
 			url: baseurl + 'package/getpackagedetails',
 			data:{'id':package_id},
 			success: function(data) {
+				$('#commission').empty();
+				$('#commission').val(data['labor']);
 				$('#price').empty();
 				$('#price').val(data['price']);
 			}
@@ -75,18 +77,19 @@ $(document).ready(function() {
 
 		var package_services = $(this).val();
 
-		if(package_services != '') {
+		if(package_services) {
 
 		$('#package_servicec_btn_front').removeAttr('disabled');
 
 		} else {
 
-		$('#package_servicec_btn_front').attr('disabled');
+		$('#package_servicec_btn_front').attr('disabled', 'disabled');
 		$('#package_inclusion tbody').empty();
 		$('#package_labor_total').empty();
 		$('#package_labor_total').html('₱0.00');
 		$('#package_total').empty();
 		$('#package_total').html('₱0.00');
+		$('#price').empty();
 
 		}
 
@@ -122,9 +125,11 @@ $(document).ready(function() {
 				}
 				$('#package_labor_total').empty();
 				$('#package_labor_total').html('₱'+labor+'.00');
+				$('#commission').empty();
 				$('#commission').val(labor);
 				$('#package_total').empty();
 				$('#package_total').html('₱'+total+'.00');
+				$('#price').empty();
 				$('#price').val(total)
 			}
 		});
@@ -779,10 +784,16 @@ $(document).ready(function() {
 			success: function(data) {
 				$('#package_inclusion tbody').empty();
 				var total = 0;
+				var labor = 0;
 				for(var i=0; i<data.length;i++){
-					$('#package_inclusion tbody').append('<tr><td>'+data[i].id+'</td><td>'+data[i].service_name+'</td><td>'+data[i].labor_s+'</td><td>'+data[i].charge+'</td></tr>');
+					$('#package_inclusion tbody').append('<tr><td>'+data[i].id+'</td><td>'+data[i].service_name+'</td><td>'+data[i].labor_p+'</td><td>'+data[i].charge+'</td></tr>');
 					total += Number(data[i].charge);
+					labor += Number(data[i].labor_p);
 				}
+				$('#package_labor_total').empty();
+				$('#package_labor_total').html('₱'+labor+'.00');
+				$('#package_labor').empty();
+				$('#package_labor').val(labor);
 				$('#package_total').empty();
 				$('#package_total').html('₱'+total+'.00');
 			}
@@ -813,6 +824,7 @@ $(document).ready(function() {
 			success:function(data) {
 				$('#addPackageFormBtn').html('Add Package').removeAttr("disabled");
 				$('#addPackageForm')[0].reset();
+				window.location.href = '/packages';
 			},
 			error: function(xhr, status, error) {
 				console.log(xhr);
