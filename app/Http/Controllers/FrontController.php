@@ -15,12 +15,14 @@ class FrontController extends Controller
 {
     public function index() {
 
-    	$now = Carbon::now();
-        $start = $now->startOfWeek(Carbon::FRIDAY);
-        $end = $now->endOfWeek(Carbon::THURSDAY);
-        $currentDay = $now->dayOfWeekIso;
-        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
-        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+    	$now = Carbon::now()->format('Y-m-d');
+        $en = Carbon::parse($now);
+        $start = $en->startOfWeek(Carbon::FRIDAY);
+        $end = $en->endOfWeek(Carbon::THURSDAY);
+        $currentDay = Carbon::now();
+        $day = $currentDay->dayOfWeekIso;
+        $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
     	$therapists = DB::select('select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders where status ="Active")
             union
@@ -34,7 +36,7 @@ class FrontController extends Controller
         $service = Services::where('status', 'Active')->get();
         $packages = Packages::where('status', 'Active')->get();
         $jobOrderCount = JobOrder::count();
-        return view('home', compact('rooms', 'therapists', 'day', 'service', 'packages'), ['jobOrderCount' => $jobOrderCount, 'currentDay' => $currentDay]);
+        return view('home', compact('rooms', 'therapists', 'day', 'service', 'packages'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
     public function getpackagedetails(Request $request) {

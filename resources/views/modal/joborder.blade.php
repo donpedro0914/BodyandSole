@@ -14,7 +14,7 @@
 					@endphp
 					<input type="hidden" name="job_order" value="{!! date('y') !!}-{!! $jobOrderCount !!}"/>
 					<input type="hidden" name="room_no" id="room_no_form" value="" />
-					<input type="hidden" name="day" id="day" value="day{{ $currentDay }}" />
+					<input type="hidden" name="day" id="day" value="day{{ $day }}" />
 					<input type="hidden" name="commmission" id="commission" value="" />
 					<div class="form-row">
 						<div class="form-group row col-md-12 col-xs-12">

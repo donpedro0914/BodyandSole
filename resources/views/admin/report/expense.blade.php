@@ -10,9 +10,9 @@
                     <ol class="breadcrumb float-right">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Body and Sole</a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Reports</a></li>
-                        <li class="breadcrumb-item active">Payroll Report</li>
+                        <li class="breadcrumb-item active">Expense Report</li>
                     </ol>
-                    <h4 class="page-title">Payroll Report</h4>
+                    <h4 class="page-title">Expense Report</h4>
     			</div>
                 <div class="row">
                     <div class="col-12">
@@ -49,7 +49,7 @@
                                         <td>{{ $e->lodging }}.00</td>
                                         <td>{{ $e->others }}.00</td>
                                         <td>{{ $e->sss + $e->phealth + $e->hdf + $e->lodging + $e->others }}.00</td>
-                                        <td>{{ $e->total + $e->allowance - $e->sss - $e->phealth - $e->hdf-+ $e->lodging - $e->others }}.00</td>
+                                        <td>{{ $e->basic + $e->total + $e->allowance - $e->sss - $e->phealth - $e->hdf-+ $e->lodging - $e->others }}.00</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
