@@ -30,6 +30,14 @@ $(document).ready(function() {
 		    + '<span>%H</span> hr '
 		    + '<span>%M</span> min '
 		    + '<span>%S</span> sec'));
+		}).on('finish.countdown', function() {
+			swal(
+                {
+                    title: 'Done!',
+                    text: 'Room #: '+$('#countdown').attr('data-room')+' is done!',
+                    type: 'warning'
+                }
+            );
 		})
 	});
 
@@ -297,6 +305,15 @@ $(document).ready(function() {
 		});
 
 	});
+
+	$('#senior').on('change', function() {
+		senior = $(this).val();
+		if(senior == 'Yes') {
+			$('#price').removeAttr('readonly');
+		} else {
+			$('#price').attr('readonly');
+		}
+	})
 
 	//Therapist
 	$('#therapistForm').on('submit', function(e) {

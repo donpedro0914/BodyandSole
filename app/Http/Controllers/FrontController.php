@@ -20,7 +20,7 @@ class FrontController extends Controller
         $start = $en->startOfWeek(Carbon::FRIDAY);
         $end = $en->endOfWeek(Carbon::THURSDAY);
         $currentDay = Carbon::now();
-        $day = $currentDay->dayOfWeekIso;
+        $day = $currentDay->dayOfWeek;
         $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
@@ -58,7 +58,8 @@ class FrontController extends Controller
     	$data = array(
     		'job_order' => $request->input('job_order'),
     		'room_no_form' => $request->input('room_no'),
-    		'client_fullname' => $request->input('client_fullname'),
+            'client_fullname' => $request->input('client_fullname'),
+    		'senior' => $request->input('senior'),
     		'therapist_fullname' => $request->input('therapist_fullname'),
     		'category' => $request->input('category'),
     		'service' => $request->input('service'),

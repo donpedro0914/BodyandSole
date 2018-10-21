@@ -26,7 +26,7 @@
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Client</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" name="client_fullname" placeholder="Enter client name.." required="" />
+								<input type="text" class="form-control" name="client_fullname" placeholder="Enter client name.." required="required" />
 							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
@@ -127,6 +127,15 @@
                                     <label class="custom-control-label" for="customRadio5">Care of</label>
                                 </div>
                                 <input type="text" class="form-control" id="careof" name="care_of" placeholder="Enter name.." style="display:none;"/>
+							</div>
+						</div>
+						<div class="form-group row col-md-12 col-xs-12">
+							<label class="col-sm-4 col-form-label">Senior</label>
+							<div class="col-sm-8">
+								<select id="senior" class="form-control select2 select2-selection__rendered" name="senior" required="">
+									<option value="No">No</option>
+									<option value="Yes">Yes</option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">

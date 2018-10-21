@@ -12,6 +12,7 @@
 	                </span>
 	            </a>
 	        </li>
+			<li><a>Clients</a></li>
 			</ul>
 		</div>
 	</nav>

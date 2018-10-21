@@ -9,18 +9,14 @@
 
     <title>{{ config('app.name', 'Body and Sole') }}</title>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
     <!-- Styles -->
     <link href="{{ asset('css/front/app.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/front/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/materialdesignicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/webfont.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/simple-line-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/front/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
 </head>

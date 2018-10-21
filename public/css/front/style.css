@@ -7,3 +7,7 @@
 	font-size: 20px;
 	width: 100%;
 }
+.style_occupied {
+	background: #f34943 !important;
+	color: #fff !important;
+}
