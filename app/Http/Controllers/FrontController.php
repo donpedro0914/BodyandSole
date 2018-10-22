@@ -7,6 +7,7 @@ use App\Therapist;
 use App\Services;
 use App\Packages;
 use App\JobOrder;
+use App\Giftcertificate;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -29,14 +30,19 @@ class FrontController extends Controller
             select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders)');
 
         $rooms = DB::select('
-            select rooms.status as roomstatus, rooms.room_name as roomname, rooms.id as roomid, a.*, b.fullname as therapistname from rooms
-            left join (select * from job_orders where job_orders.status="Active") as a on rooms.id = a.room_no_form
-            left join (select * from therapists) as b on a.therapist_fullname = b.id order by rooms.id asc');
+            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, b.fullname as therapistname from rooms_lounges
+            left join (select * from job_orders where job_orders.status="Active") as a on rooms_lounges.id = a.room_no_form
+            left join (select * from therapists) as b on a.therapist_fullname = b.id where rooms_lounges.type ="room" order by rooms_lounges.id asc');
+
+        $lounge = DB::select('
+            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, b.fullname as therapistname from rooms_lounges
+            left join (select * from job_orders where job_orders.status="Active") as a on rooms_lounges.id = a.room_no_form
+            left join (select * from therapists) as b on a.therapist_fullname = b.id where rooms_lounges.type ="lounge" order by rooms_lounges.id asc');
 
         $service = Services::where('status', 'Active')->get();
         $packages = Packages::where('status', 'Active')->get();
         $jobOrderCount = JobOrder::count();
-        return view('home', compact('rooms', 'therapists', 'day', 'service', 'packages'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
+        return view('home', compact('rooms', 'lounge', 'therapists', 'day', 'service', 'packages'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
     public function getpackagedetails(Request $request) {
@@ -111,5 +117,23 @@ class FrontController extends Controller
         $jobOrderDuration = JobOrder::where('job_order', request('job_order'))->first();
 
         return response()->json($jobOrderDuration);
+    }
+
+    public function checker(Request $request) {
+        $checkgc = Giftcertificate::where('gc_no', request('gc_no'))->first();
+
+        if($checkgc) {
+            return response()->json($checkgc);
+        }        
+    }
+
+    public function checkavailable() {
+        $joborder = request('job_order');
+        $rooms = DB::select('
+            select rooms_lounges.status, rooms_lounges.name, rooms_lounges.id, a.*, b.fullname as therapistname from rooms_lounges
+            left join (select * from job_orders where job_orders.status="Active") as a on rooms_lounges.id = a.room_no_form
+            left join (select * from therapists) as b on a.therapist_fullname = b.id order by rooms_lounges.id asc');
+
+        return response()->json($rooms);
     }
 }

@@ -56,12 +56,4 @@ class GiftcertificateController extends Controller
 
 
     }
-
-    public function checker(Request $request) {
-        $checkgc = Giftcertificate::where('gc_no', request('gc_no'))->first();
-
-        if($checkgc) {
-            return response()->json($checkgc);
-        }        
-    }
 }

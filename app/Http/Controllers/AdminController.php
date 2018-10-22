@@ -62,7 +62,8 @@ class AdminController extends Controller
 
     public function add_room(Request $request) {
         $data = array(
-            'room_name' => $request->input('room_name'),
+            'name' => $request->input('name'),
+            'type' => $request->input('type'),
             'status' => 'Available'
         );
 

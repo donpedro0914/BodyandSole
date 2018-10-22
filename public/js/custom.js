@@ -306,12 +306,50 @@ $(document).ready(function() {
 
 	});
 
+	$('#transfer').on('click', function() {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		var joborder = $(this).attr('data-id');
+
+		swal({
+			title: 'Are you sure?',
+			text: 'You want to transfer Job Order #' + joborder + '?',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes!'
+		}).then((result) => {
+			$.ajax({
+				type: 'POST',
+				url: baseurl + 'joborder/checkavailable',
+				success: function(data) {
+					alert(data['name']);
+					var inputOptionsPromise = "";
+					swal({
+						title: 'Where?',
+						type: 'warning',
+						input: 'select',
+						inputOptions: {
+							'1':'Room1'
+						}
+					})
+				}
+			});
+		});
+	});
+
 	$('#senior').on('change', function() {
 		senior = $(this).val();
 		if(senior == 'Yes') {
 			$('#price').removeAttr('readonly');
 		} else {
-			$('#price').attr('readonly');
+			$('#price').attr('readonly', 'readonly');
 		}
 	})
 
@@ -693,7 +731,7 @@ $(document).ready(function() {
 				swal(
 	                {
 	                    title: 'Done!',
-	                    text: data['room_name']+' room added!',
+	                    text: data['name']+' '+data['type']+' added!',
 	                    type: 'success',
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }
@@ -939,11 +977,13 @@ $(document).ready(function() {
 			$('#gc_no').hide();
 			$('.gc_checker').empty();
 			$('.gc_checker').html('Gift Cert');
+			$('#jobOrderFormBtn').removeAttr('disabled');
 		} else if(payment == 'Gift Cert') {
 			$('#gc_no').show();
 			$('#careof').hide();
 		} else {
 			$('#careof').hide();
+			$('#jobOrderFormBtn').removeAttr('disabled');
 			$('#gc_no').hide();
 			$('.gc_checker').empty();
 			$('.gc_checker').html('Gift Cert');

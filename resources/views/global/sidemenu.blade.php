@@ -52,7 +52,7 @@
 	                </a>
 	                <ul class="nav-second-level" aria-expanded="false">
 	                	<li><a href="/settings">General</a></li>
-	                	<li><a href="/rooms">Rooms</a></li>
+	                	<li><a href="/rooms-lounge">Rooms & Lounge</a></li>
 	                </ul>
 	            </li>
 			</ul>
