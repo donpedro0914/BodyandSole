@@ -25,6 +25,7 @@ Route::post('joborder/checkavailable', 'FrontController@checkavailable');
 /* Clients Front */
 Route::get('f_clients', 'FrontController@f_clients');
 Route::post('f_client/store', 'FrontController@f_client_store');
+Route::get('f_client/clientlist', 'FrontController@clientlist')->name('f_client.clientlist');
 
 /* GC Front */
 Route::get('f_gift-certificate', 'FrontController@f_gift_certificate');

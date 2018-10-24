@@ -15,7 +15,12 @@
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Purchased By</label>
-							<input type="text" class="form-control" name="purchased_by" placeholder="Enter name.."/>
+							<select name="purchased_by" class="form-control select2 select2-selection__rendered">
+								<option value="">--Select Client--</option>
+								@foreach($client as $c)
+								<option value="{{ $c->fullname }}">{{ $c->fullname }}</option>
+								@endforeach
+							</select>
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Service</label>

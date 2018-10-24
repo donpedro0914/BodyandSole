@@ -21,6 +21,9 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Contact #</th>
+                                        <th>Job Order</th>
+                                        <th>Therapist</th>
+                                        <th>Last Visit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -28,6 +31,9 @@
                                     <tr>
                                         <td>{{ $cl->fullname }}</td>
                                         <td>{{ $cl->phone }}</td>
+                                        <td>{{ $cl->job_order }}</td>
+                                        <td>{{ $cl->therafullname }}</td>
+                                        <td>{{ $cl->lastvisit }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -43,7 +49,23 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('.ajax-table-client').DataTable({
-            keys: true
+            responsive: {
+                details: {
+                    renderer: function (api, rowIdx, columns) {
+                        var data = $.map(columns, function(col, i) {
+                            return col.hidden ?
+                                '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+                                    '<td>'+col.title+':'+'</td> '+
+                                    '<td>'+col.data+'</td>'+
+                                '</tr>' :
+                                '';
+                        }).join('');
+                        return data ?
+                        $('<table/>').append( data ) :
+                        false;
+                    }
+                }
+            }
         });
     });
 </script>

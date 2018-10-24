@@ -26,7 +26,12 @@
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Client</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" name="client_fullname" placeholder="Enter client name.." required="required" />
+								<select name="client_fullname" class="form-control select2 select2-selection__rendered">
+									<option value="">--Select Client--</option>
+									@foreach($client as $c)
+									<option value="{{ $c->fullname }}">{{ $c->fullname }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">

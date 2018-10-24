@@ -11,6 +11,7 @@ use App\Clients;
 use App\Giftcertificate;
 use Carbon\Carbon;
 use DB;
+use DataTables;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -42,8 +43,9 @@ class FrontController extends Controller
 
         $service = Services::where('status', 'Active')->get();
         $packages = Packages::where('status', 'Active')->get();
+        $client = Clients::all();
         $jobOrderCount = JobOrder::count();
-        return view('home', compact('rooms', 'lounge', 'therapists', 'day', 'service', 'packages'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
+        return view('home', compact('rooms', 'lounge', 'therapists', 'day', 'service', 'packages', 'client'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
     public function getpackagedetails(Request $request) {
@@ -139,7 +141,11 @@ class FrontController extends Controller
     }
 
     public function f_clients() {
-        $client = Clients::all();
+        $client = Clients::select('clients.*', 'job_orders.job_order', 'job_orders.client_fullname', 'job_orders.therapist_fullname', 'therapists.id', 'therapists.fullname as therafullname', 'job_orders.created_at as lastvisit')
+                ->leftJoin('job_orders', 'clients.fullname', '=', 'job_orders.client_fullname')
+                ->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')
+                ->orderBy('job_orders.created_at', 'asc')
+                ->get();
 
         return view('clients', compact('client'));
     }
@@ -173,10 +179,10 @@ class FrontController extends Controller
                 select id, service_name
                 from services
             ) b on t.service = b.id');
-
+        $client = Clients::all();
         $services = Services::where('status', 'Active')->get();
 
-        return view('gc', compact('services', 'gc'));
+        return view('gc', compact('services', 'gc', 'client'));
     }
 
     public function f_gc_store(Request $request) {

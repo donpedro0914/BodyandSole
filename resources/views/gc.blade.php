@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#f_addgc" data-animation="blur" data-overlayspeed="100" data-overlaycolor="#36404a"><i class="mdi mdi-account-plus"></i> Add Gift Certificate</button>
+                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#f_addgc" data-animation="blur" data-overlayspeed="100" data-overlaycolor="#36404a">Add Gift Certificate</button>
                             @include('modal.f_gc')
                         </div>
                     </div>
