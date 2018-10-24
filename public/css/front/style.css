@@ -11,3 +11,6 @@
 	background: #f34943 !important;
 	color: #fff !important;
 }
+.front_nav li {
+	margin: 0 10px;
+}

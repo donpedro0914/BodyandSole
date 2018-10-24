@@ -15,13 +15,13 @@ class CreateGiftcertificatesTable extends Migration
     {
         Schema::create('giftcertificates', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('gc_no')->nulalble();
-            $table->string('purchased_by')->nulalble();
-            $table->string('service')->nulalble();
-            $table->string('value')->nulalble();
-            $table->string('use')->nulalble();
-            $table->string('date_issued')->nulalble();
-            $table->string('expiry_date')->nulalble();
+            $table->string('gc_no')->nullable();
+            $table->string('purchased_by')->nullable();
+            $table->string('service')->nullable();
+            $table->string('value')->nullable();
+            $table->string('use')->nullable();
+            $table->string('date_issued')->nullable();
+            $table->string('expiry_date')->nullable();
             $table->timestamps();
         });
     }

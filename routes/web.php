@@ -22,6 +22,14 @@ Route::post('joborder/cancelupdate', 'FrontController@cancelupdate');
 Route::post('joborder/duration', 'FrontController@duration');
 Route::post('joborder/checkavailable', 'FrontController@checkavailable');
 
+/* Clients Front */
+Route::get('f_clients', 'FrontController@f_clients');
+Route::post('f_client/store', 'FrontController@f_client_store');
+
+/* GC Front */
+Route::get('f_gift-certificate', 'FrontController@f_gift_certificate');
+Route::post('f_gc/store', 'FrontController@f_gc_store');
+
 Auth::routes();
 
 /* Dashboard */
@@ -74,6 +82,7 @@ Route::get('/sales-reports', 'ReportsController@sales_reports');
 Route::get('/payroll-reports', 'ReportsController@payroll_reports');
 Route::get('/weekly-commission-reports', 'ReportsController@weekly_commission_reports');
 Route::get('/expense-reports', 'ReportsController@expense_reports');
+Route::get('weekly-commission-reports/therapist/{id}', 'ReportsController@therapist_detailed_report');
 
 /* Test */
 Route::get('home', 'HomeController@index');

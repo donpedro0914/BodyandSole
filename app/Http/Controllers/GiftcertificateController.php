@@ -18,9 +18,6 @@ class GiftcertificateController extends Controller
 
     public function index()
     {
-        // $gc = Giftcertificate::select('giftcertificates.*', 'services.service_name', 'giftcertificates.gc')
-        // ->leftJoin('services', 'services.id', '=', 'giftcertificates.service')
-        // ->get();
 
         $gc = DB::select('select t.*, COALESCE(a.gcount,0) gcounts, service_name
             from giftcertificates t
@@ -53,7 +50,6 @@ class GiftcertificateController extends Controller
         $gcAdd = Giftcertificate::create($data);
         $gc = Giftcertificate::where('id', $gcAdd->id)->first();
         return response()->json($gc);
-
 
     }
 }

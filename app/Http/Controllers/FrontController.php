@@ -7,6 +7,7 @@ use App\Therapist;
 use App\Services;
 use App\Packages;
 use App\JobOrder;
+use App\Clients;
 use App\Giftcertificate;
 use Carbon\Carbon;
 use DB;
@@ -135,5 +136,63 @@ class FrontController extends Controller
             left join (select * from therapists) as b on a.therapist_fullname = b.id order by rooms_lounges.id asc');
 
         return response()->json($rooms);
+    }
+
+    public function f_clients() {
+        $client = Clients::all();
+
+        return view('clients', compact('client'));
+    }
+
+    public function f_client_store(Request $request)
+    {
+        $data = array(
+            'fullname' => $request->input('fullname'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'dob' => $request->input('dob'),
+            'occupation' => $request->input('occupation'),
+            'sc_id' => $request->input('sc_id')
+        );
+
+        $client = Clients::create($data);
+
+        return response()->json($client);
+    }
+
+    public function f_gift_certificate() {
+        $gc = DB::select('select t.*, COALESCE(a.gcount,0) gcounts, service_name
+            from giftcertificates t
+            left join (
+                select gcno, status, count(*) gcount
+                from job_orders
+                WHERE status = "Done"
+                group by gcno
+            ) a on t.gc_no = a.gcno
+            left join (
+                select id, service_name
+                from services
+            ) b on t.service = b.id');
+
+        $services = Services::where('status', 'Active')->get();
+
+        return view('gc', compact('services', 'gc'));
+    }
+
+    public function f_gc_store(Request $request) {
+        $data = array(
+            'gc_no' => $request->input('gc_no'),
+            'purchased_by' => $request->input('purchased_by'),
+            'service' => $request->input('service'),
+            'value' => $request->input('value'),
+            'use' => $request->input('use'),
+            'date_issued' => $request->input('date_issued'),
+            'expiry_date' => $request->input('expiry_date'),
+            'status' => 'Active'
+        );
+
+        $gcAdd = Giftcertificate::create($data);
+        $gc = Giftcertificate::where('id', $gcAdd->id)->first();
+        return response()->json($gc);
     }
 }

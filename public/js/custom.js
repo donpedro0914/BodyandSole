@@ -22,6 +22,102 @@ $(document).ready(function() {
 
     $(".select2").select2();
 
+    // Front End
+	//Add Client
+	$('#f_clientsForm').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#f_clientsForm')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend:function() {
+				$('#f_clientsFormBtn').html('<img src="../img/ajax-loader.gif">').attr("disabled","disabled");
+			},
+			success:function(data) {
+				$('#f_clientsFormBtn').html('Add Client').removeAttr("disabled");
+				$('#addf_client').modal('hide');
+				$('#f_clientsForm')[0].reset();
+				swal(
+	                {
+	                    title: 'Done!',
+	                    text: 'Client added!',
+	                    type: 'success',
+	                    confirmButtonClass: 'btn btn-confirm mt-2'
+	                }
+	            );
+				location.reload();
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+
+	});
+	//GC
+	$('#f_gcForm').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#f_gcForm')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend:function() {
+				$('#f_gcFormBtn').html('<img src="/img/ajax-loader.gif">').attr("disabled","disabled");
+			},
+			success:function(data) {
+				$('#f_gcFormBtn').html('Add Gift Certificate').removeAttr("disabled");
+				$('#f_addgc').modal('hide');
+				$('#f_gcForm')[0].reset();
+				swal(
+	                {
+	                    title: 'Done!',
+	                    text: 'GC no #'+data['room_name']+' added!',
+	                    type: 'success',
+	                    confirmButtonClass: 'btn btn-confirm mt-2'
+	                }
+	            );
+				location.reload();
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+
+	});
+
 	//Add Job Order
 	$('[data-timer]').each(function() {
 		var $this = $(this), finalDuration = $(this).data('timer');
