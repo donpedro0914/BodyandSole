@@ -42,6 +42,7 @@ Route::get('/therapist', 'TherapistController@index');
 Route::post('therapist/store', 'TherapistController@store');
 Route::get('therapist/edit/{id}', 'TherapistController@edit');
 Route::post('therapist/update/{id}', 'TherapistController@update');
+Route::delete('therapist/delete/{id}', 'TherapistController@delete');
 
 /* Settings */
 Route::get('settings', 'AdminController@settings');
@@ -52,18 +53,21 @@ Route::get('clients', 'ClientsController@index');
 Route::post('client/store', 'ClientsController@store');
 Route::get('client/edit/{id}', 'ClientsController@edit');
 Route::post('client/update/{id}', 'ClientsController@update');
+Route::delete('client/delete/{id}', 'ClientsController@delete');
 
 /* Services */
 Route::get('services', 'ServicesController@index');
 Route::post('services/store', 'ServicesController@store');
 Route::get('services/edit/{id}', 'ServicesController@edit');
 Route::post('services/update/{id}', 'ServicesController@update');
+Route::delete('services/delete/{id}', 'ServicesController@delete');
 
 /* Packages */
 Route::get('packages', 'PackagesController@index');
 Route::get('/packages/add', 'PackagesController@add_page');
 Route::post('package/ajaxService', 'PackagesController@ajaxService');
 Route::post('packages/store', 'PackagesController@store');
+Route::delete('packages/delete/{id}', 'PackagesController@delete');
 
 /* Rooms */
 Route::get('/rooms-lounge', 'AdminController@rooms_view');
@@ -74,6 +78,7 @@ Route::post('rooms/update/{id}', 'AdminController@update_room');
 /* Gift Certificate */
 Route::get('gift-certificate', 'GiftcertificateController@index');
 Route::post('gc/store', 'GiftcertificateController@store');
+Route::delete('gc/delete/{id}', 'GiftcertificateController@delete');
 
 /* Job order */
 Route::get('/job-order', 'JobOrderController@index');

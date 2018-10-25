@@ -1,0 +1,13 @@
+.room:hover {
+	cursor: pointer;
+}
+#countdown, #show_timer {
+	font-weight: 500;
+	text-align: center;
+	font-size: 20px;
+	width: 100%;
+}
+.style_occupied {
+	background: #f34943 !important;
+	color: #fff !important;
+}

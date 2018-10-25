@@ -7,9 +7,11 @@ use DB;
 use App\Settings;
 use App\Rooms;
 use App\JobOrder;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -37,21 +39,44 @@ class AdminController extends Controller
 
     public function settings() {
 
-        $settings = DB::table('settings')->first();
+        $settings = DB::table('users')->first();
 
         return view('admin.settings', compact('settings'));
     }
 
     public function save_settings($id, Request $request) {
-        $data = array(
-            'title' => $request->input('system_title')
-        );
 
-        Settings::where('id', $id)->update($data);
+        if(empty($request->input('password'))) {
 
-        $settings = Settings::where('id', $id)->first();
+            $data = array(
+                'title' => $request->input('system_title'),
+                'email' => $request->input('email')
+            );
 
-        return response()->json($settings);
+            User::where('id', $id)->update($data);
+
+            $settings = User::where('id', $id)->first();
+
+            return response()->json($settings);
+
+        } else {
+
+            $data = array(
+                'title' => $request->input('system_title'),
+                'email' => $request->input('email'),
+                'adminpass' => $request->input('password'),
+                'password' => Hash::make($request->input('password'))
+            );
+
+            User::where('id', $id)->update($data);
+
+            Auth::logout();
+
+            return redirect('/login');
+
+        }
+
+        
     }
 
     public function rooms_view() {

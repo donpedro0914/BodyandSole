@@ -4,6 +4,7 @@
 			<ul class="list-unstyled topbar-right-menu float-right mb-0 front_nav">
 				<li><a href="/f_clients" class="nav-link">Clients</a></li>
 				<li><a href="/f_gift-certificate" class="nav-link">Gift Certificates</a></li>
+				<li><a class="nav-link">Petty Expenses</a></li>
 				<li><a class="nav-link">Payroll Report</a></li>
 			</ul>
 			<ul class="list-inline menu-left mb-0">

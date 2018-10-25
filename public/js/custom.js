@@ -687,7 +687,15 @@ $(document).ready(function() {
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }
 	            );
-	            $('#system_title').val(data['title']);	            
+
+	            if($('#password_input').val() == '') {
+
+
+	            	$('#system_title').val(data['title']);	
+
+	            } else {
+	            	location.reload();
+	            }            
 			},
 			error: function(xhr, status, error) {
 				console.log(xhr);
@@ -1127,5 +1135,63 @@ $(document).ready(function() {
 		checkgc(gc);
 	});
 
+	//Delete Function
+	$('.btn-delete').on('click', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var job_order = $(this).attr('data-id');
+
+		swal({
+			title: 'Are you sure?',
+			text: 'You will not be able to recover this information!',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes!'
+		}).then((result) => {
+		if (result.value) {
+
+			var id = $(e.currentTarget).attr('id');
+			var module = $(e.currentTarget).attr('data-module');
+			var name = $(e.currentTarget).attr('data-name');
+
+			if(module == 'services') {
+				var url = document.location.origin + "/services/delete/" + id;
+				var datatable = "ajax-table-service";
+			} else if(module == 'packages') {
+				var url = document.location.origin + "/packages/delete/" + id;
+				var datatable = "ajax-table-packages";
+			} else if(module == 'therapist') {
+				var url = document.location.origin + "/therapist/delete/" + id;
+				var datatable = "ajax-table-therapist";
+			} else if(module == 'client') {
+				var url = document.location.origin + "/client/delete/" + id;
+				var datatable = "ajax-table-client";
+			} else if(module == 'gc') {
+				var url = document.location.origin + "/gc/delete/" + id;
+				var datatable = "ajax-table-gc";
+			}
+
+			var data = "id="+id;
+			$.ajax({
+				type: "DELETE",
+				url: url,
+				data: data,
+				success: function(data) {
+					$('.' + datatable).DataTable().row($(e.currentTarget).parents('tr')).remove().draw(false);
+				}
+			});
+
+			swal('Deleted!', name + ' has been deleted', 'success');
+		}
+		});
+	});
 
 });

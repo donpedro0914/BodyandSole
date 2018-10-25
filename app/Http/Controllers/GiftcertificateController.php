@@ -52,4 +52,12 @@ class GiftcertificateController extends Controller
         return response()->json($gc);
 
     }
+
+    public function delete($id)
+    {
+        $gc = Giftcertificate::find($id)->delete();
+
+        return response()->json($gc);
+
+    }
 }

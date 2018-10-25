@@ -53,7 +53,7 @@
                                         </td>
                                         <td class="text-center">
                                             <a href="/gc/edit/{{ $g->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
+                                            <a data-module="gc" id="{{ $g->id }}" data-name="{{ $g->gc_no }}" class="btn btn-xs btn-default btn-delete"><i class="mdi mdi-delete"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach

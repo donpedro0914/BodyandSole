@@ -60,4 +60,12 @@ class ClientsController extends Controller
         return response()->json($updateClient);
         
     }
+
+    public function delete($id)
+    {
+        $client = Clients::find($id)->delete();
+
+        return response()->json($client);
+
+    }
 }

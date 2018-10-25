@@ -57,4 +57,12 @@ class ServicesController extends Controller
         return response()->json($updateService);
     }
 
+    public function delete($id)
+    {
+        $services = Services::find($id)->delete();
+
+        return response()->json($services);
+
+    }
+
 }

@@ -80,4 +80,12 @@ class TherapistController extends Controller
         $updateTherapist = Therapist::where('id', $id)->first();
         return response()->json($updateTherapist);
     }
+
+    public function delete($id)
+    {
+        $therapist = Therapist::find($id)->delete();
+
+        return response()->json($therapist);
+
+    }
 }

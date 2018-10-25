@@ -18,7 +18,7 @@
                                     @csrf
                                     <div class="form-group mb-3">
                                         <label for="emailaddress" class="font-weight-medium">Email address</label>
-                                        <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" type="email" id="emailaddress" required="" placeholder="Enter your email">
+                                        <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" type="text" id="emailaddress" required="" placeholder="Enter your email">
                                         @if ($errors->has('email'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('email') }}</strong>

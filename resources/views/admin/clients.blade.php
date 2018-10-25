@@ -39,7 +39,7 @@
                                         <td>{{ $cl->phone }}</td>
                                         <td class="text-center">
                                             <a href="/client/edit/{{ $cl->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
+                                            <a data-module="client" id="{{ $cl->id }}" data-name="{{ $cl->fullname }}" class="btn btn-xs btn-default btn-delete"><i class="mdi mdi-delete"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach

@@ -24,6 +24,27 @@
                                         <input type="text" class="form-control" name="system_title" id="system_title" value="{{ $settings->title }}"/>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Username</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="username" id="username" value="{{ $settings->username }}" readonly="" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Email</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="email" id="email" value="{{ $settings->email }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Password</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" class="form-control" name="password" id="password_input"/>
+                                        <span class="help-block">
+                                            <small>Enter new password</small>
+                                        </span>
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-12 col-xs-12">
                                 <div class="clearfix text-right mt-3">
                                     <button type="submit" id="settingsFormBtn" class="btn btn-success">

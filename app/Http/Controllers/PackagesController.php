@@ -48,4 +48,12 @@ class PackagesController extends Controller
         return back();
 
     }
+
+    public function delete($id)
+    {
+        $package = Packages::find($id)->delete();
+
+        return response()->json($package);
+
+    }
 }

@@ -51,7 +51,7 @@
                                         </td>
                                         <td class="text-center">
                                             <a href="/services/edit/{{ $s->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
+                                            <a data-module="services" id="{{ $s->id }}" data-name="{{ $s->service_name }}" class="btn btn-xs btn-default btn-delete"><i class="mdi mdi-delete"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach

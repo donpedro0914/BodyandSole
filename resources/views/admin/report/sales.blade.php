@@ -17,13 +17,6 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <a href="/packages/add"><button type="button" class="btn btn-primary waves-effect waves-light" data-animation="blur" data-overlayspeed="100" data-overlaycolor="#36404a"> Add Package</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card-box">
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-sales">
                                 <thead>
                                     <tr>

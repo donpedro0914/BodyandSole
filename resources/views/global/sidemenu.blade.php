@@ -41,7 +41,6 @@
 	            	</a>
 	            	<ul class="nav-second-level" aria-expanded="false">
 	            		<li><a href="/sales-reports">Sales Reports</a></li>
-	            		<li><a href="#">Therapist Reports</a></li>
 	            		<li><a href="/expense-reports">Petty Expense Reports</a></li>
 	            		<li><a href="/payroll-reports">Payroll Reports</a></li>
 	            		<li><a href="/weekly-commission-reports">Weekly Commission Reports</a></li>

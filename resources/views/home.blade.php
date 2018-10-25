@@ -13,17 +13,25 @@
                                 <h2 class="text-center">Rooms</h2>
                             </div>
                         @foreach($rooms as $r)
-                            <div class="col-xl-3">
                                 @if($r->status == 'Active')
                                     @php
+                                        $drag = "draggable=true";
+                                        $ondragstart = "ondragstart=dragStart(event)";
                                         $room = "style_occupied";
+                                        $dragclass = "";
+                                        $dragcontainer = "";
                                     @endphp
                                 @else
                                     @php
+                                        $drag = "";
+                                        $dragclass = "droptarget";
+                                        $ondragstart = "";
                                         $room = "room";
+                                        $dragcontainer = "ondrop=drop(event) ondragover=allowDrop(event)";
                                     @endphp
                                 @endif
-                                <div class="card-box ribbon-box {{ $room }}">
+                                <div class="col-xl-3 {{ $dragclass }}" {{ $dragcontainer }}>
+                                <div class="card-box {{ $room }}" {{ $drag }} {{ $ondragstart }}>
                                     @if($r->status == 'Active')
                                         <p class="header-title float-left">{{ $r->roomname}}</p>
                                         <div class="float-right">
@@ -80,17 +88,23 @@
                                 <h2 class="text-center">Lounges</h2>
                             </div>
                         @foreach($lounge as $r)
-                            <div class="col-xl-3">
                                 @if($r->status == 'Active')
                                     @php
+                                        $drag = "draggable=true";
+                                        $ondragstart = "ondragstart=dragStart(event)";
                                         $room = "style_occupied";
+                                        $dragclass = "";
                                     @endphp
                                 @else
                                     @php
+                                        $drag = "";
+                                        $dragclass = "droptarget";
+                                        $ondragstart = "";
                                         $room = "room";
                                     @endphp
                                 @endif
-                                <div class="card-box ribbon-box {{ $room }}">
+                                <div class="col-xl-3 {{ $dragclass }}">
+                                    <div class="card-box {{ $room }}" {{ $drag }} {{ $ondragstart }}>
                                     @if($r->status == 'Active')
                                         <p class="header-title float-left">{{ $r->roomname}}</p>
                                         <div class="float-right">
@@ -146,3 +160,9 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<script type="text/javascript">
+    function dragStart(event) {
+    }
+</script>
+@endpush
