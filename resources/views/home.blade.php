@@ -15,23 +15,24 @@
                         @foreach($rooms as $r)
                                 @if($r->status == 'Active')
                                     @php
-                                        $drag = "draggable=true";
-                                        $ondragstart = "ondragstart=dragStart(event)";
+                                        $drag = "draggable";
+                                        $ondragstart = "";
                                         $room = "style_occupied";
                                         $dragclass = "";
                                         $dragcontainer = "";
                                     @endphp
                                 @else
                                     @php
-                                        $drag = "";
+                                        $drag = "droppable";
                                         $dragclass = "droptarget";
                                         $ondragstart = "";
                                         $room = "room";
-                                        $dragcontainer = "ondrop=drop(event) ondragover=allowDrop(event)";
+                                        $dragcontainer = "";
                                     @endphp
                                 @endif
-                                <div class="col-xl-3 {{ $dragclass }}" {{ $dragcontainer }}>
-                                <div class="card-box {{ $room }}" {{ $drag }} {{ $ondragstart }}>
+                            <div class="col-xl-3 {{ $dragclass }}" {{ $dragcontainer }}>
+                                <div class="card-box {{ $room }}">
+                                    <div id="{{ $drag }}" class="{{ $room }}" {{ $ondragstart }}>
                                     @if($r->status == 'Active')
                                         <p class="header-title float-left">{{ $r->roomname}}</p>
                                         <div class="float-right">
@@ -63,20 +64,19 @@
                                                     }
                                                 @endphp
                                                 <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect btn-block waves-light" style="display:{{ $duration }}" type="button">Start</button>
-                                                <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="transfer" class="btn btn-xs btn-warning btn-block waves-effect waves-light" style="display:{{ $duration }}" type="button">Transfer</button>
                                                 @else
                                                 <div class="input-group">
                                                     <input type="text" class="col-sm-6 form-control" placeholder="H" readonly="" />
                                                     <input type="text" class="col-sm-6 form-control" placeholder="M" readonly="" />
                                                 </div>
                                                 <button class="btn btn-primary waves-effect waves-light btn-block" type="button" disabled>Start</button>
-                                                <button class="btn btn-xs btn-warning btn-block waves-effect waves-light" type="button" disabled>Transfer</button>
                                                 @endif
                                             </div>
                                             <div id="show_timer" style="display: none">
                                             </div>
                                         </div>
                                     </form>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -90,8 +90,8 @@
                         @foreach($lounge as $r)
                                 @if($r->status == 'Active')
                                     @php
-                                        $drag = "draggable=true";
-                                        $ondragstart = "ondragstart=dragStart(event)";
+                                        $drag = "";
+                                        $ondragstart = "";
                                         $room = "style_occupied";
                                         $dragclass = "";
                                     @endphp
@@ -136,14 +136,12 @@
                                                     }
                                                 @endphp
                                                 <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect btn-block waves-light" style="display:{{ $duration }}" type="button">Start</button>
-                                                <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="transfer" class="btn btn-xs btn-warning btn-block waves-effect waves-light" style="display:{{ $duration }}" type="button">Transfer</button>
                                                 @else
                                                 <div class="input-group">
                                                     <input type="text" class="col-sm-6 form-control" placeholder="H" readonly="" />
                                                     <input type="text" class="col-sm-6 form-control" placeholder="M" readonly="" />
                                                 </div>
                                                 <button class="btn btn-primary waves-effect waves-light btn-block" type="button" disabled>Start</button>
-                                                <button class="btn btn-xs btn-warning btn-block waves-effect waves-light" type="button" disabled>Transfer</button>
                                                 @endif
                                             </div>
                                             <div id="show_timer" style="display: none">
@@ -162,7 +160,16 @@
 @endsection
 @push('scripts')
 <script type="text/javascript">
-    function dragStart(event) {
-    }
+    $( function() {
+
+        $('#draggable').draggable({
+            revert: "invalid",
+            zIndex: 2500
+        });
+
+        $('#droppable').droppable({
+            accept: '#draggable'
+        });
+    });
 </script>
 @endpush
