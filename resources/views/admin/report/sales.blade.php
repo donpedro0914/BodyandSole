@@ -20,13 +20,23 @@
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-sales">
                                 <thead>
                                     <tr>
-                                        <th>Package Name</th>
+                                        <th>Category</th>
                                         <th>Price</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($job_orders as $j)
+                                    <tr>
+                                        <td>Job Order - {{ $j->job_order }}</td>
+                                        <td>{{ $j->price }}</td>
+                                    </tr>
+                                    @endforeach 
+                                    @foreach($gc as $g)
+                                    <tr>
+                                        <td>Gift Cert - {{ $g->gc_no }}</td>
+                                        <td>{{ $g->value }}</td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

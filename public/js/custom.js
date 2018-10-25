@@ -1081,16 +1081,22 @@ $(document).ready(function() {
 			$('#gc_no').hide();
 			$('.gc_checker').empty();
 			$('.gc_checker').html('Gift Cert');
+			$('#price').val('0');
 			$('#jobOrderFormBtn').removeAttr('disabled');
 		} else if(payment == 'Gift Cert') {
 			$('#gc_no').show();
 			$('#careof').hide();
+			$('#price').val('0');
 		} else {
 			$('#careof').hide();
 			$('#jobOrderFormBtn').removeAttr('disabled');
 			$('#gc_no').hide();
 			$('.gc_checker').empty();
 			$('.gc_checker').html('Gift Cert');
+			var price = $('#package_total').html();
+			var price = price.replace('₱', '');
+			var price = price.replace('.00', '');
+			$('#price').val(price);
 		}
 	});
 

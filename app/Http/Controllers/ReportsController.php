@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\JobOrder;
 use App\Therapist;
+use App\Giftcertificate;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -17,7 +18,9 @@ class ReportsController extends Controller
     }
 
     public function sales_reports() {
-        return view('admin.report.sales');
+        $gc = Giftcertificate::whereDate('created_at', Carbon::today())->get();
+        $job_orders = JobOrder::where('status', 'Done')->whereDate('created_at', Carbon::today())->get();
+        return view('admin.report.sales', compact('job_orders', 'gc'));
     }
 
     public function payroll_reports() {

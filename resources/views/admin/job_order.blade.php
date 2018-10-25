@@ -48,7 +48,15 @@
                                                 <td>{{ $j->client_fullname }}</td>
                                                 <td>{{ $j->therapistname }}</td>
                                                 <td>{{ $j->category }}</td>
-                                                <td>{{ $j->payment }}</td>
+                                                <td>
+                                                    @if($j->care_of)
+                                                    {{ $j->payment }} - {{ $j->care_of }}
+                                                    @elseif($j->gcno)
+                                                    {{ $j->payment }} - {{ $j->gcno }}
+                                                    @else
+                                                    {{ $j->payment }}
+                                                    @endif
+                                                </td>
                                                 <td class="text-center">
                                                     @if($j->status == 'Active')
                                                     <span class="badge badge-primary">Active</span>

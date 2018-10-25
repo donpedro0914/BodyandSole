@@ -17,8 +17,8 @@
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <div class="form-group mb-3">
-                                        <label for="emailaddress" class="font-weight-medium">Email address</label>
-                                        <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" type="text" id="emailaddress" required="" placeholder="Enter your email">
+                                        <label for="emailaddress" class="font-weight-medium">Username</label>
+                                        <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" type="text" id="emailaddress" required="" placeholder="Enter your username">
                                         @if ($errors->has('email'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('email') }}</strong>
@@ -28,20 +28,12 @@
                                     <div class="form-group mb-3">
                                         <label for="password" class="font-weight-medium">Password</label>
                                         <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" type="password" required="" id="password" placeholder="Enter your password">
-                                        <a href="auth-recoverpassword.html" class="text-muted float-right"><small>Forgot your password?</small></a>
+                                        <a href="#" class="text-muted float-right"><small>Forgot your password?</small></a>
                                         @if ($errors->has('password'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('password') }}</strong>
                                             </span>
                                         @endif
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <div class="checkbox checkbox-info">
-                                            <input id="remember" type="checkbox">
-                                            <label for="remember">
-                                                Remember me
-                                            </label>
-                                        </div>
                                     </div>
                                     <div class="form-group row text-center">
                                         <div class="col-12">

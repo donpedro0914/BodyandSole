@@ -73,7 +73,7 @@ class FrontController extends Controller
     		'category' => $request->input('category'),
     		'service' => $request->input('service'),
     		'payment' => $request->input('payment'),
-    		'careof' => $request->input('careof'),
+    		'care_of' => $request->input('care_of'),
             'gcno' => $request->input('gcno'),
     		'price' => $request->input('price'),
     		'status' => 'Active',
@@ -144,7 +144,8 @@ class FrontController extends Controller
         $client = Clients::select('clients.*', 'job_orders.job_order', 'job_orders.client_fullname', 'job_orders.therapist_fullname', 'therapists.id', 'therapists.fullname as therafullname', 'job_orders.created_at as lastvisit')
                 ->leftJoin('job_orders', 'clients.fullname', '=', 'job_orders.client_fullname')
                 ->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')
-                ->orderBy('job_orders.created_at', 'asc')
+                ->groupBy('therapists.id')
+                ->orderBy('job_orders.created_at', 'desc')
                 ->get();
 
         return view('clients', compact('client'));
@@ -200,5 +201,15 @@ class FrontController extends Controller
         $gcAdd = Giftcertificate::create($data);
         $gc = Giftcertificate::where('id', $gcAdd->id)->first();
         return response()->json($gc);
+    }
+
+    public function transfer(Request $request) {
+        $roomid = Rooms::where('name', request('room_no_form'))->first();
+        $data = array(
+            'room_no_form' => $roomid->id
+        );
+
+        $transfer = JobOrder::where('job_order', request('job_order'))->update($data);
+        return response()->json($transfer);
     }
 }

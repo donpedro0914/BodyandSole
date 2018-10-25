@@ -21,6 +21,7 @@ Route::post('joborder/update', 'FrontController@update');
 Route::post('joborder/cancelupdate', 'FrontController@cancelupdate');
 Route::post('joborder/duration', 'FrontController@duration');
 Route::post('joborder/checkavailable', 'FrontController@checkavailable');
+Route::post('joborder/transfer', 'FrontController@transfer');
 
 /* Clients Front */
 Route::get('f_clients', 'FrontController@f_clients');

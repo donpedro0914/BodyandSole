@@ -30,16 +30,15 @@
                                         $dragcontainer = "";
                                     @endphp
                                 @endif
-                            <div class="col-xl-3 {{ $dragclass }}" {{ $dragcontainer }}>
+                            <div class="col-xl-3 {{ $dragclass }}">
                                 <div class="card-box {{ $room }}">
-                                    <div id="{{ $drag }}" class="{{ $room }}" {{ $ondragstart }}>
+                                    <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                     @if($r->status == 'Active')
-                                        <p class="header-title float-left">{{ $r->roomname}}</p>
-                                        <div class="float-right">
-                                            <button type="button" class="btn btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
-                                        </div>
+                                        <p class="header-title">{{ $r->roomname}}</p>
+                                        <button type="button" class="btn btn-block btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
                                     @else
-                                    <p class="header-title float-left">{{ $r->roomname}}</p>
+                                    <p class="header-title">{{ $r->roomname}}</p>
+                                    <button type="button" class="btn btn-block btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}" disabled="">Done</button>
                                     @endif
                                     <div class="clearfix"></div>
                                     <form class="form-horizontal" id="room_id_{{ $r->roomid }}" data-room="{{ $r->roomid }}">
@@ -90,28 +89,30 @@
                         @foreach($lounge as $r)
                                 @if($r->status == 'Active')
                                     @php
-                                        $drag = "";
+                                        $drag = "draggable";
                                         $ondragstart = "";
                                         $room = "style_occupied";
                                         $dragclass = "";
+                                        $dragcontainer = "";
                                     @endphp
                                 @else
                                     @php
-                                        $drag = "";
+                                        $drag = "droppable";
                                         $dragclass = "droptarget";
                                         $ondragstart = "";
                                         $room = "room";
+                                        $dragcontainer = "";
                                     @endphp
                                 @endif
-                                <div class="col-xl-3 {{ $dragclass }}">
-                                    <div class="card-box {{ $room }}" {{ $drag }} {{ $ondragstart }}>
+                            <div class="col-xl-3 {{ $dragclass }}">
+                                <div class="card-box {{ $room }}">
+                                    <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                     @if($r->status == 'Active')
-                                        <p class="header-title float-left">{{ $r->roomname}}</p>
-                                        <div class="float-right">
-                                            <button type="button" class="btn btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
-                                        </div>
+                                        <p class="header-title">{{ $r->roomname}}</p>
+                                        <button type="button" class="btn btn-success btn-sm btn-block doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
                                     @else
-                                    <p class="header-title float-left">{{ $r->roomname}}</p>
+                                    <p class="header-title">{{ $r->roomname}}</p>
+                                        <button type="button" class="btn btn-success btn-sm btn-block doneJobOrder" data-id="{{ $r->job_order }}" disabled="">Done</button>
                                     @endif
                                     <div class="clearfix"></div>
                                     <form class="form-horizontal" id="room_id_{{ $r->roomid }}" data-room="{{ $r->roomid }}">
@@ -160,16 +161,62 @@
 @endsection
 @push('scripts')
 <script type="text/javascript">
+
+    var baseurl=window.location.protocol + "//" + window.location.host + "/";
+
     $( function() {
 
-        $('#draggable').draggable({
+        $('.draggable').draggable({
             revert: "invalid",
             zIndex: 2500
         });
 
-        $('#droppable').droppable({
-            accept: '#draggable'
+        $('.droppable').droppable({
+            accept: '.draggable',
+            drop: Drop
         });
     });
+
+    function Drop(event, ui) {
+        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        var joborder = ui.draggable.attr("id");
+        var roomid = $(this).attr("room");
+        
+        swal({
+            title: 'Are you sure?',
+            text: 'You want to transfer job order#'+joborder+' to '+roomid+'?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+                type:'POST',
+                url: baseurl + 'joborder/transfer',
+                data:{'job_order':joborder,'room_no_form':roomid},
+                success: function(data) {
+                    swal(
+                      'Done!',
+                      'Job Order #' + joborder + ' is transfered!',
+                      'success'
+                    )
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000)
+                }
+            });
+          } else {
+            location.reload();
+          }
+        });
+    }
 </script>
 @endpush
