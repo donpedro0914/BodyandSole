@@ -215,6 +215,7 @@ class FrontController extends Controller
     }
 
     public function f_petty_expenses() {
-        return view('expenses');
+        $therapist = Therapist::where('status', 'Active')->get();
+        return view('expenses', compact('therapist'));
     }
 }
