@@ -206,10 +206,15 @@ class FrontController extends Controller
     public function transfer(Request $request) {
         $roomid = Rooms::where('name', request('room_no_form'))->first();
         $data = array(
-            'room_no_form' => $roomid->id
+            'room_no_form' => $roomid->id,
+            'duration' => NULL
         );
 
         $transfer = JobOrder::where('job_order', request('job_order'))->update($data);
         return response()->json($transfer);
+    }
+
+    public function f_petty_expenses() {
+        return view('expenses');
     }
 }

@@ -32,6 +32,9 @@ Route::get('f_client/clientlist', 'FrontController@clientlist')->name('f_client.
 Route::get('f_gift-certificate', 'FrontController@f_gift_certificate');
 Route::post('f_gc/store', 'FrontController@f_gc_store');
 
+/* Expenses  Front */
+Route::get('f_petty-expenses', 'FrontController@f_petty_expenses');
+
 Auth::routes();
 
 /* Dashboard */
