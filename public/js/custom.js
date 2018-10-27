@@ -117,6 +117,54 @@ $(document).ready(function() {
 		});
 
 	});
+	//Expense
+	$('#f_expenseForm').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#f_expenseForm')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend:function() {
+				$('#f_expenseBtn').html('<img src="/img/ajax-loader.gif">').attr("disabled","disabled");
+			},
+			success:function(data) {
+				$('#f_expenseBtn').html('Add Gift Certificate').removeAttr("disabled");
+				$('#addf_expenses').modal('hide');
+				$('#f_expenseForm')[0].reset();
+				swal(
+	                {
+	                    title: 'Done!',
+	                    text: 'Expense added!',
+	                    type: 'success',
+	                    confirmButtonClass: 'btn btn-confirm mt-2'
+	                }
+	            );
+				location.reload();
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+
+	});
+
 
 	//Add Job Order
 	$('[data-timer]').each(function() {

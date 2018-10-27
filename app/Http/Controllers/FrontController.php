@@ -9,6 +9,7 @@ use App\Packages;
 use App\JobOrder;
 use App\Clients;
 use App\Giftcertificate;
+use App\PettyExpense;
 use Carbon\Carbon;
 use DB;
 use DataTables;
@@ -216,6 +217,19 @@ class FrontController extends Controller
 
     public function f_petty_expenses() {
         $therapist = Therapist::where('status', 'Active')->get();
-        return view('expenses', compact('therapist'));
+        $expenses = PettyExpense::select('petty_expenses.*', 'therapists.id', 'therapists.fullname', 'petty_expenses.created_at as date')->leftJoin('therapists', 'petty_expenses.therapist', '=', 'therapists.id')->whereDate('petty_expenses.created_at', Carbon::now()->format('Y-m-d'))->orderBy('petty_expenses.created_at', 'asc')->get();
+        return view('expenses', compact('therapist', 'expenses'));
+    }
+
+    public function f_expense_store(Request $request) {
+        $data = array(
+            'therapist' => $request->input('therapist'),
+            'category' => $request->input('category'),
+            'value' => $request->input('value')
+        );
+
+        $expenseAdd = PettyExpense::create($data);
+        $expense = PettyExpense::where('id', $expenseAdd->id)->first();
+        return response()->json($expense);
     }
 }

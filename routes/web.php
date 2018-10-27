@@ -34,6 +34,7 @@ Route::post('f_gc/store', 'FrontController@f_gc_store');
 
 /* Expenses  Front */
 Route::get('f_petty-expenses', 'FrontController@f_petty_expenses');
+Route::post('f_expense/store', 'FrontController@f_expense_store');
 
 Auth::routes();
 

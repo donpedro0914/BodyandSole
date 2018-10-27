@@ -6,12 +6,12 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 			</div>
 			<div class="modal-body">
-				<form id="f_gcForm" action="{{ URL::to('f_gc/store') }}" method="post">
+				<form id="f_expenseForm" action="{{ URL::to('f_expense/store') }}" method="post">
 					@csrf
 					<div class="form-row">
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Therapist</label>
-							<select name="purchased_by" class="form-control select2 select2-selection__rendered">
+							<select name="therapist" class="form-control select2 select2-selection__rendered">
 								<option value="">--Select Therapist--</option>
 								@foreach($therapist as $t)
 								<option value="{{ $t->id }}">{{ $t->fullname }}</option>
@@ -20,7 +20,7 @@
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Category</label>
-							<select name="service" class="form-control">
+							<select name="category" class="form-control">
 								<option>--Select Category--</option>
 								<option value="Salary-wages">Salary-wages</option>
 								<option value="Food Allowance">Food Allowance</option>
@@ -55,8 +55,8 @@
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<div class="clearfix text-right mt-3">
-								<button type="submit" id="f_gcFormBtn" class="btn btn-success">
-									Add Gift Certificate
+								<button type="submit" id="f_expenseBtn" class="btn btn-success">
+									Add Expense
 								</button>
 							</div>
 						</div>
