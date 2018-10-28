@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Therapist;
+use App\PettyExpense;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -43,6 +44,14 @@ class TherapistController extends Controller
         );
 
         $therapist = Therapist::create($data);
+
+        $data2 = array(
+            'therapist' => $therapist->id,
+            'category' => 'Miscellaneous',
+            'value' => 0
+        );
+
+        PettyExpense::create($data2);
 
         return response()->json($therapist);
 

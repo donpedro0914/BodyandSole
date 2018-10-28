@@ -217,7 +217,7 @@ class FrontController extends Controller
 
     public function f_petty_expenses() {
         $therapist = Therapist::where('status', 'Active')->get();
-        $expenses = PettyExpense::select('petty_expenses.*', 'therapists.id', 'therapists.fullname', 'petty_expenses.created_at as date')->leftJoin('therapists', 'petty_expenses.therapist', '=', 'therapists.id')->whereDate('petty_expenses.created_at', Carbon::now()->format('Y-m-d'))->orderBy('petty_expenses.created_at', 'asc')->get();
+        $expenses = PettyExpense::select('petty_expenses.*', 'therapists.id', 'therapists.fullname', 'petty_expenses.created_at as date')->leftJoin('therapists', 'petty_expenses.therapist', '=', 'therapists.id')->where('petty_expenses.value', '!=', '0')->whereDate('petty_expenses.created_at', Carbon::now()->format('Y-m-d'))->orderBy('petty_expenses.created_at', 'asc')->get();
         return view('expenses', compact('therapist', 'expenses'));
     }
 
