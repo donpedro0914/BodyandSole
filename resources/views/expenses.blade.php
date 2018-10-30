@@ -19,7 +19,7 @@
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-expenses">
                                 <thead>
                                     <tr>
-                                        <th>Therapist</th>
+                                        <th>Payee Name</th>
                                         <th>Category</th>
                                         <th>Value</th>
                                         <th>Added On</th>
@@ -28,7 +28,7 @@
                                 <tbody>
                                     @foreach($expenses as $e)
                                     <tr>
-                                        <td>{{ $e->fullname }}</td>
+                                        <td>{{ $e->therapist }}</td>
                                         <td>{{ $e->category }}</td>
                                         <td>{{ $e->value }}</td>
                                         <td>{{ $e->date }}</td>

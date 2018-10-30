@@ -7,152 +7,218 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xl-6" style="border-right:1px solid #ccc">
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <h2 class="text-center">Rooms</h2>
-                            </div>
-                        @foreach($rooms as $r)
-                                @if($r->status == 'Active')
-                                    @php
-                                        $drag = "draggable";
-                                        $ondragstart = "";
-                                        $room = "style_occupied";
-                                        $dragclass = "";
-                                        $dragcontainer = "";
-                                    @endphp
-                                @else
-                                    @php
-                                        $drag = "droppable";
-                                        $dragclass = "droptarget";
-                                        $ondragstart = "";
-                                        $room = "room";
-                                        $dragcontainer = "";
-                                    @endphp
-                                @endif
-                            <div class="col-xl-3 {{ $dragclass }}">
-                                <div class="card-box {{ $room }}">
-                                    <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
-                                    @if($r->status == 'Active')
-                                        <p class="header-title float-left">{{ $r->roomname}}</p>
-                                        <a class="header-title float-right" onclick="javascript:jsWebClientPrint.print('id={!! $r->job_order !!}&useDefaultPrinter=' + $('#useDefaultPrinter').attr('checked') + '&printerName=' + $('#installedPrinterName').val());"><i class="mdi mdi-printer"></i></a>
-                                        <button type="button" class="btn btn-block btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
-                                    @else
-                                    <p class="header-title">{{ $r->roomname}}</p>
-                                    <button type="button" class="btn btn-block btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}" disabled="">Done</button>
-                                    @endif
-                                    <div class="clearfix"></div>
-                                    <form class="form-horizontal" id="room_id_{{ $r->roomid }}" data-room="{{ $r->roomid }}">
-                                        <input type="hidden" id="room_no" value="{{ $r->roomid }}" />
-                                        <div class="form-group">
-                                            <label>Time</label>
-                                            <div id="enter_time">
-                                                @if($r->status == 'Active')
-                                                <div class="input-group">
-                                                    @if($r->duration)
-                                                        <div id="countdown" data-room="{{ $r->roomid }}" data-timer="{{ $r->duration }}"></div>
+                    <div class="col-xl-12">
+                        <ul class="nav nav-tabs tabs-bordered nav-justified">
+                            <li class="nav-item">
+                                <a href="#job_order_list" data-toggle="tab" aria-expanded="true" class="nav-link">
+                                    <i class="mdi mdi-view-list"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#job_order_grid" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                                    <i class="mdi mdi-grid-large"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="job_order_list">
+                                <div class="card-box">
+                                    <table class="table table-bordered dataTable no-footer table-striped ajax-table-joborder">
+                                        <thead>
+                                            <tr>
+                                                <th>Job Order</th>
+                                                <th>Client's Name</th>
+                                                <th>Therapist</th>
+                                                <th>Service</th>
+                                                <th>Payment</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                            @foreach($joborder as $j)
+                                            <tr>
+                                                <td>{{ $j->job_order }}</td>
+                                                <td>{{ $j->client_fullname }}</td>
+                                                <td>{{ $j->therapistname }}</td>
+                                                <td>{{ $j->service_name }} ({{ $j->price }})</td>
+                                                <td>
+                                                    @if($j->care_of)
+                                                    {{ $j->payment }} - {{ $j->care_of }}
+                                                    @elseif($j->gcno)
+                                                    {{ $j->payment }} - {{ $j->gcno }}
                                                     @else
-                                                        <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="H"/>
-                                                        <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="M"/>
+                                                    {{ $j->payment }}
                                                     @endif
+                                                </td>
+                                                <td class="text-center">
+                                                    @if($j->status == 'Active')
+                                                    <span class="badge badge-primary">Active</span>
+                                                    @elseif($j->status == 'Done')
+                                                    <span class="badge badge-success">Done</span>
+                                                    @else
+                                                    <span class="badge badge-danger">Cancelled</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane active" id="job_order_grid">
+                                <div class="card-box">
+                                    <div class="row">
+                                        <div class="col-xl-6" style="border-right:1px solid #ccc">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <h2 class="text-center">Rooms</h2>
                                                 </div>
-                                                @php
-                                                    if($r->duration) {
-                                                        $duration = "none";
-                                                    } else {
-                                                        $duration = "block";
-                                                    }
-                                                @endphp
-                                                <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect btn-block waves-light" style="display:{{ $duration }}" type="button">Start</button>
-                                                @else
-                                                <div class="input-group">
-                                                    <input type="text" class="col-sm-6 form-control" placeholder="H" readonly="" />
-                                                    <input type="text" class="col-sm-6 form-control" placeholder="M" readonly="" />
+                                            @foreach($rooms as $r)
+                                                    @if($r->status == 'Active')
+                                                        @php
+                                                            $drag = "draggable";
+                                                            $ondragstart = "";
+                                                            $room = "style_occupied";
+                                                            $dragclass = "";
+                                                            $dragcontainer = "";
+                                                        @endphp
+                                                    @else
+                                                        @php
+                                                            $drag = "droppable";
+                                                            $dragclass = "droptarget";
+                                                            $ondragstart = "";
+                                                            $room = "room";
+                                                            $dragcontainer = "";
+                                                        @endphp
+                                                    @endif
+                                                <div class="col-xl-3 {{ $dragclass }}">
+                                                    <div class="card-box {{ $room }}">
+                                                        <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
+                                                        @if($r->status == 'Active')
+                                                            <p class="header-title float-left">{{ $r->roomname}}</p>
+                                                            <a class="header-title float-right" onclick="javascript:jsWebClientPrint.print('id={!! $r->job_order !!}&useDefaultPrinter=checked&printerName=BIXOLON SRP-350')""><i class="mdi mdi-printer"></i></a>
+                                                            <button type="button" class="btn btn-block btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
+                                                        @else
+                                                        <p class="header-title">{{ $r->roomname}}</p>
+                                                        <button type="button" class="btn btn-block btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}" disabled="">Done</button>
+                                                        @endif
+                                                        <div class="clearfix"></div>
+                                                        <form class="form-horizontal" id="room_id_{{ $r->roomid }}" data-room="{{ $r->roomid }}">
+                                                            <input type="hidden" id="room_no" value="{{ $r->roomid }}" />
+                                                            <div class="form-group">
+                                                                <label>Time</label>
+                                                                <div id="enter_time">
+                                                                    @if($r->status == 'Active')
+                                                                    <div class="input-group">
+                                                                        @if($r->duration)
+                                                                            <div id="countdown" data-room="{{ $r->roomid }}" data-timer="{{ $r->duration }}"></div>
+                                                                        @else
+                                                                            <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="H"/>
+                                                                            <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="M"/>
+                                                                        @endif
+                                                                    </div>
+                                                                    @php
+                                                                        if($r->duration) {
+                                                                            $duration = "none";
+                                                                        } else {
+                                                                            $duration = "block";
+                                                                        }
+                                                                    @endphp
+                                                                    <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect btn-block waves-light" style="display:{{ $duration }}" type="button">Start</button>
+                                                                    @else
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="col-sm-6 form-control" placeholder="H" readonly="" />
+                                                                        <input type="text" class="col-sm-6 form-control" placeholder="M" readonly="" />
+                                                                    </div>
+                                                                    <button class="btn btn-primary waves-effect waves-light btn-block" type="button" disabled>Start</button>
+                                                                    @endif
+                                                                </div>
+                                                                <div id="show_timer" style="display: none">
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <button class="btn btn-primary waves-effect waves-light btn-block" type="button" disabled>Start</button>
-                                                @endif
-                                            </div>
-                                            <div id="show_timer" style="display: none">
+                                            @endforeach
                                             </div>
                                         </div>
-                                    </form>
+                                        <div class="col-xl-6">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <h2 class="text-center">Lounges</h2>
+                                                </div>
+                                            @foreach($lounge as $r)
+                                                    @if($r->status == 'Active')
+                                                        @php
+                                                            $drag = "draggable";
+                                                            $ondragstart = "";
+                                                            $room = "style_occupied";
+                                                            $dragclass = "";
+                                                            $dragcontainer = "";
+                                                        @endphp
+                                                    @else
+                                                        @php
+                                                            $drag = "droppable";
+                                                            $dragclass = "droptarget";
+                                                            $ondragstart = "";
+                                                            $room = "room";
+                                                            $dragcontainer = "";
+                                                        @endphp
+                                                    @endif
+                                                <div class="col-xl-3 {{ $dragclass }}">
+                                                    <div class="card-box {{ $room }}">
+                                                        <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
+                                                        @if($r->status == 'Active')
+                                                            <p class="header-title">{{ $r->roomname}}</p>
+                                                            <button type="button" class="btn btn-success btn-sm btn-block doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
+                                                        @else
+                                                        <p class="header-title">{{ $r->roomname}}</p>
+                                                            <button type="button" class="btn btn-success btn-sm btn-block doneJobOrder" data-id="{{ $r->job_order }}" disabled="">Done</button>
+                                                        @endif
+                                                        <div class="clearfix"></div>
+                                                        <form class="form-horizontal" id="room_id_{{ $r->roomid }}" data-room="{{ $r->roomid }}">
+                                                            <input type="hidden" id="room_no" value="{{ $r->roomid }}" />
+                                                            <div class="form-group">
+                                                                <label>Time</label>
+                                                                <div id="enter_time">
+                                                                    @if($r->status == 'Active')
+                                                                    <div class="input-group">
+                                                                        @if($r->duration)
+                                                                            <div id="countdown" data-room="{{ $r->roomid }}" data-timer="{{ $r->duration }}"></div>
+                                                                        @else
+                                                                            <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="H"/>
+                                                                            <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="M"/>
+                                                                        @endif
+                                                                    </div>
+                                                                    @php
+                                                                        if($r->duration) {
+                                                                            $duration = "none";
+                                                                        } else {
+                                                                            $duration = "block";
+                                                                        }
+                                                                    @endphp
+                                                                    <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect btn-block waves-light" style="display:{{ $duration }}" type="button">Start</button>
+                                                                    @else
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="col-sm-6 form-control" placeholder="H" readonly="" />
+                                                                        <input type="text" class="col-sm-6 form-control" placeholder="M" readonly="" />
+                                                                    </div>
+                                                                    <button class="btn btn-primary waves-effect waves-light btn-block" type="button" disabled>Start</button>
+                                                                    @endif
+                                                                </div>
+                                                                <div id="show_timer" style="display: none">
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <h2 class="text-center">Lounges</h2>
-                            </div>
-                        @foreach($lounge as $r)
-                                @if($r->status == 'Active')
-                                    @php
-                                        $drag = "draggable";
-                                        $ondragstart = "";
-                                        $room = "style_occupied";
-                                        $dragclass = "";
-                                        $dragcontainer = "";
-                                    @endphp
-                                @else
-                                    @php
-                                        $drag = "droppable";
-                                        $dragclass = "droptarget";
-                                        $ondragstart = "";
-                                        $room = "room";
-                                        $dragcontainer = "";
-                                    @endphp
-                                @endif
-                            <div class="col-xl-3 {{ $dragclass }}">
-                                <div class="card-box {{ $room }}">
-                                    <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
-                                    @if($r->status == 'Active')
-                                        <p class="header-title">{{ $r->roomname}}</p>
-                                        <button type="button" class="btn btn-success btn-sm btn-block doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
-                                    @else
-                                    <p class="header-title">{{ $r->roomname}}</p>
-                                        <button type="button" class="btn btn-success btn-sm btn-block doneJobOrder" data-id="{{ $r->job_order }}" disabled="">Done</button>
-                                    @endif
-                                    <div class="clearfix"></div>
-                                    <form class="form-horizontal" id="room_id_{{ $r->roomid }}" data-room="{{ $r->roomid }}">
-                                        <input type="hidden" id="room_no" value="{{ $r->roomid }}" />
-                                        <div class="form-group">
-                                            <label>Time</label>
-                                            <div id="enter_time">
-                                                @if($r->status == 'Active')
-                                                <div class="input-group">
-                                                    @if($r->duration)
-                                                        <div id="countdown" data-room="{{ $r->roomid }}" data-timer="{{ $r->duration }}"></div>
-                                                    @else
-                                                        <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="H"/>
-                                                        <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="M"/>
-                                                    @endif
-                                                </div>
-                                                @php
-                                                    if($r->duration) {
-                                                        $duration = "none";
-                                                    } else {
-                                                        $duration = "block";
-                                                    }
-                                                @endphp
-                                                <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect btn-block waves-light" style="display:{{ $duration }}" type="button">Start</button>
-                                                @else
-                                                <div class="input-group">
-                                                    <input type="text" class="col-sm-6 form-control" placeholder="H" readonly="" />
-                                                    <input type="text" class="col-sm-6 form-control" placeholder="M" readonly="" />
-                                                </div>
-                                                <button class="btn btn-primary waves-effect waves-light btn-block" type="button" disabled>Start</button>
-                                                @endif
-                                            </div>
-                                            <div id="show_timer" style="display: none">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        @endforeach
                         </div>
                     </div>
                 </div>

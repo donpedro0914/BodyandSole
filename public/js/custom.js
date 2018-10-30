@@ -33,27 +33,73 @@ $(document).ready(function() {
 
     	e.preventDefault();
 
-swal({
-  title: 'Submit your Github username',
-  input: 'text',
-  inputAttributes: {
-    autocapitalize: 'off'
-  },
-  showCancelButton: true,
-  confirmButtonText: 'Look up',
-  showLoaderOnConfirm: true,
-  allowOutsideClick: () => !swal.isLoading()
-}).then((result) => {
-  if (result.value == '1234') {
-      window.location="/";
-  } else {
-  	swal({
-  		title: 'Incorrect password'
-  	})
-  }
-})
+		swal({
+		  input: 'password',
+		  inputAttributes: {
+		    autocapitalize: 'off'
+		  },
+		  showCancelButton: true,
+		  confirmButtonText: 'Look up',
+		  showLoaderOnConfirm: true,
+		  allowOutsideClick: () => !swal.isLoading()
+		}).then((result) => {
+		  if (result.value == '0168') {
+		      window.location="/f_payroll";
+		  } else {
+		  	swal({
+		  		title: 'Incorrect password'
+		  	})
+		  }
+		})
 
-    })
+    });
+
+    //Attendance
+    $('#f_attendanceForm').on('submit', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		e.preventDefault();
+		var formData = new FormData($('#f_attendanceForm')[0]);
+		var url = $(this).attr('action');
+		var post = $(this).attr('method');
+
+		$.ajax({
+			type: post,
+			url: url,
+			async: true,
+			data: formData,
+			beforeSend:function() {
+				$('#f_attendanceBtn').html('<img src="../img/ajax-loader.gif">').attr("disabled","disabled");
+			},
+			success:function(data) {
+				$('#f_attendanceBtn').html('Add Submit').removeAttr("disabled");
+				$('#attendance_time').modal('hide');
+				$('#f_attendanceForm')[0].reset();
+				swal(
+	                {
+	                    title: 'Done!',
+	                    type: 'success',
+	                    confirmButtonClass: 'btn btn-confirm mt-2'
+	                }
+	            );
+				location.reload();
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+	});
+
 	//Add Client
 	$('#f_clientsForm').on('submit', function(e) {
 
@@ -1262,6 +1308,12 @@ swal({
 			} else if(module == 'gc') {
 				var url = document.location.origin + "/gc/delete/" + id;
 				var datatable = "ajax-table-gc";
+			} else if(module == 'joborder') {
+				var url = document.location.origin + "/joborder/delete/" + id;
+				var datatable = "ajax-table-joborder";				
+			} else if(module == 'roomslounge') {
+				var url = document.location.origin + "/rooms/delete/" + id;
+				var datatable = "ajax-table-rooms";					
 			}
 
 			var data = "id="+id;

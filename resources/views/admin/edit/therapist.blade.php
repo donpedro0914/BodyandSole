@@ -4,16 +4,16 @@
     @include('global.topnav')
     @include('global.sidemenu')
     <div class="content-page">
-    	<div class="content">
-    		<div class="container-fluid">
-    			<div class="page-title-box">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="page-title-box">
                     <ol class="breadcrumb float-right">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Body and Sole</a></li>
                         <li class="breadcrumb-item active"><a href="/therapist">Therapist</a></li>
                         <li class="breadcrumb-item">{{ $therapist->fullname }}</li>
                     </ol>
                     <h4 class="page-title">{{ $therapist->fullname }}</h4>
-    			</div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
@@ -36,13 +36,17 @@
                                         <label>Date of Birth</label>
                                         <input type="text" class="form-control" name="dob" id="dob" value="{{ $therapist->dob }}"/>
                                     </div>
-                                    <div class="form-group col-md-6 col-xs-12">
+                                    <div class="form-group col-md-4 col-xs-12">
                                         <label>Hired</label>
                                         <input type="text" class="form-control" name="hired" placeholder="mm/dd/yyyy" id="hired_date" value="{{ $therapist->hired }}">
                                     </div>
-                                    <div class="form-group col-md-6 col-xs-12">
+                                    <div class="form-group col-md-4 col-xs-12">
                                         <label>Resigned</label>
                                         <input type="text" class="form-control" name="resigned" placeholder="mm/dd/yyyy" id="hired_date" value="{{ $therapist->resigned }}">
+                                    </div>
+                                    <div class="form-group col-md-4 col-xs-12">
+                                        <label>PIN</label>
+                                        <input type="password" class="form-control" name="pin" value="{{ $therapist->pin }}">
                                     </div>
                                     <div class="form-group col-md-6 col-xs-12">
                                         <label>Lodging</label>
@@ -164,7 +168,7 @@
                         </div>
                     </div>
                 </div>
-    		</div>
-    	</div>
+            </div>
+        </div>
     </div>
 @endsection

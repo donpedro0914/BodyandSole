@@ -10,13 +10,8 @@
 					@csrf
 					<div class="form-row">
 						<div class="form-group col-md-12 col-xs-12">
-							<label>Therapist</label>
-							<select name="therapist" class="form-control select2 select2-selection__rendered">
-								<option value="">--Select Therapist--</option>
-								@foreach($therapist as $t)
-								<option value="{{ $t->id }}">{{ $t->fullname }}</option>
-								@endforeach
-							</select>
+							<label>Payee Name</label>
+							<input type="text" name="therapist" class="form-control" />
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Category</label>

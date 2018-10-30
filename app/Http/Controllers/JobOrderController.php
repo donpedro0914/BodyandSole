@@ -58,4 +58,36 @@ class JobOrderController extends Controller
         return view('admin.job_order', compact('joborder', 'therapists', 'rooms', 'lounge', 'service', 'packages', 'client'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
+    public function edit($id) {
+        $joborder = JobOrder::select('job_orders.*', 'services.service_name', 'services.id', 'services.service_name as sname')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.id', $id)->first();
+        $therapists = Therapist::where('status', 'Active')->get();
+        $service = Services::where('status', 'Active')->get();
+
+        return view('admin.edit.joborder', compact('therapists', 'service'), ['joborder' => $joborder]);
+    }
+
+    public function update(Request $request, $id) {
+        $data = array(
+            'client_fullname' => $request->input('client_fullname'),
+            'therapist_fullname' => $request->input('therapist_fullname'),
+            'category' => $request->input('category'),
+            'service' => $request->input('service'),
+            'payment' => $request->input('payment'),
+            'care_of' => $request->input('care_of'),
+            'gcno' => $request->input('gcno'),
+            'price' => $request->input('price')
+        );
+
+        JobOrder::where('id', $id)->update($data);
+        return back();
+    }
+
+    public function delete($id)
+    {
+        $joborder = JobOrder::find($id)->delete();
+
+        return response()->json($joborder);
+
+    }
+
 }

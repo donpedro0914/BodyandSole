@@ -99,6 +99,14 @@ class AdminController extends Controller
         return response()->json($add_room);
     }
 
+    public function delete_room($id)
+    {
+        $room = Rooms::find($id)->delete();
+
+        return response()->json($room);
+
+    }
+
     public function edit_room($id, Request $request) {
         $rooms = Rooms::where('id', $id)->first();
         return view('admin.edit.rooms', ['rooms' => $rooms]);

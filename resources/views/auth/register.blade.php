@@ -93,7 +93,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Token') }}</label>
 
                             <div class="col-md-6">
-                                <input id="token" type="text" class="form-control{{ $errors->has('token') ? ' is-invalid' : '' }}" name="token" value="{{ old('token') }}" required autofocus>
+                                <input id="token" type="password" class="form-control{{ $errors->has('token') ? ' is-invalid' : '' }}" name="token" value="{{ old('token') }}" required autofocus>
 
                                 @if ($errors->has('token'))
                                     <span class="invalid-feedback" role="alert">

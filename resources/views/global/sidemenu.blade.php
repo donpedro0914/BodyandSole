@@ -20,7 +20,7 @@
 	            </li>
 				<li>
 	                <a href="/therapist">
-	                    <i class="mdi mdi-account"></i> <span> Therapist </span>
+	                    <i class="mdi mdi-account"></i> <span> Employee </span>
 	                </a>
 	            </li>
 				<li>

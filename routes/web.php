@@ -22,6 +22,7 @@ Route::post('joborder/cancelupdate', 'FrontController@cancelupdate');
 Route::post('joborder/duration', 'FrontController@duration');
 Route::post('joborder/checkavailable', 'FrontController@checkavailable');
 Route::post('joborder/transfer', 'FrontController@transfer');
+Route::post('f_attendance/store', 'FrontController@attendance_store');
 
 /* Clients Front */
 Route::get('f_clients', 'FrontController@f_clients');
@@ -35,6 +36,9 @@ Route::post('f_gc/store', 'FrontController@f_gc_store');
 /* Expenses  Front */
 Route::get('f_petty-expenses', 'FrontController@f_petty_expenses');
 Route::post('f_expense/store', 'FrontController@f_expense_store');
+
+/* Payroll Front */
+Route::get('f_payroll', 'FrontController@f_payroll');
 
 Auth::routes();
 
@@ -79,6 +83,7 @@ Route::get('/rooms-lounge', 'AdminController@rooms_view');
 Route::post('room/add_room', 'AdminController@add_room');
 Route::get('room/edit/{id}', 'AdminController@edit_room');
 Route::post('rooms/update/{id}', 'AdminController@update_room');
+Route::delete('rooms/delete/{id}', 'AdminController@delete_room');
 
 /* Gift Certificate */
 Route::get('gift-certificate', 'GiftcertificateController@index');
@@ -87,6 +92,9 @@ Route::delete('gc/delete/{id}', 'GiftcertificateController@delete');
 
 /* Job order */
 Route::get('/job-order', 'JobOrderController@index');
+Route::get('/joborder/edit/{id}', 'JobOrderController@edit');
+Route::post('/joborder/update/{id}', 'JobOrderController@update');
+Route::delete('joborder/delete/{id}', 'JobOrderController@delete');
 
 /* Reports */
 Route::get('/sales-reports', 'ReportsController@sales_reports');

@@ -27,7 +27,7 @@
 							<label class="col-sm-4 col-form-label">Client</label>
 							<div class="col-sm-8">
 								<select name="client_fullname" class="form-control select2 select2-selection__rendered">
-									<option value="">--Select Client--</option>
+									<option value="Cash">Cash</option>
 									@foreach($client as $c)
 									<option value="{{ $c->fullname }}">{{ $c->fullname }}</option>
 									@endforeach

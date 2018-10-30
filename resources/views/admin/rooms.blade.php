@@ -46,8 +46,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="/room/edit/{{ $r->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
+                                            <a data-module="roomslounge" id="{{ $r->id }}" data-name="{{ $r->name }}" class="btn btn-xs btn-default btn-delete"><i class="mdi mdi-delete"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach

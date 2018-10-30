@@ -67,8 +67,8 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
-                                                    <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-delete"></i></a>
+                                                    <a href="/joborder/edit/{{ $j->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
+                                                    <a data-module="joborder" id="{{ $j->id }}" data-name="{{ $j->job_order }}" class="btn btn-xs btn-default btn-delete"><i class="mdi mdi-delete"></i></a>
                                                 </td>
                                             </tr>
                                             @endforeach

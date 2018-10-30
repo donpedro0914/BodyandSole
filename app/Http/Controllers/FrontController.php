@@ -10,6 +10,7 @@ use App\JobOrder;
 use App\Clients;
 use App\Giftcertificate;
 use App\PettyExpense;
+use App\Attendance;
 use Carbon\Carbon;
 use DB;
 use DataTables;
@@ -40,6 +41,8 @@ class FrontController extends Controller
         $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
+        $alltherapists = Therapist::where('status', 'Active')->get();
+
     	$therapists = DB::select('select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders where status ="Active")
             union
             select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders)');
@@ -57,8 +60,9 @@ class FrontController extends Controller
         $service = Services::where('status', 'Active')->get();
         $packages = Packages::where('status', 'Active')->get();
         $client = Clients::all();
+        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->orderBy('job_orders.id', 'desc')->get();
         $jobOrderCount = JobOrder::count();
-        return view('home', compact('rooms', 'lounge', 'therapists', 'day', 'service', 'packages', 'client'), ['wcpScript' => $wcpScript, 'jobOrderCount' => $jobOrderCount, 'day' => $day]);
+        return view('home', compact('rooms', 'lounge', 'alltherapists', 'therapists', 'day', 'service', 'packages', 'client', 'joborder'), ['wcpScript' => $wcpScript, 'jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
     public function printCommands(Request $request){
@@ -74,15 +78,8 @@ class FrontController extends Controller
             //Create ESC/POS commands for sample receipt
             $esc = '0x1B'; //ESC byte in hex notation
             $newLine = '0x0A'; //LF byte in hex notation
-             
-            $cmds = '';
+            
             $cmds = $esc . "@"; //Initializes the printer (ESC @)
-            $cmds .= 'PLEASE PRESENT THIS'; 
-            $cmds .= $newLine;
-            $cmds .= 'TO YOUR ATTENDING THERAPIST'; 
-            $cmds .= $newLine;
-            $cmds .= $newLine;
-            $cmds .= $newLine;
             $cmds .= Carbon::now();
             $cmds .= $newLine;
             $cmds .= 'JOB ORDER: ' .$jobInfo->job_order;
@@ -94,10 +91,32 @@ class FrontController extends Controller
             $cmds .= 'Room#: ' . $jobInfo->room_no_form;
             $cmds .= $newLine;
             $cmds .= 'Payment: ' . $jobInfo->payment;
-            $cmds .= $newLine . $newLine;
-            $cmds .= $newLine . $newLine;
-            $cmds .= $newLine . $newLine;
-            $cmds .= $newLine . $newLine;
+            $cmds .= $newLine;
+            $cmds .= 'Please render the following:';
+            $cmds .= $newLine;
+            $cmds .= '---------------------------------------';
+            $cmds .= $newLine;
+            $cmds .= 'SERVICE/PACKAGE                  CHARGE';
+            $cmds .= $newLine;
+            $cmds .= '---------------------------------------';
+            $cmds .= $newLine;
+            $cmds .= $jobInfo->service_name.'                       '.$jobInfo->price;
+            $cmds .= $newLine;
+            $cmds .= '---------------------------------------';
+            $cmds .= $newLine;
+            $cmds .= '                               Total:'.$jobInfo->price;
+            $cmds .= $newLine;
+            $cmds .= 'IN :___________';
+            $cmds .= $newLine;
+            $cmds .= 'OUT:___________'.'  '.'Thera:____________';
+            $cmds .= $newLine;
+            $cmds .= $newLine;
+            $cmds .= $newLine;
+            $cmds .= $newLine;
+            $cmds .= $newLine;
+            $cmds .= 'PLEASE PRESENT THIS'; 
+            $cmds .= $newLine;
+            $cmds .= 'TO YOUR ATTENDING THERAPIST';
  
             //Create a ClientPrintJob obj that will be processed at the client side by the WCPP
             $cpj = new ClientPrintJob();
@@ -212,6 +231,8 @@ class FrontController extends Controller
     }
 
     public function f_clients() {
+
+        $alltherapists = Therapist::where('status', 'Active')->get();
         $client = Clients::select('clients.*', 'job_orders.job_order', 'job_orders.client_fullname', 'job_orders.therapist_fullname', 'therapists.id', 'therapists.fullname as therafullname', 'job_orders.created_at as lastvisit')
                 ->leftJoin('job_orders', 'clients.fullname', '=', 'job_orders.client_fullname')
                 ->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')
@@ -219,7 +240,7 @@ class FrontController extends Controller
                 ->orderBy('job_orders.created_at', 'desc')
                 ->get();
 
-        return view('clients', compact('client'));
+        return view('clients', compact('client', 'alltherapists'));
     }
 
     public function f_client_store(Request $request)
@@ -239,6 +260,8 @@ class FrontController extends Controller
     }
 
     public function f_gift_certificate() {
+
+        $alltherapists = Therapist::where('status', 'Active')->get();
         $gc = DB::select('select t.*, COALESCE(a.gcount,0) gcounts, service_name
             from giftcertificates t
             left join (
@@ -254,7 +277,7 @@ class FrontController extends Controller
         $client = Clients::all();
         $services = Services::where('status', 'Active')->get();
 
-        return view('gc', compact('services', 'gc', 'client'));
+        return view('gc', compact('services', 'gc', 'client', 'alltherapists'));
     }
 
     public function f_gc_store(Request $request) {
@@ -286,9 +309,38 @@ class FrontController extends Controller
     }
 
     public function f_petty_expenses() {
+
+        $alltherapists = Therapist::where('status', 'Active')->get();
         $therapist = Therapist::where('status', 'Active')->get();
         $expenses = PettyExpense::select('petty_expenses.*', 'therapists.id', 'therapists.fullname', 'petty_expenses.created_at as date')->leftJoin('therapists', 'petty_expenses.therapist', '=', 'therapists.id')->where('petty_expenses.value', '!=', '0')->whereDate('petty_expenses.created_at', Carbon::now()->format('Y-m-d'))->orderBy('petty_expenses.created_at', 'asc')->get();
-        return view('expenses', compact('therapist', 'expenses'));
+        return view('expenses', compact('therapist', 'expenses', 'alltherapists'));
+    }
+
+    public function attendance_store(Request $request) {
+        $validateUser = Therapist::where('fullname', $request->input('therapist'))->where('pin', $request->input('pin'))->first();
+
+        if($validateUser) {
+            $checkIn = Attendance::where('name', $validateUser->fullname)->first();
+            if(empty($checkIn)) {
+                $data = array(
+                    'name' => $request->input('therapist')
+                );
+
+                $checkIn2 = Attendance::create($data);
+                $checkIn3 = Attendance::where('id', $checkIn2->id)->first();
+                return response()->json($checkIn3);
+            } else {
+                $data = array(
+                    'name' => $request->input('therapist')
+                );
+                Attendance::where('name', $request->input('therapist'))->update($data);
+
+                $updateAttendance = Attendance::where('name', $request->input('therapist'))->first();
+                return response()->json($updateAttendance);
+            }
+        } else {
+            return false;
+        }
     }
 
     public function f_expense_store(Request $request) {
@@ -301,5 +353,34 @@ class FrontController extends Controller
         $expenseAdd = PettyExpense::create($data);
         $expense = PettyExpense::where('id', $expenseAdd->id)->first();
         return response()->json($expense);
+    }
+
+    
+
+    public function f_payroll() {
+
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $day = $start->format('N');
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $alltherapists = Therapist::where('status', 'Active')->get();
+
+        $payroll = DB::select('
+            select b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 
+            sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total, sum(COALESCE(a.day0,0)) as Fri, sum(COALESCE(a.day1,0)) as Sat, sum(COALESCE(a.day2,0)) as Sun, sum(COALESCE(a.day3,0)) as Mon, sum(COALESCE(a.day4,0)) as Tue, sum(COALESCE(a.day5,0)) as Wed, sum(COALESCE(a.day6,0)) as Thurs
+            from job_orders a, therapists b
+            where a.therapist_fullname=b.id
+            and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+            group by b.fullname
+            union
+            select b.fullname ,COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            from job_orders a, therapists b
+            where  b.id not in (select distinct a.therapist_fullname from job_orders a)
+            group by b.fullname
+            ');
+
+        return view('payroll', compact('alltherapists', 'payroll'));
     }
 }
