@@ -15,9 +15,21 @@ use DB;
 use DataTables;
 use Illuminate\Http\Request;
 
+include_once(app_path() . '\WebClientPrint\WebClientPrint.php');
+use Neodynamic\SDK\Web\WebClientPrint;
+use Neodynamic\SDK\Web\Utils;
+use Neodynamic\SDK\Web\DefaultPrinter;
+use Neodynamic\SDK\Web\InstalledPrinter;
+use Neodynamic\SDK\Web\PrintFile;
+use Neodynamic\SDK\Web\ClientPrintJob;
+ 
+use Session;
+
 class FrontController extends Controller
 {
     public function index() {
+
+        $wcpScript = WebClientPrint::createScript(action('WebClientPrintController@processRequest'), action('FrontController@printCommands'), Session::getId());
 
     	$now = Carbon::now()->format('Y-m-d');
         $en = Carbon::parse($now);
@@ -46,8 +58,66 @@ class FrontController extends Controller
         $packages = Packages::where('status', 'Active')->get();
         $client = Clients::all();
         $jobOrderCount = JobOrder::count();
-        return view('home', compact('rooms', 'lounge', 'therapists', 'day', 'service', 'packages', 'client'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
+        return view('home', compact('rooms', 'lounge', 'therapists', 'day', 'service', 'packages', 'client'), ['wcpScript' => $wcpScript, 'jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
+
+    public function printCommands(Request $request){
+         
+
+       if ($request->exists(WebClientPrint::CLIENT_PRINT_JOB)) {
+ 
+            $useDefaultPrinter = ($request->input('useDefaultPrinter') === 'checked');
+            $printerName = urldecode($request->input('printerName'));
+
+            $jobInfo = JobOrder::select('job_orders.*', 'therapists.fullname as fullname', 'therapists.id', 'services.id', 'services.service_name as service_name')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_order', $request->input('id'))->first();
+             
+            //Create ESC/POS commands for sample receipt
+            $esc = '0x1B'; //ESC byte in hex notation
+            $newLine = '0x0A'; //LF byte in hex notation
+             
+            $cmds = '';
+            $cmds = $esc . "@"; //Initializes the printer (ESC @)
+            $cmds .= 'PLEASE PRESENT THIS'; 
+            $cmds .= $newLine;
+            $cmds .= 'TO YOUR ATTENDING THERAPIST'; 
+            $cmds .= $newLine;
+            $cmds .= $newLine;
+            $cmds .= $newLine;
+            $cmds .= Carbon::now();
+            $cmds .= $newLine;
+            $cmds .= 'JOB ORDER: ' .$jobInfo->job_order;
+            $cmds .= $newLine;
+            $cmds .= 'CLIENT: ' . $jobInfo->client_fullname;
+            $cmds .= $newLine;
+            $cmds .= 'THERAPIST: ' . $jobInfo->fullname;
+            $cmds .= $newLine;
+            $cmds .= 'Room#: ' . $jobInfo->room_no_form;
+            $cmds .= $newLine;
+            $cmds .= 'Payment: ' . $jobInfo->payment;
+            $cmds .= $newLine . $newLine;
+            $cmds .= $newLine . $newLine;
+            $cmds .= $newLine . $newLine;
+            $cmds .= $newLine . $newLine;
+ 
+            //Create a ClientPrintJob obj that will be processed at the client side by the WCPP
+            $cpj = new ClientPrintJob();
+            //set ESCPOS commands to print...
+            $cpj->printerCommands = $cmds;
+            $cpj->formatHexValues = true;
+             
+            if ($useDefaultPrinter || $printerName === 'null') {
+                $cpj->clientPrinter = new DefaultPrinter();
+            } else {
+                $cpj->clientPrinter = new InstalledPrinter($printerName);
+            }
+         
+            //Send ClientPrintJob back to the client
+            return response($cpj->sendToClient())
+                        ->header('Content-Type', 'application/octet-stream');
+                 
+             
+        }
+    } 
 
     public function getpackagedetails(Request $request) {
     	$packageDetails = Packages::where('id', $request->input('id'))->first();

@@ -17,15 +17,18 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>Date Range Filter</label>
-                                <div class="input-group">
-                                    <input class="form-control input-daterange-datepicker" id="daterange" type="text" name="daterange" value="{{ $startDate }} - {{ $endDate }}"/>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="button">Filter</button>
+                                <div class="form-row">
+                                    <div class="col-auto">
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd" id="datepickerFrom" value="{{ $startDate }}">
+                                    </div>
+                                    <div class="col-auto">
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd" id="datepickerTo" value="{{ $endDate }}">
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
+                            <button type="button" class="btn btn-primary" id="print_btn">Payslip</button>
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-payroll">
                                 <thead>
                                     <tr>
@@ -103,6 +106,134 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                            <div id="payroll_printout" style="display:none;">
+                                @foreach($payroll as $p)
+                                    <div class="card-box col-xl-12 table-bordered m-b-30" style="overflow:auto;">
+                                        <h4>Body and Sole Spa</h4>
+                                        <h5>Payroll Period : {{ $startDate }} - {{ $endDate }}</h5>
+                                        <hr style="border-top:1px solid #9a9a9a"/>
+                                        <table class="table">
+                                            <tr>
+                                                <td>Employee No.:</td>
+                                                <td>{{ $p->id }}</td>
+                                                <td width="20%"></td>
+                                                <td>Department:</td>
+                                                <td>SF</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Name:</td>
+                                                <td>{{ $p->fullname }}</td>
+                                                <td width="20%"></td>
+                                                <td>Rate:</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                        </table>
+                                        <hr style="border-top:1px solid #9a9a9a"/>
+                                        <div class="col-6 float-left">
+                                            <h5>EARNINGS</h5>
+                                            <div class="col-6 text-right float-left">Regular Pay:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->basic }}.00</div>
+                                            <div class="col-6 text-right float-left">Overtime Pay:</div>
+                                            <div class="col-6 text-right float-right">0.00</div>
+                                            <div class="col-6 text-right float-left">Holiday Pay:</div>
+                                            <div class="col-6 text-right float-right">0.00</div>
+                                            <div class="col-6 text-right float-left">Allowance:</div>
+                                            @php
+                                            $day = '0';
+                                            if($p->Thurs) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Fri) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Sat) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Sun) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Mon) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Tue) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->Wed) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            $totalAllowance = $p->allowance * $day;
+                                        @endphp
+                                            <div class="col-6 text-right float-right">{{ $totalAllowance }}.00</div>
+                                            <div class="col-6 text-right float-left">Commission:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->total }}.00</div>
+                                            <div class="col-6 text-right float-left">Incent/Others:</div>
+                                            <div class="col-6 text-right float-right" >0.00</div>
+                                            <div class="col-6 text-right float-left">13th Month:</div>
+                                            <div class="col-6 text-right float-right m-b-30">0.00</div>
+                                            <hr style="border-top:1px solid #9a9a9a;clear:both"/>
+                                            <strong class="col-6 text-right float-left">Gross Pay:</strong>
+                                            <strong class="col-6 text-right float-right">{{ $p->basic + $totalAllowance + $p->total }}.00</strong>
+                                        </div>
+                                        <div class="col-6 float-right">
+                                            <h5>DEDUCTIONS</h5>
+                                            <div class="col-6 text-right float-left">Cash Advance:</div>
+                                            <div class="col-6 text-right float-right">0.00</div>
+                                            <div class="col-6 text-right float-left">W/Tax:</div>
+                                            <div class="col-6 text-right float-right">0.00</div>
+                                            <div class="col-6 text-right float-left">SSS Contrib:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->sss }}.00</div>
+                                            <div class="col-6 text-right float-left">Phil Health:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->phealth }}.00</div>
+                                            <div class="col-6 text-right float-left">SSS Loan:</div>
+                                            <div class="col-6 text-right float-right">0.00</div>
+                                            <div class="col-6 text-right float-left">HDMF Contrib:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->hdf }}.00</div>
+                                            <div class="col-6 text-right float-left">HDMF Loan:</div>
+                                            <div class="col-6 text-right float-right">0.00</div>
+                                            <div class="col-6 text-right float-left">Lodging:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->lodging }}.00</div>
+                                            <div class="col-6 text-right float-left">Others:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->others }}.00</div>
+                                            <hr style="border-top:1px solid #9a9a9a;clear:both"/>
+                                            <strong class="col-6 text-right float-left">Total Deduction:</strong>
+                                            @php
+                                            $totalD = $p->sss + $p->phealth + $p->hdf + $p->lodging + $p->others;
+                                            @endphp
+                                            <div class="col-6 text-right float-right">{{ $totalD }}.00</div>
+                                            <strong class="col-6 text-right float-left">Net Pay:</strong>
+                                            @php
+                                            $gross = $p->basic + $totalAllowance + $p->total;
+                                            @endphp
+                                            <div class="col-6 text-right float-right">{{ $gross - $totalD }}.00</div>
+                                        </div>
+                                        <div class="clear"></div>
+                                        <div class="col-12">
+                                            <div class="m-t-50 text-right">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -113,6 +244,12 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
+        $('#print_btn').on("click", function () {
+            $('#payroll_printout').printThis({
+                removeInline: true
+            });
+        });
+
         jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
             return this.flatten().reduce( function ( a, b ) {
                 if ( typeof a === 'string' ) {
@@ -125,7 +262,7 @@
                 return a + b;
             }, 0 );
         } );
-        $('.ajax-table-payroll').dataTable({
+        var oTable = $('.ajax-table-payroll').dataTable({
             paging: false,
             dom: 'Bfrtip',
             buttons: [
@@ -182,6 +319,35 @@
                 $(api.column(4).footer()).html(pagetotal4+'.00');
             }
         });
+
+        $("#datepickerFrom").datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            "onSelect": function(date) {
+                minDateFilter = new Date(date).getTime();
+                oTable.fnDraw();
+            }
+            }).keyup(function() {
+                minDateFilter = new Date(this.value).getTime();
+                oTable.fnDraw();
+        });
+
+        $("#datepickerTo").datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            "onSelect": function(date) {
+                minDateFilter = new Date(date).getTime();
+                oTable.fnDraw();
+            }
+            }).keyup(function() {
+                minDateFilter = new Date(this.value).getTime();
+                oTable.fnDraw();
+        });
+
+        minDateFilter = "";
+        maxDateFilter = "";
     });
 </script>
 @endpush

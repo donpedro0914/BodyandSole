@@ -59,6 +59,7 @@
     <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/daterangepicker.js') }}"></script>
     <script src="{{ asset('js/jquery.form-advanced.js') }}"></script>
+    <script src="{{ asset('js/printThis.js') }}"></script>
     @stack('scripts');
 </body>
 </html>

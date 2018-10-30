@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
  
 use Illuminate\Http\Request;
+use Carbon\Carbon;
  
  
 //*********************************
@@ -46,15 +47,15 @@ class PrintESCPOSController extends Controller
              
             $cmds = '';
             $cmds = $esc . "@"; //Initializes the printer (ESC @)
-            $cmds .= $esc . '!' . '0x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
-            $cmds .= 'BEST DEAL STORES'; //text to print
-            $cmds .= $newLine . $newLine;
-            $cmds .= $esc . '!' . '0x00'; //Character font A selected (ESC ! 0)
-            $cmds .= 'COOKIES                   5.00'; 
+            $cmds .= 'PLEASE PRESENT THIS'; 
             $cmds .= $newLine;
-            $cmds .= 'MILK 65 Fl oz             3.78';
-            $cmds .= $newLine . $newLine;
-            $cmds .= 'SUBTOTAL                  8.78';
+            $cmds .= 'TO YOUR ATTENDING THERAPIST'; 
+            $cmds .= $newLine;
+            $cmds .= $newLine;
+            $cmds .= $newLine;
+            $cmds .= Carbon::now();
+            $cmds .= $newLine;
+            $cmds .= 'JOB ORDER';
             $cmds .= $newLine;
             $cmds .= 'TAX 5%                    0.44';
             $cmds .= $newLine;

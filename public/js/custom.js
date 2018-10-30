@@ -23,6 +23,37 @@ $(document).ready(function() {
     $(".select2").select2();
 
     // Front End
+    $('#payroll_prompt').on('click', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+    	e.preventDefault();
+
+swal({
+  title: 'Submit your Github username',
+  input: 'text',
+  inputAttributes: {
+    autocapitalize: 'off'
+  },
+  showCancelButton: true,
+  confirmButtonText: 'Look up',
+  showLoaderOnConfirm: true,
+  allowOutsideClick: () => !swal.isLoading()
+}).then((result) => {
+  if (result.value == '1234') {
+      window.location="/";
+  } else {
+  	swal({
+  		title: 'Incorrect password'
+  	})
+  }
+})
+
+    })
 	//Add Client
 	$('#f_clientsForm').on('submit', function(e) {
 

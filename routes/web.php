@@ -99,5 +99,5 @@ Route::get('weekly-commission-reports/therapist/{id}', 'ReportsController@therap
 Route::get('home', 'HomeController@index');
 Route::get('home/index', 'HomeController@index');
 Route::get('home/printESCPOS', 'PrintESCPOSController@index');
-Route::get('PrintESCPOSController', 'PrintESCPOSController@printCommands');
+Route::get('PrintESCPOSController', 'FrontController@printCommands');
 Route::any('WebClientPrintController', 'WebClientPrintController@processRequest');

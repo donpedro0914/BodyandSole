@@ -11,3 +11,13 @@
 	background: #f34943 !important;
 	color: #fff !important;
 }
+.clear {
+	clear:both;
+}
+#payroll_printout hr {
+	border-top: 1px solid #9a9a9a;
+	clear:both;
+}
+#payroll_printout .card-box {
+	overflow: auto;
+}
