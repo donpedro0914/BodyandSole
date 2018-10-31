@@ -438,14 +438,9 @@ $(document).ready(function() {
 				url: baseurl + 'joborder/update',
 				data:{'job_order':job_order},
 				success: function(data) {
-				    swal(
-				      'Done!',
-				      'Job Order #' + job_order + ' is done!',
-				      'success'
-				    )
 					setTimeout(function() {
 						location.reload();
-					}, 1000)
+					}, 500)
 				}
 			});
 		  }

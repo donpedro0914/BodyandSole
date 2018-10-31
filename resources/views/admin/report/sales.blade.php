@@ -22,6 +22,7 @@
                                     <tr>
                                         <th>Category</th>
                                         <th>Price</th>
+                                        <th>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -29,12 +30,14 @@
                                     <tr>
                                         <td>Job Order - {{ $j->job_order }}</td>
                                         <td>{{ $j->price }}</td>
+                                        <td>{{ $j->created_at }}</td>
                                     </tr>
                                     @endforeach 
                                     @foreach($gc as $g)
                                     <tr>
                                         <td>Gift Cert - {{ $g->gc_no }}</td>
                                         <td>{{ $g->value }}</td>
+                                        <td>{{ $g->created_at }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
