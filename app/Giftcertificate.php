@@ -8,5 +8,5 @@ class Giftcertificate extends Model
 {
     protected $table = 'giftcertificates';
 
-    protected $fillable = ['gc_no', 'purchased_by', 'service', 'value', 'use', 'date_issued', 'expiry_date', 'status'];
+    protected $fillable = ['ref_no', 'gc_no', 'purchased_by', 'service', 'value', 'use', 'date_issued', 'expiry_date', 'status'];
 }

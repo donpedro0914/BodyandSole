@@ -58,7 +58,6 @@ class ClientsController extends Controller
 
         $updateClient = Clients::where('id', $id)->first();
         return response()->json($updateClient);
-        
     }
 
     public function delete($id)

@@ -59,7 +59,7 @@ class ReportsController extends Controller
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
         
         $commission = DB::select('
-                select b.id, b.fullname, sum(COALESCE(a.day0,0)) as Fri, sum(COALESCE(a.day1,0)) as Sat, sum(COALESCE(a.day2,0)) as Sun, sum(COALESCE(a.day3,0)) as Mon, sum(COALESCE(a.day4,0)) as Tue, sum(COALESCE(a.day5,0)) as Wed, sum(COALESCE(a.day6,0)) as Thurs, sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total
+                select b.id, b.fullname, sum(COALESCE(a.day0,0)) as Sun, sum(COALESCE(a.day1,0)) as Mon, sum(COALESCE(a.day2,0)) as Tue, sum(COALESCE(a.day3,0)) as Wed, sum(COALESCE(a.day4,0)) as Thurs, sum(COALESCE(a.day5,0)) as Fri, sum(COALESCE(a.day6,0)) as Sat, sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total
                 from job_orders a, therapists b
                 where a.therapist_fullname = b.id
                 and a.status = "DONE"
@@ -81,14 +81,13 @@ class ReportsController extends Controller
 
         $expense = DB::select('
                 select b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, COALESCE(b.allowance,0) as allowance, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others,
-                sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total, sum(c.value) as expenses
-                from job_orders a, therapists b, petty_expenses c
+                sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total
+                from job_orders a, therapists b
                 where a.therapist_fullname=b.id
-                and b.id=c.therapist
                 group by b.fullname
                 union
 
-                select b.fullname ,COALESCE(b.basic,0) as basic,COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, COALESCE(b.allowance,0) as allowance, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 0, 0
+                select b.fullname ,COALESCE(b.basic,0) as basic,COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, COALESCE(b.allowance,0) as allowance, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 0
                 from job_orders a, therapists b
                 where b.id not in (select distinct a.therapist_fullname from job_orders a)
                 group by b.fullname');

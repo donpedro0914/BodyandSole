@@ -654,21 +654,7 @@ $(document).ready(function() {
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }
 	            );
-				$('#fullname').val(data['fullname']);
-				$('#address').val(data['address']);
-				$('#phone').val(data['phone']);
-				$('#dob').val(data['dob']);
-				$('#hired').val(data['hired']);
-				$('#resigned').val(data['resigned']);
-				$('#lodging').val(data['lodging']);
-				$('#allowance').val(data['allowance']);
-				$('#sss').val(data['sss']);
-				$('#phealth').val(data['phealth']);
-				$('#hdf').val(data['hdf']);
-				$('#uniform').val(data['uniform']);
-				$('#fare').val(data['fare']);
-				$('#others').val(data['others']);
-				$('#status').val(data['status']);
+	            window.location.replace('/therapist');
 			},
 			error: function(xhr, status, error) {
 				console.log(xhr);
@@ -762,12 +748,7 @@ $(document).ready(function() {
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }
 	            );
-				$('#fullname').val(data['fullname']);
-				$('#phone').val(data['phone']);
-				$('#email').val(data['email']);
-				$('#dob').val(data['dob']);
-				$('#occupation').val(data['occupation']);
-				$('#sc_id').val(data['sc_id']);
+	            window.location.replace('/clients');
 			},
 			error: function(xhr, status, error) {
 				console.log(xhr);
@@ -914,10 +895,7 @@ $(document).ready(function() {
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }
 	            );
-				$('#service_name').val(data['service_name']);
-				$('#labor_s').val(data['labor_s']);
-				$('#labor_p').val(data['labor_p']);
-				$('#charge').val(data['charge']);
+	            window.location.replace('/services');
 			},
 			error: function(xhr, status, error) {
 				console.log(xhr);

@@ -92,7 +92,7 @@
                                                         @endphp
                                                     @endif
                                                 <div class="col-xl-3 {{ $dragclass }}">
-                                                    <div class="card-box {{ $room }}">
+                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $r->service }}">
                                                         <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                                         @if($r->status == 'Active')
                                                             <p class="header-title float-left">{{ $r->roomname}}</p>
@@ -167,7 +167,7 @@
                                                         @endphp
                                                     @endif
                                                 <div class="col-xl-3 {{ $dragclass }}">
-                                                    <div class="card-box {{ $room }}">
+                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $r->service }}">
                                                         <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                                         @if($r->status == 'Active')
                                                             <p class="header-title">{{ $r->roomname}}</p>
@@ -213,6 +213,7 @@
                                                         </form>
                                                     </div>
                                                 </div>
+                                                </div>
                                             @endforeach
                                             </div>
                                         </div>
@@ -230,6 +231,19 @@
 <script type="text/javascript">
 
     var baseurl=window.location.protocol + "//" + window.location.host + "/";
+
+    $('.style_occupied').tooltip({
+        position: {
+            my: 'center top',
+            at: 'center center',
+        },
+        content: function() {
+            return $(this).attr('title');
+        },
+        show: {
+            delay: 1000
+        }
+    })
 
     $( function() {
 
@@ -286,5 +300,5 @@
         });
     }
 </script>
-{!! $wcpScript; !!}
+{!! $wcpScript !!}
 @endpush

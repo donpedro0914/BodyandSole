@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <form id="jobOrderFormUpdate" action="{{ URL::to('joborder/update', $joborder->id) }}" method="post">
+                            <form id="jobOrderFormUpdate" action="{{ URL::to('joborder/update', $joborder->job_order) }}" method="post">
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-12 col-xs-12">
@@ -30,11 +30,7 @@
                                     </div>
                                     <div class="form-group col-md-6 col-xs-12">
                                         <label>Therapist</label>
-                                        <select class="select2 form-control" name="therapist_fullname">
-                                            @foreach($therapists as $t)
-                                            <option value="{{ $t->id }}">{{ $t->fullname }}</option>
-                                            @endforeach
-                                        </select>
+                                        {{ Form::select('therapist_fullname', $therapists, $joborder->therapist_fullname, ['class' => 'form-control select2']) }}
                                     </div>
                                     <div class="form-group col-md-6 col-xs-12">
                                         <label>Category</label>
@@ -42,12 +38,7 @@
                                     </div>
                                     <div class="form-group col-md-6 col-xs-12">
                                         <label>Service</label>
-                                        <select name="service" class="form-control select2">
-                                            <option value="{{ $joborder->service }}">{{ $joborder->sname }}</option>
-                                            @foreach($service as $s)
-                                            <option value="{{ $s->id }}">{{ $s->service_name }}</option>
-                                            @endforeach
-                                        </select>
+                                        {{ Form::select('service', $service, $joborder->sname, ['class' => 'form-control select2']) }}
                                     </div>
                                     <div class="form-group col-md-6 col-xs-12">
                                         <label>Payment</label>

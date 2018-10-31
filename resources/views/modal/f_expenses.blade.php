@@ -8,7 +8,15 @@
 			<div class="modal-body">
 				<form id="f_expenseForm" action="{{ URL::to('f_expense/store') }}" method="post">
 					@csrf
+					@php
+						$expenseCount = $expenseCount + 1;
+						$expenseCount = sprintf("%05d", $expenseCount);
+					@endphp
 					<div class="form-row">
+						<div class="form-group col-md-12 col-xs-12">
+							<label>Reference No.</label>
+							<input type="text" name="ref_no" class="form-control" value="{!! $expenseCount !!}" readonly="" />
+						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Payee Name</label>
 							<input type="text" name="therapist" class="form-control" />

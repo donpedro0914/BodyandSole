@@ -8,7 +8,15 @@
 			<div class="modal-body">
 				<form id="f_gcForm" action="{{ URL::to('f_gc/store') }}" method="post">
 					@csrf
+					@php
+						$gcCount = $gcCount + 1;
+						$gcCount = sprintf("%05d", $gcCount);
+					@endphp
 					<div class="form-row">
+						<div class="form-group col-md-12 col-xs-12">
+							<label>Reference No.</label>
+							<input type="text" class="form-control" name="ref_no" value="{!! $gcCount !!}" readonly="" />
+						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Gift Cert No</label>
 							<input type="text" class="form-control" name="gc_no" placeholder="Enter gift cert no.."/>

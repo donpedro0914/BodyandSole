@@ -14,3 +14,9 @@
 .front_nav li {
 	margin: 0 10px;
 }
+.ui-widget-shadow {
+	background: #fff !important;
+	opacity: 1 !important;
+	margin: -8px !important;
+	padding: 8px !important;
+}

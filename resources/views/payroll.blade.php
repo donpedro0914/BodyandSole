@@ -80,7 +80,7 @@
                                             $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
                                             $gross = $p->basic + $totalAllowance + $p->total;
                                             @endphp
-                                            {{ $totalDeduction - $gross }}.00
+                                            {{ $gross - $totalDeduction }}.00
                                         </td>
                                     </tr>
                                     @endforeach

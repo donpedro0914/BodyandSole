@@ -34,7 +34,7 @@ class JobOrderController extends Controller
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
 
-        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->orderBy('job_orders.id', 'desc')->get();
+        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->orderBy('job_orders.id', 'desc')->get();
 
         $therapists = DB::select('select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders where status ="Active")
             union
@@ -59,27 +59,22 @@ class JobOrderController extends Controller
     }
 
     public function edit($id) {
-        $joborder = JobOrder::select('job_orders.*', 'services.service_name', 'services.id', 'services.service_name as sname')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.id', $id)->first();
-        $therapists = Therapist::where('status', 'Active')->get();
-        $service = Services::where('status', 'Active')->get();
+        $joborder = JobOrder::select('job_orders.*', 'services.service_name', 'services.id', 'services.service_name as sname', 'therapists.id', 'therapists.fullname as fullname')->leftJoin('services', 'job_orders.service', '=', 'services.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->where('job_orders.job_order', $id)->first();
+        $therapists = Therapist::where('status', 'Active')->pluck('fullname', 'id');
+        $service = Services::where('status', 'Active')->pluck('service_name', 'id');
 
-        return view('admin.edit.joborder', compact('therapists', 'service'), ['joborder' => $joborder]);
+        return view('admin.edit.joborder', ['joborder' => $joborder, 'therapists' => $therapists, 'service' => $service]);
     }
 
     public function update(Request $request, $id) {
         $data = array(
-            'client_fullname' => $request->input('client_fullname'),
             'therapist_fullname' => $request->input('therapist_fullname'),
             'category' => $request->input('category'),
             'service' => $request->input('service'),
-            'payment' => $request->input('payment'),
-            'care_of' => $request->input('care_of'),
-            'gcno' => $request->input('gcno'),
-            'price' => $request->input('price')
         );
 
-        JobOrder::where('id', $id)->update($data);
-        return back();
+        JobOrder::where('job_order', $id)->update($data);
+        return redirect('/job-order');
     }
 
     public function delete($id)

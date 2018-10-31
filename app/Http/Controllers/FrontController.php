@@ -43,9 +43,7 @@ class FrontController extends Controller
 
         $alltherapists = Therapist::where('status', 'Active')->get();
 
-    	$therapists = DB::select('select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders where status ="Active")
-            union
-            select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders)');
+    	$therapists = DB::select('select * from therapists');
 
         $rooms = DB::select('
             select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, b.fullname as therapistname from rooms_lounges
@@ -276,13 +274,15 @@ class FrontController extends Controller
             ) b on t.service = b.id');
         $client = Clients::all();
         $services = Services::where('status', 'Active')->get();
+        $gcCount = Giftcertificate::count();
 
-        return view('gc', compact('services', 'gc', 'client', 'alltherapists'));
+        return view('gc', compact('services', 'gc', 'client', 'alltherapists'),['gcCount' => $gcCount]);
     }
 
     public function f_gc_store(Request $request) {
         $data = array(
             'gc_no' => $request->input('gc_no'),
+            'ref_no' => $request->input('ref_no'),
             'purchased_by' => $request->input('purchased_by'),
             'service' => $request->input('service'),
             'value' => $request->input('value'),
@@ -313,7 +313,9 @@ class FrontController extends Controller
         $alltherapists = Therapist::where('status', 'Active')->get();
         $therapist = Therapist::where('status', 'Active')->get();
         $expenses = PettyExpense::select('petty_expenses.*', 'therapists.id', 'therapists.fullname', 'petty_expenses.created_at as date')->leftJoin('therapists', 'petty_expenses.therapist', '=', 'therapists.id')->where('petty_expenses.value', '!=', '0')->whereDate('petty_expenses.created_at', Carbon::now()->format('Y-m-d'))->orderBy('petty_expenses.created_at', 'asc')->get();
-        return view('expenses', compact('therapist', 'expenses', 'alltherapists'));
+
+        $expenseCount = PettyExpense::count();
+        return view('expenses', compact('therapist', 'expenses', 'alltherapists'), ['expenseCount' => $expenseCount]);
     }
 
     public function attendance_store(Request $request) {

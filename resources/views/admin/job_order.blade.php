@@ -36,7 +36,7 @@
                                                 <th>Job Order</th>
                                                 <th>Client's Name</th>
                                                 <th>Therapist</th>
-                                                <th>Category</th>
+                                                <th>Service</th>
                                                 <th>Payment</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -47,7 +47,7 @@
                                                 <td>{{ $j->job_order }}</td>
                                                 <td>{{ $j->client_fullname }}</td>
                                                 <td>{{ $j->therapistname }}</td>
-                                                <td>{{ $j->category }}</td>
+                                                <td>{{ $j->service_name }} ({{ $j->price }})</td>
                                                 <td>
                                                     @if($j->care_of)
                                                     {{ $j->payment }} - {{ $j->care_of }}
@@ -67,7 +67,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="/joborder/edit/{{ $j->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
+                                                    <a href="/joborder/edit/{{ $j->job_order }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
                                                     <a data-module="joborder" id="{{ $j->id }}" data-name="{{ $j->job_order }}" class="btn btn-xs btn-default btn-delete"><i class="mdi mdi-delete"></i></a>
                                                 </td>
                                             </tr>

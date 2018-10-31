@@ -47,7 +47,7 @@
                                         <td>{{ $e->phealth }}.00</td>
                                         <td>{{ $e->hdf }}.00</td>
                                         <td>{{ $e->lodging }}.00</td>
-                                        <td>{{ $e->others + $e->expenses }}.00</td>
+                                        <td>{{ $e->others }}.00</td>
                                         <td>{{ $e->sss + $e->phealth + $e->hdf + $e->lodging + $e->others }}.00</td>
                                         <td>{{ $e->basic + $e->total + $e->allowance - $e->sss - $e->phealth - $e->hdf-+ $e->lodging - $e->others }}.00</td>
                                     </tr>
