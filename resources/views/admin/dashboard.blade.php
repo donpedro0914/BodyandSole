@@ -17,12 +17,23 @@
                     <div class="col-12">
                         <h5 class="m-t-10 m-b-30">Quick Links</h5>
                     </div>
-                    <div class="col-xl-3">
-                        <div class="card-box">
-                            <h4 class="header-title">Daily Sales</h4>
-                            <p class="text-muted">{{ $day }}</p>
-                            <div class="mb-3 mt-4">
-                                <h2 class="font-weight-light">₱{{ $dailySales }}.00</h2>
+                    <div class="row">
+                        <div class="col-xl-3">
+                            <div class="card-box">
+                                <h4 class="header-title">Daily Sales</h4>
+                                <p class="text-muted">{{ $day }}</p>
+                                <div class="mb-3 mt-4">
+                                    <h2 class="font-weight-light">₱{{ $dailySales }}.00</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="card-box">
+                                <h4 class="header-title">Daily Expenses</h4>
+                                <p class="text-muted">{{ $day }}</p>
+                                <div class="mb-3 mt-4">
+                                    <h2 class="font-weight-light">₱{{ $dailyExpenses }}.00</h2>
+                                </div>
                             </div>
                         </div>
                     </div>

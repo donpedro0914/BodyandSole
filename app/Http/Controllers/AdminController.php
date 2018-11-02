@@ -9,6 +9,7 @@ use App\Rooms;
 use App\JobOrder;
 use App\User;
 use App\Giftcertificate;
+use App\PettyExpense;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Carbon\Carbon;
@@ -36,7 +37,8 @@ class AdminController extends Controller
                     ->whereDate('created_at', Carbon::today())
                     ->sum('price');
         $dailySales += Giftcertificate::whereDate('created_at', Carbon::today())->sum('value');
-        return view('admin.dashboard',['day' => $day, 'dailySales' => $dailySales]);
+        $dailyExpenses = PettyExpense::whereDate('created_at', Carbon::today())->sum('value');
+        return view('admin.dashboard',['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
     }
 
     public function settings() {
