@@ -39,7 +39,14 @@
                                                 <td>{{ $j->job_order }}</td>
                                                 <td>{{ $j->client_fullname }}</td>
                                                 <td>{{ $j->therapistname }}</td>
-                                                <td>{{ $j->service_name }} ({{ $j->price }})</td>
+                                                @php
+                                                    if($j->category == 'Single') {
+                                                        $catSer = $j->service_name;
+                                                    } else {
+                                                        $catSer = $j->package_name;
+                                                    }
+                                                @endphp
+                                                <td>{{ $catSer }} ({{ $j->price }})</td>
                                                 <td>
                                                     @if($j->care_of)
                                                     {{ $j->payment }} - {{ $j->care_of }}
@@ -68,7 +75,7 @@
                             <div class="tab-pane active" id="job_order_grid">
                                 <div class="card-box">
                                     <div class="row">
-                                        <div class="col-xl-6" style="border-right:1px solid #ccc">
+                                        <div class="col-xl-6" style="border-right:1px solid #636363">
                                             <div class="row">
                                                 <div class="col-xl-12">
                                                     <h2 class="text-center">Rooms</h2>
@@ -91,8 +98,15 @@
                                                             $dragcontainer = "";
                                                         @endphp
                                                     @endif
+                                                    @php
+                                                        if($r->category == 'Single') {
+                                                            $catSer = $r->servicename;
+                                                        } else {
+                                                            $catSer = $r->packagename;
+                                                        }
+                                                    @endphp
                                                 <div class="col-xl-3 {{ $dragclass }}">
-                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $r->service }}">
+                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $catSer }}">
                                                         <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                                         @if($r->status == 'Active')
                                                             <p class="header-title float-left">{{ $r->roomname}}</p>
@@ -167,10 +181,11 @@
                                                         @endphp
                                                     @endif
                                                 <div class="col-xl-3 {{ $dragclass }}">
-                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $r->service }}">
+                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $r->servicename }}">
                                                         <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                                         @if($r->status == 'Active')
-                                                            <p class="header-title">{{ $r->roomname}}</p>
+                                                            <p class="header-title float-left">{{ $r->roomname}}</p>
+                                                            <a class="header-title float-right" onclick="javascript:jsWebClientPrint.print('id={!! $r->job_order !!}&useDefaultPrinter=checked&printerName=BIXOLON SRP-350')""><i class="mdi mdi-printer"></i></a>
                                                             <button type="button" class="btn btn-success btn-sm btn-block doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
                                                         @else
                                                         <p class="header-title">{{ $r->roomname}}</p>

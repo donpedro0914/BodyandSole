@@ -47,19 +47,23 @@ class FrontController extends Controller
     	$therapists = DB::select('select * from therapists');
 
         $rooms = DB::select('
-            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, b.fullname as therapistname from rooms_lounges
+            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, a.category as category, c.service_name as servicename, d.package_name as packagename, b.fullname as therapistname from rooms_lounges
             left join (select * from job_orders where job_orders.status="Active") as a on rooms_lounges.id = a.room_no_form
+            left join (select * from services) as c on c.id = a.service
+            left join (select * from packages) as d on d.id = a.service
             left join (select * from therapists) as b on a.therapist_fullname = b.id where rooms_lounges.type ="room" order by rooms_lounges.id asc');
 
         $lounge = DB::select('
-            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, b.fullname as therapistname from rooms_lounges
+            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, a.category as category, c.service_name as servicename, d.package_name as packagename, b.fullname as therapistname from rooms_lounges
             left join (select * from job_orders where job_orders.status="Active") as a on rooms_lounges.id = a.room_no_form
+            left join (select * from services) as c on c.id = a.service
+            left join (select * from packages) as d on d.id = a.service
             left join (select * from therapists) as b on a.therapist_fullname = b.id where rooms_lounges.type ="lounge" order by rooms_lounges.id asc');
 
         $service = Services::where('status', 'Active')->get();
         $packages = Packages::where('status', 'Active')->get();
         $client = Clients::all();
-        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->whereDate('job_orders.created_at', $formattedCurrentDay)->orderBy('job_orders.id', 'desc')->get();
+        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id', 'packages.package_name as package_name')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->leftJoin('packages', 'job_orders.service', '=', 'packages.id')->whereDate('job_orders.created_at', $formattedCurrentDay)->orderBy('job_orders.id', 'desc')->get();
         $jobOrderCount = JobOrder::count();
         return view('home', compact('rooms', 'lounge', 'alltherapists', 'therapists', 'day', 'service', 'packages', 'client', 'joborder'), ['wcpScript' => $wcpScript, 'jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
