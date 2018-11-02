@@ -37,6 +37,7 @@ class FrontController extends Controller
         $start = $en->startOfWeek(Carbon::FRIDAY);
         $end = $en->endOfWeek(Carbon::THURSDAY);
         $currentDay = Carbon::now();
+        $formattedCurrentDay = Carbon::now()->format('Y-m-d');
         $day = $currentDay->dayOfWeek;
         $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
@@ -58,7 +59,7 @@ class FrontController extends Controller
         $service = Services::where('status', 'Active')->get();
         $packages = Packages::where('status', 'Active')->get();
         $client = Clients::all();
-        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->orderBy('job_orders.id', 'desc')->get();
+        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->whereDate('job_orders.created_at', $formattedCurrentDay)->orderBy('job_orders.id', 'desc')->get();
         $jobOrderCount = JobOrder::count();
         return view('home', compact('rooms', 'lounge', 'alltherapists', 'therapists', 'day', 'service', 'packages', 'client', 'joborder'), ['wcpScript' => $wcpScript, 'jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }

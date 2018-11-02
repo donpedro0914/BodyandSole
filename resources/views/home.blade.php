@@ -111,7 +111,7 @@
                                                                     @if($r->status == 'Active')
                                                                     <div class="input-group">
                                                                         @if($r->duration)
-                                                                            <div id="countdown" data-room="{{ $r->roomid }}" data-timer="{{ $r->duration }}"></div>
+                                                                            <div id="countdown" data-room="{{ $r->roomname }}" data-timer="{{ $r->duration }}"></div>
                                                                         @else
                                                                             <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="H"/>
                                                                             <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="M"/>
@@ -124,7 +124,7 @@
                                                                             $duration = "block";
                                                                         }
                                                                     @endphp
-                                                                    <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect btn-block waves-light" style="display:{{ $duration }}" type="button">Start</button>
+                                                                    <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="" class="btn btn-primary waves-effect btn-block waves-light start_time" style="display:{{ $duration }}" type="button">Start</button>
                                                                     @else
                                                                     <div class="input-group">
                                                                         <input type="text" class="col-sm-6 form-control" placeholder="H" readonly="" />
@@ -185,7 +185,7 @@
                                                                     @if($r->status == 'Active')
                                                                     <div class="input-group">
                                                                         @if($r->duration)
-                                                                            <div id="countdown" data-room="{{ $r->roomid }}" data-timer="{{ $r->duration }}"></div>
+                                                                            <div id="countdown" data-room="{{ $r->roomname }}" data-timer="{{ $r->duration }}"></div>
                                                                         @else
                                                                             <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="H"/>
                                                                             <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="M"/>
@@ -198,7 +198,7 @@
                                                                             $duration = "block";
                                                                         }
                                                                     @endphp
-                                                                    <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="start_timer" class="btn btn-primary waves-effect btn-block waves-light" style="display:{{ $duration }}" type="button">Start</button>
+                                                                    <button data-room="{{ $r->roomid }}" data-id="{{ $r->job_order }}" id="" class="btn btn-primary waves-effect btn-block waves-light start_time" style="display:{{ $duration }}" type="button">Start</button>
                                                                     @else
                                                                     <div class="input-group">
                                                                         <input type="text" class="col-sm-6 form-control" placeholder="H" readonly="" />

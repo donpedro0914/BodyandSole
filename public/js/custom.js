@@ -255,7 +255,7 @@ $(document).ready(function() {
 			swal(
                 {
                     title: 'Done!',
-                    text: 'Room #: '+$('#countdown').attr('data-room')+' is done!',
+                    text: $('#countdown').attr('data-room')+' is done!',
                     type: 'warning'
                 }
             );
@@ -298,6 +298,7 @@ $(document).ready(function() {
 				$('#commission').val(data['labor']);
 				$('#price').empty();
 				$('#price').val(data['price']);
+				$('#package_price').val(data['price']);
 			}
 		});
 	});
@@ -487,7 +488,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$('#start_timer').on('click', function(e) {
+	$('.start_time').on('click', function(e) {
 
 		$.ajaxSetup({
 			headers: {
@@ -1148,19 +1149,32 @@ $(document).ready(function() {
 		var category = $('input[type=radio][name=category]:checked').val();
 
 		if(category == 'Single') {
-
+			$('#package_services_front').val(null).trigger('change');
+			$('#package_inclusion tbody').empty();
+			$('#commission').val(null);
+			$('#package_inclusion tbody').append('<tr><td class="text-center" colspan="4">No Services Yet</td></tr>');
 			$('#Service').show();
 			$('#Service select').attr('name', 'service');
 			$('#Package').hide();
 			$('#Package select').removeAttr('name');
+			$('#package_labor_total').empty();
+			$('#package_labor_total').html('₱0.00');
+			$('#package_total').empty();
+			$('#package_total').html('₱0.00');
+			$('#price').val(null);
 
 		} else if(category == 'Package') {
-
+			$('#package_id').val(null).trigger('change');
 			$('#Service').hide();
 			$('#Service select').removeAttr('name');
 			$('#Package').show();
 			$('#Package select').attr('name', 'service');
-
+			$('#package_labor_total').empty();
+			$('#package_labor_total').html('₱0.00');
+			$('#package_total').empty();
+			$('#package_total').html('₱0.00');
+			$('#commission').val(null);
+			$('#price').val(null);
 		} else {
 
 			$('#Service').hide();
@@ -1191,9 +1205,13 @@ $(document).ready(function() {
 			$('#gc_no').hide();
 			$('.gc_checker').empty();
 			$('.gc_checker').html('Gift Cert');
-			var price = $('#package_total').html();
-			var price = price.replace('₱', '');
-			var price = price.replace('.00', '');
+			if($('input[type=radio][name=category]:checked').val() == 'Package') {
+				var price = $('#package_price').val();
+			} else {
+				var price = $('#package_total').html();
+				var price = price.replace('₱', '');
+				var price = price.replace('.00', '');
+			}
 			$('#price').val(price);
 		}
 	});

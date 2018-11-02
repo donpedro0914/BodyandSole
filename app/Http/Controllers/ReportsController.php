@@ -19,7 +19,7 @@ class ReportsController extends Controller
     }
 
     public function sales_reports() {
-        $gc = Giftcertificate::whereDate('created_at', Carbon::today())->get();
+        $gc = Giftcertificate::all();
         $job_orders = JobOrder::where('status', 'Done')->whereDate('created_at', Carbon::today())->get();
         return view('admin.report.sales', compact('job_orders', 'gc'));
     }

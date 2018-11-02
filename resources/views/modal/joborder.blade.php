@@ -113,6 +113,7 @@
 								<option value="{{ $p->id }}">{{ $p->package_name }}</option>
 								@endforeach
 							</select>
+							<input type="hidden" id="package_price" val="" />
                             </div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
