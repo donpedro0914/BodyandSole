@@ -81,6 +81,7 @@
         } );
 
         var oTable = $('.ajax-table-sales').DataTable({
+            paging: false,
             keys: true,
             "footerCallback": function (row,data,start,end,display) {
                 var api = this.api(), data;
