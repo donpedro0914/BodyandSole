@@ -36,6 +36,37 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-3">
+                            <div class="card-box">
+                                <h4 class="header-title">Total <strong class="text-success">Done</strong> Job Order</h4>
+                                <p class="text-muted">{{ $day }}</p>
+                                <div class="mb-3 mt-4">
+                                    <h2 class="font-weight-light">{{ $dailyJobOrderDone }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="card-box">
+                                <h4 class="header-title">Total <strong class="text-danger">Cancelled</strong> Job Order</h4>
+                                <p class="text-muted">{{ $day }}</p>
+                                <div class="mb-3 mt-4">
+                                    <h2 class="font-weight-light">{{ $dailyJobOrderCancelled }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-9">
+                            <div class="card-box">
+                                <h4 class="header-title">Statistics for the month of <?php echo date('F'); ?></h4>
+                                {!! $chartjs->render() !!}
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="card-box">
+                                <h4 class="header-title">Therapist</h4>
+                            </div>
+                        </div>
                     </div>
     			</div>
     		</div>

@@ -38,7 +38,45 @@ class AdminController extends Controller
                     ->sum('price');
         $dailySales += Giftcertificate::whereDate('created_at', Carbon::today())->sum('value');
         $dailyExpenses = PettyExpense::whereDate('created_at', Carbon::today())->sum('value');
-        return view('admin.dashboard',['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
+        $dailyJobOrderDone = JobOrder::where('status', 'Done')->whereDate('created_at', Carbon::today())->count();
+        $dailyJobOrderCancelled = JobOrder::where('status', 'Cancelled')->whereDate('created_at', Carbon::today())->count();
+
+        $date = date('d');
+        for($i=1; $i<=$date; $i++) {
+            $days[] = $i;
+            $totalDoneJobOrders[] = JobOrder::where('status', 'Done')->whereDay('created_at', '=', $i)->whereMonth('created_at', date('m'))->count();
+            $totalCancelledJobOrders[] = JobOrder::where('status', 'Cancelled')->whereDay('created_at', '=', $i)->whereMonth('created_at', date('m'))->count();
+        }
+        $chartjs = app()->chartjs
+        ->name('lineChartTest')
+        ->type('line')
+        ->size(['width' => 400, 'height' => 200])
+        ->labels($days)
+        ->datasets([
+            [
+                "label" => "Done Job Orders",
+                'backgroundColor' => "rgba(38, 185, 154, 0.31)",
+                'borderColor' => "rgba(38, 185, 154, 0.7)",
+                "pointBorderColor" => "rgba(38, 185, 154, 0.7)",
+                "pointBackgroundColor" => "rgba(38, 185, 154, 0.7)",
+                "pointHoverBackgroundColor" => "#fff",
+                "pointHoverBorderColor" => "rgba(220,220,220,1)",
+                'data' => $totalDoneJobOrders,
+            ],
+            [
+                "label" => "Cancelled Job Orders",
+                'backgroundColor' => "rgba(243, 73, 67, 0.31)",
+                'borderColor' => "rgba(243, 73, 67, 0.7)",
+                "pointBorderColor" => "rgba(243, 73, 67, 0.7)",
+                "pointBackgroundColor" => "rgba(243, 73, 67, 0.7)",
+                "pointHoverBackgroundColor" => "rgba(243, 73, 67, 1)",
+                "pointHoverBorderColor" => "rgba(243, 73, 67, 1)",
+                'data' => $totalCancelledJobOrders,
+            ]
+        ])
+        ->options([]);
+
+        return view('admin.dashboard', compact('chartjs'), ['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses, 'dailyJobOrderDone' => $dailyJobOrderDone, 'dailyJobOrderCancelled' => $dailyJobOrderCancelled]);
     }
 
     public function settings() {

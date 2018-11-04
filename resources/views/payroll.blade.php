@@ -8,6 +8,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
+                            <h4 class="header-title">Payroll: {{ $startDate }} - {{ $endDate }}</h4> 
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-payroll">
                                 <thead>
                                     <tr>

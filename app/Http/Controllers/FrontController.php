@@ -388,6 +388,6 @@ class FrontController extends Controller
             group by b.fullname
             ');
 
-        return view('payroll', compact('alltherapists', 'payroll'));
+        return view('payroll', compact('alltherapists', 'payroll'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
 }
