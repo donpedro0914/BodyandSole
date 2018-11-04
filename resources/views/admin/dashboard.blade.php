@@ -56,15 +56,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-9">
+                        <div class="col-xl-12">
                             <div class="card-box">
                                 <h4 class="header-title">Statistics for the month of <?php echo date('F'); ?></h4>
                                 {!! $chartjs->render() !!}
-                            </div>
-                        </div>
-                        <div class="col-xl-3">
-                            <div class="card-box">
-                                <h4 class="header-title">Therapist</h4>
                             </div>
                         </div>
                     </div>
