@@ -1257,6 +1257,25 @@ $(document).ready(function() {
 		checkgc(gc);
 	});
 
+	//Edit Job Order
+	$('#joborder_category').on('change', function(e) {
+		var cat = $(this).val();
+
+		if(cat == 'Single') {
+			$('#joborder_single').show();
+			$('#joborder_package').hide();
+			$('.selectedservice').hide();
+		} else if(cat == 'Package') {
+			$('#joborder_single').hide();
+			$('#joborder_package').show();
+			$('.selectedservice').hide();
+		} else {
+			$('#joborder_single').hide();
+			$('#joborder_package').hide();
+			$('.selectedservice').hide();
+		}
+	});
+
 	//Delete Function
 	$('.btn-delete').on('click', function(e) {
 

@@ -38,6 +38,7 @@
 							<label class="col-sm-4 col-form-label">Therapist</label>
 							<div class="col-sm-8">
 								<select class="form-control select2 select2-selection__rendered" name="therapist_fullname" required="">
+								<option value="">--Select Therapist--</option>
 									@foreach($therapists as $t)
 									<option value="{{ $t->id }}">{{ $t->fullname }}</option>
 									@endforeach

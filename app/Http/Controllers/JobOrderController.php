@@ -59,11 +59,12 @@ class JobOrderController extends Controller
     }
 
     public function edit($id) {
-        $joborder = JobOrder::select('job_orders.*', 'services.service_name', 'services.id', 'services.service_name as sname', 'therapists.id', 'therapists.fullname as fullname')->leftJoin('services', 'job_orders.service', '=', 'services.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->where('job_orders.job_order', $id)->first();
+        $joborder = JobOrder::select('job_orders.*', 'services.service_name', 'services.id', 'services.service_name as sname', 'packages.package_name as pname', 'therapists.id', 'therapists.fullname as fullname')->leftJoin('services', 'job_orders.service', '=', 'services.id')->leftJoin('packages', 'job_orders.service', '=', 'packages.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->where('job_orders.job_order', $id)->first();
         $therapists = Therapist::where('status', 'Active')->pluck('fullname', 'id');
         $service = Services::where('status', 'Active')->pluck('service_name', 'id');
+        $packages = Packages::pluck('package_name', 'id');
 
-        return view('admin.edit.joborder', ['joborder' => $joborder, 'therapists' => $therapists, 'service' => $service]);
+        return view('admin.edit.joborder', ['joborder' => $joborder, 'therapists' => $therapists, 'service' => $service, 'packages' => $packages]);
     }
 
     public function update(Request $request, $id) {
