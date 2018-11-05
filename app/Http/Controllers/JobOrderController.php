@@ -71,6 +71,7 @@ class JobOrderController extends Controller
             'therapist_fullname' => $request->input('therapist_fullname'),
             'category' => $request->input('category'),
             'service' => $request->input('service'),
+            'price' => $request->input('price'),
         );
 
         JobOrder::where('job_order', $id)->update($data);

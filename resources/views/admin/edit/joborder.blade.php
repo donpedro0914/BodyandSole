@@ -34,7 +34,15 @@
                                     </div>
                                     <div class="form-group col-md-6 col-xs-12">
                                         <label>Category</label>
-                                        <input type="text" class="form-control" name="category" id="category" value="{{ $joborder->category }}" readonly="" />
+                                        <select name="category" class="form-control">
+                                            @if($joborder->category == 'Single')
+                                            <option value="Single" selected>Single</option>
+                                            <option value="Package">Package</option>
+                                            @else
+                                            <option value="Single">Single</option>
+                                            <option value="Package" selected>Package</option>
+                                            @endif
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-6 col-xs-12">
                                         <label>Service</label>
@@ -46,7 +54,7 @@
                                     </div>
                                     <div class="form-group col-md-6 col-xs-12">
                                         <label>Price</label>
-                                        <input type="text" class="form-control" name="price" id="price" value="{{ $joborder->price }}" readonly="" />
+                                        <input type="text" class="form-control" name="price" id="price" value="{{ $joborder->price }}"/>
                                     </div>
                                     <div class="form-group col-md-12 col-xs-12">
                                         <div class="clearfix text-right mt-3">
