@@ -18,7 +18,7 @@
                     <div class="col-12">
                         <div class="card-box">
                             <div class="input-group col-xl-5 m-b-30">
-                                <input type="text" class="form-control" id="jo_From">
+                                <input type="text" class="form-control" id="jo_From" value="{{ $day }}">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="mdi mdi-calendar"></i>
@@ -67,6 +67,7 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
+        $searchVal = '{{ $day }}';
         jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
             return this.flatten().reduce( function ( a, b ) {
                 if ( typeof a === 'string' ) {
@@ -102,7 +103,7 @@
 
                 $(api.column(1).footer()).html(pagetotal1+'.00');
             }
-        });
+        }).columns(2).search($searchVal).draw();
 
         $("#jo_From").datepicker({
             autoclose: true,

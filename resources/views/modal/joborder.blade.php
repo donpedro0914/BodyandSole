@@ -69,7 +69,7 @@
 		                                    @endforeach
 		                                </select>
 		                                <div class="input-group-append">
-	                                		<button type="button" id="package_servicec_btn_front" class="btn btn-primary waves-effect waves-light" disabled="">Apply Service(s)</button>
+	                                		<button type="button" id="package_servicec_btn_front" class="btn btn-sm btn-primary waves-effect waves-light" disabled="">Apply Service(s)</button>
 		                                </div>
 	                            	</div>
 	                            </div>
@@ -116,6 +116,16 @@
 							</select>
 							<input type="hidden" id="package_price" val="" />
                             </div>
+						</div>
+						<div id="Addon" class="form-group row col-md-12 col-xs-12" style="display: none;">
+							<label class="col-sm-4 col-form-label">Addon</label>
+							<div class="col-sm-8">
+								<select id="addon_service" class="select2 form-control select2-multiple" multiple="multiple" data-tags="true" data-placeholder="Choose ..." name="addon[]" required="">
+	                                @foreach($service as $s)
+	                                <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}({{ $s->charge }})</option>
+	                                @endforeach
+	                            </select>
+							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Payment Method</label>

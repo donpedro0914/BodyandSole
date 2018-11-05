@@ -301,6 +301,8 @@ $(document).ready(function() {
 				$('#package_price').val(data['price']);
 			}
 		});
+
+		$('#Addon').show();
 	});
 
 	$('#package_services_front').on('change', function(e){
@@ -1162,6 +1164,8 @@ $(document).ready(function() {
 			$('#package_total').empty();
 			$('#package_total').html('₱0.00');
 			$('#price').val(null);
+			$('#addon_service').val(null).trigger('change');
+			$('#Addon').hide()
 
 		} else if(category == 'Package') {
 			$('#package_id').val(null).trigger('change');
@@ -1175,8 +1179,8 @@ $(document).ready(function() {
 			$('#package_total').html('₱0.00');
 			$('#commission').val(null);
 			$('#price').val(null);
+			$('#addon_service').val(null).trigger('change');
 		} else {
-
 			$('#Service').hide();
 			$('#Package').hide();
 			$('#Service select').removeAttr('name');
@@ -1256,6 +1260,18 @@ $(document).ready(function() {
 		var gc = $('#gc_no').val();
 		checkgc(gc);
 	});
+
+	$('#addon_service').on('change', function(e) {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		alert($(this).select2().find('option:selected').data('price'));
+
+	})
 
 	//Edit Job Order
 	$('#joborder_category').on('change', function(e) {

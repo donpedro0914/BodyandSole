@@ -19,9 +19,10 @@ class ReportsController extends Controller
     }
 
     public function sales_reports() {
+        $day = Carbon::now()->format('Y-m-d');
         $gc = Giftcertificate::all();
         $job_orders = JobOrder::where('status', 'Done')->get();
-        return view('admin.report.sales', compact('job_orders', 'gc'));
+        return view('admin.report.sales', compact('job_orders', 'gc'),['day' => $day]);
     }
 
     public function payroll_reports() {
