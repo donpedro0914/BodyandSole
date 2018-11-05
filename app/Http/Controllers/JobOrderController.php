@@ -79,7 +79,7 @@ class JobOrderController extends Controller
 
     public function delete($id)
     {
-        $joborder = JobOrder::find($id)->delete();
+        $joborder = JobOrder::where('job_order', $id)->delete();
 
         return response()->json($joborder);
 
