@@ -47,7 +47,18 @@
                                                 <td>{{ $j->job_order }}</td>
                                                 <td>{{ $j->client_fullname }}</td>
                                                 <td>{{ $j->therapistname }}</td>
+                                                @if($j->category == 'Single')
                                                 <td>{{ $j->service_name }} ({{ $j->price }})</td>
+                                                @else
+                                                    @if($j->addon)
+                                                    @php
+                                                    $addon = str_replace(",", "\r\n", $j->addon);
+                                                    @endphp
+                                                    <td>{{ $j->package_name }} ({{ $j->price }})<br /><strong>Addon:</strong><br />{{ $addon }}</td>
+                                                    @else
+                                                    <td>{{ $j->package_name }} ({{ $j->price }})</td>
+                                                    @endif
+                                                @endif
                                                 <td>
                                                     @if($j->care_of)
                                                     {{ $j->payment }} - {{ $j->care_of }}

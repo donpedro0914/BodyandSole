@@ -154,6 +154,13 @@ class FrontController extends Controller
 
     }
 
+    public function ajaxAddon(Request $request) {
+
+        $service = Services::whereIn('id', request('id'))->get();
+        return response()->json($service);
+
+    }
+
     public function store(Request $request) {
 
         $day = $request->input('day');
@@ -164,7 +171,8 @@ class FrontController extends Controller
     		'senior' => $request->input('senior'),
     		'therapist_fullname' => $request->input('therapist_fullname'),
     		'category' => $request->input('category'),
-    		'service' => $request->input('service'),
+            'service' => $request->input('service'),
+    		'addon' => $request->input('addon'),
     		'payment' => $request->input('payment'),
     		'care_of' => $request->input('care_of'),
             'gcno' => $request->input('gcno'),

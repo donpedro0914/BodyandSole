@@ -114,13 +114,15 @@
 								<option value="{{ $p->id }}">{{ $p->package_name }}</option>
 								@endforeach
 							</select>
-							<input type="hidden" id="package_price" val="" />
+							<input type="hidden" id="package_price"/>
+							<input type="hidden" id="package_commission"/>
+							<input type="hidden" id="addon_container" name="addon"/>
                             </div>
 						</div>
 						<div id="Addon" class="form-group row col-md-12 col-xs-12" style="display: none;">
 							<label class="col-sm-4 col-form-label">Addon</label>
 							<div class="col-sm-8">
-								<select id="addon_service" class="select2 form-control select2-multiple" multiple="multiple" data-tags="true" data-placeholder="Choose ..." name="addon[]" required="">
+								<select id="addon_service" class="select2 form-control select2-multiple" multiple="multiple" data-tags="true" data-placeholder="Choose ..." required="">
 	                                @foreach($service as $s)
 	                                <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}({{ $s->charge }})</option>
 	                                @endforeach

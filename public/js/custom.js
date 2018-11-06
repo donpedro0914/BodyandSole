@@ -296,13 +296,49 @@ $(document).ready(function() {
 			success: function(data) {
 				$('#commission').empty();
 				$('#commission').val(data['labor']);
+				$('#package_commission').val(data['labor']);
 				$('#price').empty();
 				$('#price').val(data['price']);
 				$('#package_price').val(data['price']);
 			}
 		});
 
-		// $('#Addon').show();
+		$('#Addon').show();
+	});
+
+	$('#addon_service_btn').on('click', function(e) {
+
+		e.preventDefault();
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		var services = $('#addon_service').val();
+		$('#addon_container').val(services);
+		
+		$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			url: baseurl + 'front/ajaxAddon',
+			data: {'id':services},
+			success: function(data) {
+				var total = 0;
+				var labor = 0;
+				for(var i=0; i<data.length;i++){
+					total += Number(data[i].charge);
+					labor += Number(data[i].labor_s);
+				}
+				var commission = $('#package_commission').val();
+				var totalCommission = parseInt(commission) + parseInt(labor);
+				$('#commission').val(totalCommission);
+				var price = $('#package_price').val();
+				var totalPrice = parseInt(price) + parseInt(total);
+				$('#price').val(totalPrice);
+			}
+		});
 	});
 
 	$('#package_services_front').on('change', function(e){
@@ -1260,18 +1296,6 @@ $(document).ready(function() {
 		var gc = $('#gc_no').val();
 		checkgc(gc);
 	});
-
-	$('#addon_service').on('change', function(e) {
-
-		$.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-		});
-
-		alert($(this).val().data('price'));
-
-	})
 
 	//Edit Job Order
 	$('#joborder_category').on('change', function(e) {

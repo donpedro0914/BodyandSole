@@ -15,6 +15,7 @@
 Route::get('/', 'FrontController@index');
 Route::post('package/getpackagedetails', 'FrontController@getpackagedetails');
 Route::post('front/ajaxService', 'FrontController@ajaxService');
+Route::post('front/ajaxAddon', 'FrontController@ajaxAddon');
 Route::post('/gc/checker', 'FrontController@checker');
 Route::post('joborder/store', 'FrontController@store');
 Route::post('joborder/update', 'FrontController@update');
