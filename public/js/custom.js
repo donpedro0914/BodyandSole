@@ -302,7 +302,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$('#Addon').show();
+		// $('#Addon').show();
 	});
 
 	$('#package_services_front').on('change', function(e){
@@ -1269,7 +1269,7 @@ $(document).ready(function() {
 			}
 		});
 
-		alert($(this).select2().find('option:selected').data('price'));
+		alert($(this).val().data('price'));
 
 	})
 

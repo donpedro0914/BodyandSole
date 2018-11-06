@@ -48,7 +48,19 @@
                                         <label>PIN</label>
                                         <input type="password" class="form-control" name="pin" value="{{ $therapist->pin }}">
                                     </div>
-                                    <div class="form-group col-md-6 col-xs-12">
+                                    <div class="form-group col-md-4 col-xs-12">
+                                        <label>Basic Pay</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class='input-group-text'>₱</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="basic" id="basic" value="{{ $therapist->basic }}"/>
+                                            <div class="input-group-prepend">
+                                                <span class='input-group-text'>.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4 col-xs-12">
                                         <label>Lodging</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -60,7 +72,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6 col-xs-12">
+                                    <div class="form-group col-md-4 col-xs-12">
                                         <label>Allowance</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">

@@ -125,6 +125,7 @@
 	                                <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}({{ $s->charge }})</option>
 	                                @endforeach
 	                            </select>
+	                            <button type="button" class="btn btn-sm btn-primary" id="addon_service_btn">Apply Addon</button>
 							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
