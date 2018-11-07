@@ -332,13 +332,25 @@ class FrontController extends Controller
     }
 
     public function attendance_store(Request $request) {
+        $now = Carbon::now()->format('Y-m-d');
+        $en = Carbon::parse($now);
+        $start = $en->startOfWeek(Carbon::FRIDAY);
+        $end = $en->endOfWeek(Carbon::THURSDAY);
+        $currentDay = Carbon::now();
+        $formattedCurrentDay = Carbon::now()->format('Y-m-d');
+        $day = $currentDay->dayOfWeek;
+        $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+
         $validateUser = Therapist::where('fullname', $request->input('therapist'))->where('pin', $request->input('pin'))->first();
 
         if($validateUser) {
             $checkIn = Attendance::where('name', $validateUser->fullname)->first();
-            if(empty($checkIn)) {
+            if(empty($checkIn->time_in)) {
                 $data = array(
-                    'name' => $request->input('therapist')
+                    'name' => $request->input('therapist'),
+                    'time_in' => Carbon::now(),
+                    'day' => $day
                 );
 
                 $checkIn2 = Attendance::create($data);
@@ -346,7 +358,8 @@ class FrontController extends Controller
                 return response()->json($checkIn3);
             } else {
                 $data = array(
-                    'name' => $request->input('therapist')
+                    'name' => $request->input('therapist'),
+                    'time_out' => Carbon::now()
                 );
                 Attendance::where('name', $request->input('therapist'))->update($data);
 

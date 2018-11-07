@@ -189,5 +189,19 @@ class ReportsController extends Controller
 
         return view('admin.report.therapist_detailed_report',compact('therapistInfo', 'day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
+
+    public function weekly_attendance_reports() {
+
+        $now = Carbon::now()->format('Y-m-d');
+        $en = Carbon::parse($now);
+        $start = $en->startOfWeek(Carbon::FRIDAY);
+        $end = $en->endOfWeek(Carbon::THURSDAY);
+        $currentDay = Carbon::now();
+        $day = $currentDay->dayOfWeek;
+        $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+
+        return view('admin.report.weekly_attendance', ['startDate' => $startDate, 'endDate' => $endDate]);
+    }
     
 }

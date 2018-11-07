@@ -8,5 +8,5 @@ class Attendance extends Model
 {
     protected $table = 'attendances';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'time_in', 'time_out', 'day'];
 }

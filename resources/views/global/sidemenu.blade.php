@@ -44,6 +44,7 @@
 	            		<li><a href="/expense-reports">Petty Expense Reports</a></li>
 	            		<li><a href="/payroll-reports">Payroll Reports</a></li>
 	            		<li><a href="/weekly-commission-reports">Weekly Commission Reports</a></li>
+	            		<li><a href="/weekly-attendance-reports">Weekly Attendance Reports</a></li>
 	            	</ul>
 	            </li>
 				<li>
