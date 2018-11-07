@@ -6,6 +6,7 @@ use App\JobOrder;
 use App\Therapist;
 use App\Giftcertificate;
 use App\PettyExpense;
+use App\Attendance;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -201,7 +202,8 @@ class ReportsController extends Controller
         $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
-        return view('admin.report.weekly_attendance', ['startDate' => $startDate, 'endDate' => $endDate]);
+        $attendance = Attendance::whereBetween('created_at', [$startDate, $endDate])->groupBy('name')->get();
+        return view('admin.report.weekly_attendance', compact('attendance'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
     
 }
