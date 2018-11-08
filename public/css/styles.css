@@ -14,6 +14,9 @@
 .clear {
 	clear:both;
 }
+.signature {
+	margin-bottom: 50px;
+}
 #payroll_printout hr {
 	border-top: 1px solid #9a9a9a;
 	clear:both;

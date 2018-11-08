@@ -229,7 +229,7 @@
                                         </div>
                                         <div class="clear"></div>
                                         <div class="col-12">
-                                            <div class="m-t-50 text-right">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                            <div class="m-t-50 text-right signature">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                                         </div>
                                     </div>
                                 @endforeach
