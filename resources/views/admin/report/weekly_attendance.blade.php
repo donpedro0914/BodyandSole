@@ -32,20 +32,24 @@
                                         <th class='text-center'>Day 5</th>
                                         <th class='text-center'>Day 6</th>
                                         <th class='text-center'>Day 7</th>
-                                        <th class='text-center'># of Days</th>
+                                        <th class='text-center'>Total # of Hours</th>
                                     </tr>
                                 </thead>
                                     @foreach($attendance as $a)
                                         <tr>
                                             <td>{{ $a->name }}</td>
                                             <td>
+                                                @php
+                                                $totalHrs = '0';
+                                                @endphp
                                                 @if($a->day1)
                                                     @php
                                                         $startTime = strtotime($a->time_in);
                                                         $endTime = strtotime($a->time_out);
                                                         $interval = abs($endTime - $startTime);
                                                         $hours = round($interval / 3600);
-                                                        echo $hours;
+                                                        echo $hours . ' Hrs';
+                                                        $totalHrs += $hours;
                                                     @endphp
                                                 @else
                                                 {!! 0 !!}
@@ -58,7 +62,8 @@
                                                         $endTime = strtotime($a->time_out);
                                                         $interval = abs($endTime - $startTime);
                                                         $hours = round($interval / 3600);
-                                                        echo $hours;
+                                                        echo $hours . ' Hrs';
+                                                        $totalHrs += $hours;
                                                     @endphp
                                                 @else
                                                 {!! 0 !!}
@@ -71,7 +76,8 @@
                                                         $endTime = strtotime($a->time_out);
                                                         $interval = abs($endTime - $startTime);
                                                         $hours = round($interval / 3600);
-                                                        echo $hours;
+                                                        echo $hours . ' Hrs';
+                                                        $totalHrs += $hours;
                                                     @endphp
                                                 @else
                                                 {!! 0 !!}
@@ -84,7 +90,8 @@
                                                         $endTime = strtotime($a->time_out);
                                                         $interval = abs($endTime - $startTime);
                                                         $hours = round($interval / 3600);
-                                                        echo $hours;
+                                                        echo $hours . ' Hrs';
+                                                        $totalHrs += $hours;
                                                     @endphp
                                                 @else
                                                 {!! 0 !!}
@@ -97,7 +104,8 @@
                                                         $endTime = strtotime($a->time_out);
                                                         $interval = abs($endTime - $startTime);
                                                         $hours = round($interval / 3600);
-                                                        echo $hours;
+                                                        echo $hours . ' Hrs';
+                                                        $totalHrs += $hours;
                                                     @endphp
                                                 @else
                                                 {!! 0 !!}
@@ -110,7 +118,8 @@
                                                         $endTime = strtotime($a->time_out);
                                                         $interval = abs($endTime - $startTime);
                                                         $hours = round($interval / 3600);
-                                                        echo $hours;
+                                                        echo $hours . ' Hrs';
+                                                        $totalHrs += $hours;
                                                     @endphp
                                                 @else
                                                 {!! 0 !!}
@@ -123,13 +132,14 @@
                                                         $endTime = strtotime($a->time_out);
                                                         $interval = abs($endTime - $startTime);
                                                         $hours = round($interval / 3600);
-                                                        echo $hours;
+                                                        echo $hours . ' Hrs';
+                                                        $totalHrs += $hours;
                                                     @endphp
                                                 @else
                                                 {!! 0 !!}
                                                 @endif
                                             </td>
-                                            <td></td>
+                                            <td>{{ $totalHrs }} Hrs</td>
                                         </tr>
                                     @endforeach
                                 <tbody>
