@@ -4,16 +4,16 @@
     @include('global.topnav')
     @include('global.sidemenu')
     <div class="content-page">
-    	<div class="content">
-    		<div class="container-fluid">
-    			<div class="page-title-box">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="page-title-box">
                     <ol class="breadcrumb float-right">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Body and Sole</a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Reports</a></li>
                         <li class="breadcrumb-item active">Weekly Attendance Report</li>
                     </ol>
                     <h4 class="page-title">Weekly Attendance Report</h4>
-    			</div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
@@ -39,7 +39,7 @@
                                         <tr>
                                             <td>{{ $a->name }}</td>
                                             <td>
-                                                @if($a->day == '1')
+                                                @if($a->day1)
                                                     @php
                                                         $startTime = strtotime($a->time_in);
                                                         $endTime = strtotime($a->time_out);
@@ -47,10 +47,12 @@
                                                         $hours = round($interval / 3600);
                                                         echo $hours;
                                                     @endphp
+                                                @else
+                                                {!! 0 !!}
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($a->day == '2')
+                                                @if($a->day2)
                                                     @php
                                                         $startTime = strtotime($a->time_in);
                                                         $endTime = strtotime($a->time_out);
@@ -58,10 +60,12 @@
                                                         $hours = round($interval / 3600);
                                                         echo $hours;
                                                     @endphp
+                                                @else
+                                                {!! 0 !!}
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($a->day == '3')
+                                                @if($a->day3)
                                                     @php
                                                         $startTime = strtotime($a->time_in);
                                                         $endTime = strtotime($a->time_out);
@@ -69,12 +73,62 @@
                                                         $hours = round($interval / 3600);
                                                         echo $hours;
                                                     @endphp
+                                                @else
+                                                {!! 0 !!}
                                                 @endif
                                             </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>
+                                                @if($a->day4)
+                                                    @php
+                                                        $startTime = strtotime($a->time_in);
+                                                        $endTime = strtotime($a->time_out);
+                                                        $interval = abs($endTime - $startTime);
+                                                        $hours = round($interval / 3600);
+                                                        echo $hours;
+                                                    @endphp
+                                                @else
+                                                {!! 0 !!}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($a->day5)
+                                                    @php
+                                                        $startTime = strtotime($a->time_in);
+                                                        $endTime = strtotime($a->time_out);
+                                                        $interval = abs($endTime - $startTime);
+                                                        $hours = round($interval / 3600);
+                                                        echo $hours;
+                                                    @endphp
+                                                @else
+                                                {!! 0 !!}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($a->day6)
+                                                    @php
+                                                        $startTime = strtotime($a->time_in);
+                                                        $endTime = strtotime($a->time_out);
+                                                        $interval = abs($endTime - $startTime);
+                                                        $hours = round($interval / 3600);
+                                                        echo $hours;
+                                                    @endphp
+                                                @else
+                                                {!! 0 !!}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($a->day7)
+                                                    @php
+                                                        $startTime = strtotime($a->time_in);
+                                                        $endTime = strtotime($a->time_out);
+                                                        $interval = abs($endTime - $startTime);
+                                                        $hours = round($interval / 3600);
+                                                        echo $hours;
+                                                    @endphp
+                                                @else
+                                                {!! 0 !!}
+                                                @endif
+                                            </td>
                                             <td></td>
                                         </tr>
                                     @endforeach
@@ -84,8 +138,8 @@
                         </div>
                     </div>
                 </div>
-    		</div>
-    	</div>
+            </div>
+        </div>
     </div>
 @endsection
 @push('scripts')

@@ -8,6 +8,7 @@
 			<div class="modal-body">
 				<form id="f_attendanceForm" action="{{ URL::to('f_attendance/store') }}" method="post">
 					@csrf
+					<input type="hidden" name="day" value="day{{$day}}" />
 					<div class="form-row">
 						<div class="form-group col-md-6 col-xs-12">
 							<label>Name</label>

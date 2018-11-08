@@ -37,12 +37,12 @@ class ReportsController extends Controller
 
         $payroll = DB::select('
             select a.created_at as created_at, b.id, b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 
-            sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total, sum(COALESCE(a.day0,0)) as Fri, sum(COALESCE(a.day1,0)) as Sat, sum(COALESCE(a.day2,0)) as Sun, sum(COALESCE(a.day3,0)) as Mon, sum(COALESCE(a.day4,0)) as Tue, sum(COALESCE(a.day5,0)) as Wed, sum(COALESCE(a.day6,0)) as Thurs
-            from job_orders a, therapists b
+            sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total, sum(COALESCE(a.day0,0)) as Fri, sum(COALESCE(a.day1,0)) as Sat, sum(COALESCE(a.day2,0)) as Sun, sum(COALESCE(a.day3,0)) as Mon, sum(COALESCE(a.day4,0)) as Tue, sum(COALESCE(a.day5,0)) as Wed, sum(COALESCE(a.day6,0)) as Thurs, c.name as a_name, sum(c.day1) as a_day1, sum(c.day2) as a_day2, sum(c.day3) as a_day3, sum(c.day4) as a_day4, sum(c.day5) as a_day5, sum(c.day6) as a_day6, sum(c.day7) as a_day7, c.time_in as time_in, c.time_out as time_out
+            from job_orders a, therapists b, attendances c
             where a.therapist_fullname=b.id
             group by b.fullname
             union
-            select a.created_at as created_at, b.id, b.fullname ,COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            select a.created_at as created_at, b.id, b.fullname ,COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
             from job_orders a, therapists b
             where  b.id not in (select distinct a.therapist_fullname from job_orders a)
             group by b.fullname
@@ -202,7 +202,16 @@ class ReportsController extends Controller
         $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
-        $attendance = Attendance::whereBetween('created_at', [$startDate, $endDate])->groupBy('name')->get();
+        $attendance = DB::select('select name, time_in, time_out,
+            sum(day1) as day1, 
+            sum(day2) as day2, 
+            sum(day3) as day3, 
+            sum(day4) as day4, 
+            sum(day5) as day5, 
+            sum(day6) as day6, 
+            sum(day7) as day7
+            from attendances group by name');
+
         return view('admin.report.weekly_attendance', compact('attendance'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
     

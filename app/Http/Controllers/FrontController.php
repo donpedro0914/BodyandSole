@@ -344,13 +344,14 @@ class FrontController extends Controller
 
         $validateUser = Therapist::where('fullname', $request->input('therapist'))->where('pin', $request->input('pin'))->first();
 
+        $day = $request->input('day');
         if($validateUser) {
             $checkIn = Attendance::where('name', $validateUser->fullname)->first();
             if(empty($checkIn->time_in)) {
                 $data = array(
                     'name' => $request->input('therapist'),
                     'time_in' => Carbon::now(),
-                    'day' => $day
+                    $day => 1
                 );
 
                 $checkIn2 = Attendance::create($data);
