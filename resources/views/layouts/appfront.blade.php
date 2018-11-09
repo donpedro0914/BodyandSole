@@ -21,7 +21,8 @@
     <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/responsive.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" rel="stylesheet">
+    <link href="{{ asset('css/front/daterangepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/front/jquery-ui.css') }}" rel="stylesheet">
 </head>
 @if(\Request::is('login'))
 <body class="bg-account-pages">
@@ -55,6 +56,6 @@
     <script src="{{ asset('js/daterangepicker.js') }}"></script>
     <script src="{{ asset('js/jquery.form-advanced.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.js') }}"></script>
-    @stack('scripts');
+    @stack('scripts')
 </body>
 </html>

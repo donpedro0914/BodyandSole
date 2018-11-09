@@ -61,6 +61,6 @@
     <script src="{{ asset('js/jquery.form-advanced.js') }}"></script>
     <script src="{{ asset('js/printThis.js') }}"></script>
     <script src="{{ asset('js/Chart.min.js') }}"></script>
-    @stack('scripts');
+    @stack('scripts')
 </body>
 </html>

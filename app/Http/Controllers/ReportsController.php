@@ -61,11 +61,11 @@ class ReportsController extends Controller
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
         
         $commission = DB::select('
-                select b.id, b.fullname, sum(COALESCE(a.day0,0)) as Sun, sum(COALESCE(a.day1,0)) as Mon, sum(COALESCE(a.day2,0)) as Tue, sum(COALESCE(a.day3,0)) as Wed, sum(COALESCE(a.day4,0)) as Thurs, sum(COALESCE(a.day5,0)) as Fri, sum(COALESCE(a.day6,0)) as Sat, sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total
+                select a.created_at as created_at, b.id, b.fullname, sum(COALESCE(a.day0,0)) as Sun, sum(COALESCE(a.day1,0)) as Mon, sum(COALESCE(a.day2,0)) as Tue, sum(COALESCE(a.day3,0)) as Wed, sum(COALESCE(a.day4,0)) as Thurs, sum(COALESCE(a.day5,0)) as Fri, sum(COALESCE(a.day6,0)) as Sat, sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total
                 from job_orders a, therapists b
                 where a.therapist_fullname = b.id
                 and a.status = "DONE"
-                and (a.created_at BETWEEN "'.$startDate.'" AND "'.$endDate.'")
+                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
                 group by b.fullname
                 order by b.fullname asc');
 
@@ -213,6 +213,25 @@ class ReportsController extends Controller
             from attendances group by name');
 
         return view('admin.report.weekly_attendance', compact('attendance'), ['startDate' => $startDate, 'endDate' => $endDate]);
+    }
+
+    public function wcr_filter(Request $request) {
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        $filter_startDate = $request->input('startDate');
+        $filter_endDate = $request->input('endDate');
+        
+        $commission = DB::select('
+                select a.created_at as created_at, b.id, b.fullname, sum(COALESCE(a.day0,0)) as Sun, sum(COALESCE(a.day1,0)) as Mon, sum(COALESCE(a.day2,0)) as Tue, sum(COALESCE(a.day3,0)) as Wed, sum(COALESCE(a.day4,0)) as Thurs, sum(COALESCE(a.day5,0)) as Fri, sum(COALESCE(a.day6,0)) as Sat, sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total
+                from job_orders a, therapists b
+                where a.therapist_fullname = b.id
+                and a.status = "DONE"
+                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$filter_startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$filter_endDate.'", "%Y-%m-%d")
+                group by b.fullname
+                order by b.fullname asc');
+
+        return view('admin.report.weekly_commission', compact('commission'),['startDate' => $startDate, 'endDate' => $endDate]);
     }
     
 }

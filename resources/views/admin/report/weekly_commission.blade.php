@@ -18,13 +18,17 @@
                     <div class="col-12">
                         <div class="card-box">
                             <div class="form-group">
-                                <label>Date Range Filter</label>
-                                <div class="input-group">
-                                    <input class="form-control input-daterange-datepicker" id="daterange" type="text" name="daterange" value="{{ $startDate }} - {{ $endDate }}"/>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="button">Filter</button>
+                                <form action="{{ route('wcr_filter') }}" method="get">
+                                    <input type="hidden" name="startDate" id="startDate" value="{{ $startDate }}"/>
+                                    <input type="hidden" name="endDate" id="endDate" value="{{ $endDate }}"/>
+                                    <label>Date Range Filter</label>
+                                    <div class="input-group">
+                                        <input class="form-control input-daterange-datepicker" id="daterange" type="text"value="{{ $startDate }} - {{ $endDate }}"/>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="submit">Filter</button>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                             <table id="commission" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
                                 <thead>
@@ -39,6 +43,7 @@
                                         <th class='text-center'>Day 7</th>
                                         <th class='text-center'># of Days</th>
                                         <th class='text-center'>Total</th>
+                                        <th class='text-center'>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -100,6 +105,7 @@
                                             @endphp
                                         </td>
                                         <td class='text-center'>{{ $c->total }}.00</td>
+                                        <td class='text-center'>{{ $c->created_at }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -141,24 +147,10 @@
             }, 0 );
         } );
 
-        $('.input-daterange-datepicker').daterangepicker({
-            locale: {
-                format: 'YYYY-MM-DD'
-            },
-            buttonClasses: ['btn', 'btn-sm'],
-            applyClass: 'btn-success',
-            cancelClass: 'btn-light',
-        }, function(start, end, label) {
+        
 
-            var dateStart = start.format('YYYY-MM-DD');
-            var dateEnd = end.format('YYYY-MM-DD');
 
-            $('#date_filter').on('click', function() {
-                alert(dateStart);
-            });
-        });
-
-        $('#commission').dataTable({
+        var table = $('#commission').DataTable({
             paging: false,
             dom: 'Bfrtip',
             buttons: [
@@ -301,6 +293,23 @@
                 $(api.column(7).footer()).html(pagetotal7+'.00');
                 $(api.column(9).footer()).html(pagetotal9+'.00');
             }
+        });
+
+        $('.input-daterange-datepicker').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            buttonClasses: ['btn', 'btn-sm'],
+            applyClass: 'btn-success',
+            cancelClass: 'btn-light',
+        });
+
+        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+            var start = picker.startDate.format('YYYY-MM-DD');
+            var end = picker.endDate.format('YYYY-MM-DD');
+
+            $('#startDate').val(start);
+            $('#endDate').val(end);
         });
     });
 </script>
