@@ -18,8 +18,17 @@
                     <div class="col-12">
                         <div class="card-box">
                             <div class="form-group">
-                                <label>Date Range Filter</label>
-                                <input class="form-control input-daterange-datepicker" id="daterange" type="text" name="daterange" value="{{ $startDate }} - {{ $endDate }}"/ readonly="">
+                                <form action="{{ route('wcr_filter') }}" method="get">
+                                    <input type="hidden" name="startDate" id="startDate" value="{{ $startDate }}"/>
+                                    <input type="hidden" name="endDate" id="endDate" value="{{ $endDate }}"/>
+                                    <label>Date Range Filter</label>
+                                    <div class="input-group">
+                                        <input class="form-control input-daterange-datepicker" id="daterange" type="text"value="{{ $startDate }} - {{ $endDate }}"/>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="submit">Filter</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                             <table id="attendance" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
                                 <thead>
@@ -157,6 +166,23 @@
     $(document).ready(function(){
         $('#attendance').DataTable({
             keys: true
+        });
+
+        $('.input-daterange-datepicker').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            buttonClasses: ['btn', 'btn-sm'],
+            applyClass: 'btn-success',
+            cancelClass: 'btn-light',
+        });
+
+        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+            var start = picker.startDate.format('YYYY-MM-DD');
+            var end = picker.endDate.format('YYYY-MM-DD');
+
+            $('#startDate').val(start);
+            $('#endDate').val(end);
         });
     });
 </script>

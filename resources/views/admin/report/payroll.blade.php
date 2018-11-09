@@ -17,17 +17,19 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <!-- <div class="form-group">
-                                <label>Date Range Filter</label>
-                                <div class="form-row">
-                                    <div class="col-auto">
-                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd" id="datepickerFrom" value="{{ $startDate }}">
+                            <div class="form-group">
+                                <form action="{{ route('payroll_filter') }}" method="get">
+                                    <input type="hidden" name="startDate" id="startDate" value="{{ $startDate }}"/>
+                                    <input type="hidden" name="endDate" id="endDate" value="{{ $endDate }}"/>
+                                    <label>Date Range Filter</label>
+                                    <div class="input-group">
+                                        <input class="form-control input-daterange-datepicker" id="daterange" type="text"value="{{ $startDate }} - {{ $endDate }}"/>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="submit">Filter</button>
+                                        </div>
                                     </div>
-                                    <div class="col-auto">
-                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd" id="datepickerTo" value="{{ $endDate }}">
-                                    </div>
-                                </div>
-                            </div> -->
+                                </form>
+                            </div>
                             <button type="button" class="btn btn-primary" id="print_btn">Payslip</button>
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-payroll">
                                 <thead>
@@ -320,34 +322,22 @@
             }
         });
 
-        $("#datepickerFrom").datepicker({
-            autoclose: true,
-            todayHighlight: true,
-            format: 'yyyy-mm-dd',
-            "onSelect": function(date) {
-                minDateFilter = new Date(date).getTime();
-                oTable.fnDraw();
-            }
-            }).keyup(function() {
-                minDateFilter = new Date(this.value).getTime();
-                oTable.fnDraw();
+        $('.input-daterange-datepicker').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            buttonClasses: ['btn', 'btn-sm'],
+            applyClass: 'btn-success',
+            cancelClass: 'btn-light',
         });
 
-        $("#datepickerTo").datepicker({
-            autoclose: true,
-            todayHighlight: true,
-            format: 'yyyy-mm-dd',
-            "onSelect": function(date) {
-                minDateFilter = new Date(date).getTime();
-                oTable.fnDraw();
-            }
-            }).keyup(function() {
-                minDateFilter = new Date(this.value).getTime();
-                oTable.fnDraw();
-        });
+        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+            var start = picker.startDate.format('YYYY-MM-DD');
+            var end = picker.endDate.format('YYYY-MM-DD');
 
-        minDateFilter = "";
-        maxDateFilter = "";
+            $('#startDate').val(start);
+            $('#endDate').val(end);
+        });
     });
 </script>
 @endpush

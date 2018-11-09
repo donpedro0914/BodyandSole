@@ -247,6 +247,12 @@
 
     var baseurl=window.location.protocol + "//" + window.location.host + "/";
 
+    $("#job_order_date").datepicker({
+        autoclose: true,
+        format: "yyyy-mm-dd",
+        clearBtn: true,
+    });
+    
     $('.style_occupied').tooltip({
         position: {
             my: 'center top',

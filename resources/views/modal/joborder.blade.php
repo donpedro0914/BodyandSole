@@ -20,7 +20,14 @@
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Date</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" value="{!! date('Y-m-d') !!}" readonly/>
+								<div class="input-group m-b-30">
+                                <input type="text" class="form-control" id="job_order_date" value="{!! date('Y-m-d') !!}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="mdi mdi-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
 							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
