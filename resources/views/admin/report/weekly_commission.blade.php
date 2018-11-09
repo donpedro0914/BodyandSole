@@ -43,7 +43,6 @@
                                         <th class='text-center'>Day 7</th>
                                         <th class='text-center'># of Days</th>
                                         <th class='text-center'>Total</th>
-                                        <th class='text-center'>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,7 +104,6 @@
                                             @endphp
                                         </td>
                                         <td class='text-center'>{{ $c->total }}.00</td>
-                                        <td class='text-center'>{{ $c->created_at }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

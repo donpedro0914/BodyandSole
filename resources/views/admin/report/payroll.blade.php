@@ -39,6 +39,7 @@
                                         <th>Allowance</th>
                                         <th>Comm Earning</th>
                                         <th>Gross Pay</th>
+                                        <th>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,6 +96,7 @@
                                         <td class="text-right">{{ $totalAllowance }}.00</td>
                                         <td class="text-right">{{ $p->total }}.00</td>
                                         <td class="text-right">{{ $p->basic + $totalAllowance + $p->total }}.00</td>
+                                        <td class="text-right">{{ $p->created_at }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
