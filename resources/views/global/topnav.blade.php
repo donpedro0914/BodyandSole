@@ -19,7 +19,7 @@
 	        <li class="float-left">
 	            <a href="/dashboard" class="logo">
 	                <span class="logo-lg">
-	                    <!-- {{ HTML::image('img/body-and-sole-logo.jpg', 'Body and Sole', array('style' => 'width:100%')) }} -->
+	                    {{ HTML::image('img/body-and-sole-logo.jpg', 'Body and Sole', array('style' => 'width:100%')) }}
 	                </span>
 	                <span class="logo-sm">
 	                    BS
