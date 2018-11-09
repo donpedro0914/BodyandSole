@@ -243,6 +243,14 @@ class FrontController extends Controller
 
     public function f_clients() {
 
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $day = $start->format('N');
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $alltherapists = Therapist::where('status', 'Active')->get();
+
         $alltherapists = Therapist::where('status', 'Active')->get();
         $client = Clients::select('clients.*', 'job_orders.job_order', 'job_orders.client_fullname', 'job_orders.therapist_fullname', 'therapists.id', 'therapists.fullname as therafullname', 'job_orders.created_at as lastvisit')
                 ->leftJoin('job_orders', 'clients.fullname', '=', 'job_orders.client_fullname')
@@ -251,7 +259,7 @@ class FrontController extends Controller
                 ->orderBy('job_orders.created_at', 'desc')
                 ->get();
 
-        return view('clients', compact('client', 'alltherapists'));
+        return view('clients', compact('client', 'alltherapists', 'day'), ['day' => $day]);
     }
 
     public function f_client_store(Request $request)
@@ -272,6 +280,14 @@ class FrontController extends Controller
 
     public function f_gift_certificate() {
 
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $day = $start->format('N');
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $alltherapists = Therapist::where('status', 'Active')->get();
+
         $alltherapists = Therapist::where('status', 'Active')->get();
         $gc = DB::select('select t.*, COALESCE(a.gcount,0) gcounts, service_name
             from giftcertificates t
@@ -289,7 +305,7 @@ class FrontController extends Controller
         $services = Services::where('status', 'Active')->get();
         $gcCount = Giftcertificate::count();
 
-        return view('gc', compact('services', 'gc', 'client', 'alltherapists'),['gcCount' => $gcCount]);
+        return view('gc', compact('services', 'gc', 'client', 'alltherapists', 'day'),['gcCount' => $gcCount, 'day' => $day]);
     }
 
     public function f_gc_store(Request $request) {
@@ -323,12 +339,20 @@ class FrontController extends Controller
 
     public function f_petty_expenses() {
 
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $day = $start->format('N');
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $alltherapists = Therapist::where('status', 'Active')->get();
+
         $alltherapists = Therapist::where('status', 'Active')->get();
         $therapist = Therapist::where('status', 'Active')->get();
         $expenses = PettyExpense::select('petty_expenses.*', 'therapists.id', 'therapists.fullname', 'petty_expenses.created_at as date')->leftJoin('therapists', 'petty_expenses.therapist', '=', 'therapists.id')->where('petty_expenses.value', '!=', '0')->whereDate('petty_expenses.created_at', Carbon::now()->format('Y-m-d'))->orderBy('petty_expenses.created_at', 'asc')->get();
 
         $expenseCount = PettyExpense::count();
-        return view('expenses', compact('therapist', 'expenses', 'alltherapists'), ['expenseCount' => $expenseCount]);
+        return view('expenses', compact('therapist', 'expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day]);
     }
 
     public function attendance_store(Request $request) {
@@ -410,6 +434,6 @@ class FrontController extends Controller
             group by b.fullname
             ');
 
-        return view('payroll', compact('alltherapists', 'payroll'), ['startDate' => $startDate, 'endDate' => $endDate]);
+        return view('payroll', compact('alltherapists', 'payroll', 'day'), ['startDate' => $startDate, 'endDate' => $endDate, 'day' => $day]);
     }
 }
