@@ -27,6 +27,7 @@
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-gc">
                                 <thead>
                                     <tr>
+                                        <th>Ref No</th>
                                         <th>Gift Cert No</th>
                                         <th>Purchased by</th>
                                         <th>Value</th>
@@ -39,6 +40,7 @@
                                 <tbody>
                                     @foreach($gc as $g)
                                     <tr>
+                                        <td>{{ $g->ref_no }}</td>
                                         <td>{{ $g->gc_no }}</td>
                                         <td>{{ $g->purchased_by }}</td>
                                         <td>{{ $g->value }}</td>

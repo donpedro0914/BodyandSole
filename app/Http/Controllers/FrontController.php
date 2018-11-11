@@ -362,7 +362,6 @@ class FrontController extends Controller
         $end = $en->endOfWeek(Carbon::THURSDAY);
         $currentDay = Carbon::now();
         $formattedCurrentDay = Carbon::now()->format('Y-m-d');
-        $day = $currentDay->dayOfWeek;
         $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
@@ -370,7 +369,7 @@ class FrontController extends Controller
 
         $day = $request->input('day');
         if($validateUser) {
-            $checkIn = Attendance::where('name', $validateUser->fullname)->first();
+            $checkIn = Attendance::where('name', $validateUser->fullname)->whereDate('created_at', Carbon::now()->format('Y-m-d'))->first();
             if(empty($checkIn->time_in)) {
                 $data = array(
                     'name' => $request->input('therapist'),
@@ -386,10 +385,20 @@ class FrontController extends Controller
                     'name' => $request->input('therapist'),
                     'time_out' => Carbon::now()
                 );
-                Attendance::where('name', $request->input('therapist'))->update($data);
+                $check4 = Attendance::where('name', $request->input('therapist'))->whereDate('created_at', Carbon::now()->format('Y-m-d'))->update($data);
 
-                $updateAttendance = Attendance::where('name', $request->input('therapist'))->first();
-                return response()->json($updateAttendance);
+                $check5 = Attendance::where('name', $request->input('therapist'))->orderBy('updated_at', 'desc')->first();
+
+                $timeIn = Carbon::parse($check5->time_in);
+                $timeOut = Carbon::parse($check5->time_out);
+                $calculateHrs = $timeOut->diffInHours($timeIn);
+
+                $calculatedHrs = array(
+                    $day => $calculateHrs
+                );
+
+                $finalUpdate = Attendance::where('id', $check5->id)->update($calculatedHrs);
+                return response()->json($finalUpdate);
             }
         } else {
             return false;
@@ -420,21 +429,24 @@ class FrontController extends Controller
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
         $alltherapists = Therapist::where('status', 'Active')->get();
 
-        $payroll = DB::select('
-            select b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 
+        $payroll_therapist = DB::select('
+            select a.created_at as created_at, b.id, b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 
             sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total, sum(COALESCE(a.day0,0)) as Fri, sum(COALESCE(a.day1,0)) as Sat, sum(COALESCE(a.day2,0)) as Sun, sum(COALESCE(a.day3,0)) as Mon, sum(COALESCE(a.day4,0)) as Tue, sum(COALESCE(a.day5,0)) as Wed, sum(COALESCE(a.day6,0)) as Thurs
             from job_orders a, therapists b
             where a.therapist_fullname=b.id
             and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
             group by b.fullname
-            union
-            select b.fullname ,COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            from job_orders a, therapists b
-            where  b.id not in (select distinct a.therapist_fullname from job_orders a)
+            ');
+
+        $payroll_frontdesk = DB::select('
+            select b.fullname, COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, x.name as name, x.time_in as time_in, x.time_out as time_out, sum(x.day1) as day1, sum(x.day2) as day2, sum(x.day3) as day3, sum(x.day4) as day4, sum(x.day5) as day5, sum(x.day6) as day6, sum(x.day7) as day7
+            from therapists b, attendances x
+            where b.fullname = x.name
+            and DATE_FORMAT(x.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
             group by b.fullname
             ');
 
-        return view('payroll', compact('alltherapists', 'payroll', 'day'), ['startDate' => $startDate, 'endDate' => $endDate, 'day' => $day]);
+        return view('payroll', compact('alltherapists', 'payroll_therapist', 'payroll_frontdesk', 'day'), ['startDate' => $startDate, 'endDate' => $endDate, 'day' => $day]);
     }
 
     public function f_payroll_filter(Request $request) {

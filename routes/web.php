@@ -90,6 +90,8 @@ Route::delete('rooms/delete/{id}', 'AdminController@delete_room');
 /* Gift Certificate */
 Route::get('gift-certificate', 'GiftcertificateController@index');
 Route::post('gc/store', 'GiftcertificateController@store');
+Route::get('gc/edit/{id}', 'GiftcertificateController@edit');
+Route::post('gc/update/{id}', 'GiftcertificateController@update');
 Route::delete('gc/delete/{id}', 'GiftcertificateController@delete');
 
 /* Job order */

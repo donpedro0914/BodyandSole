@@ -32,12 +32,14 @@ class GiftcertificateController extends Controller
                 from services
             ) b on t.service = b.id');
         $services = Services::where('status', 'Active')->get();
-        return view('admin.gc', compact('services', 'gc'));
+        $gcCount = Giftcertificate::count();
+        return view('admin.gc', compact('services', 'gc'), ['gcCount' => $gcCount]);
     }
 
     public function store(Request $request) {
         $data = array(
             'gc_no' => $request->input('gc_no'),
+            'ref_no' => $request->input('ref_no'),
             'purchased_by' => $request->input('purchased_by'),
             'service' => $request->input('service'),
             'value' => $request->input('value'),
@@ -50,6 +52,31 @@ class GiftcertificateController extends Controller
         $gcAdd = Giftcertificate::create($data);
         $gc = Giftcertificate::where('id', $gcAdd->id)->first();
         return response()->json($gc);
+
+    }
+
+    public function edit($id) {
+        $gc = Giftcertificate::where('id', $id)->first();
+        $service = Services::where('status', 'Active')->pluck('service_name', 'id');
+        return view('admin.edit.gc', ['gc' => $gc, 'service' => $service]);        
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = array(
+            'gc_no' => $request->input('gc_no'),
+            'ref_no' => $request->input('ref_no'),
+            'purchased_by' => $request->input('purchased_by'),
+            'service' => $request->input('service'),
+            'value' => $request->input('value'),
+            'use' => $request->input('use'),
+            'date_issued' => $request->input('date_issued'),
+            'expiry_date' => $request->input('expiry_date'),
+            'status' => 'Active'
+        );
+
+        Giftcertificate::where('id', $id)->update($data);
+        return redirect('/gift-certificate');
 
     }
 

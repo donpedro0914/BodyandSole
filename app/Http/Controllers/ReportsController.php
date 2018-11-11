@@ -35,21 +35,24 @@ class ReportsController extends Controller
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
-        $payroll = DB::select('
+        $payroll_therapist = DB::select('
             select a.created_at as created_at, b.id, b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 
             sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total, sum(COALESCE(a.day0,0)) as Fri, sum(COALESCE(a.day1,0)) as Sat, sum(COALESCE(a.day2,0)) as Sun, sum(COALESCE(a.day3,0)) as Mon, sum(COALESCE(a.day4,0)) as Tue, sum(COALESCE(a.day5,0)) as Wed, sum(COALESCE(a.day6,0)) as Thurs
             from job_orders a, therapists b
             where a.therapist_fullname=b.id
             and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
             group by b.fullname
-            union
-            select a.created_at as created_at, b.id, b.fullname ,COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            from job_orders a, therapists b
-            where  b.id not in (select distinct a.therapist_fullname from job_orders a)
+            ');
+
+        $payroll_frontdesk = DB::select('
+            select b.fullname, COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, x.name as name, x.time_in as time_in, x.time_out as time_out, sum(x.day1) as day1, sum(x.day2) as day2, sum(x.day3) as day3, sum(x.day4) as day4, sum(x.day5) as day5, sum(x.day6) as day6, sum(x.day7) as day7
+            from therapists b, attendances x
+            where b.fullname = x.name
+            and DATE_FORMAT(x.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
             group by b.fullname
             ');
 
-        return view('admin.report.payroll', compact('payroll'), ['startDate' => $startDate, 'endDate' => $endDate]);
+        return view('admin.report.payroll', compact('payroll_therapist', 'payroll_frontdesk'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
 
     public function weekly_commission_reports() {
@@ -211,7 +214,9 @@ class ReportsController extends Controller
             sum(day5) as day5, 
             sum(day6) as day6, 
             sum(day7) as day7
-            from attendances group by name');
+            from attendances
+            where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+            group by name');
 
         return view('admin.report.weekly_attendance', compact('attendance'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
@@ -240,21 +245,24 @@ class ReportsController extends Controller
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
 
-        $payroll = DB::select('
+        $payroll_therapist = DB::select('
             select a.created_at as created_at, b.id, b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 
             sum(COALESCE(a.day0,0) + COALESCE(a.day1,0) + COALESCE(a.day2,0) + COALESCE(a.day3,0) + COALESCE(a.day4,0) + COALESCE(a.day5,0) + COALESCE(a.day6,0)) as total, sum(COALESCE(a.day0,0)) as Fri, sum(COALESCE(a.day1,0)) as Sat, sum(COALESCE(a.day2,0)) as Sun, sum(COALESCE(a.day3,0)) as Mon, sum(COALESCE(a.day4,0)) as Tue, sum(COALESCE(a.day5,0)) as Wed, sum(COALESCE(a.day6,0)) as Thurs
             from job_orders a, therapists b
             where a.therapist_fullname=b.id
             and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
             group by b.fullname
-            union
-            select a.created_at as created_at, b.id, b.fullname ,COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            from job_orders a, therapists b
-            where  b.id not in (select distinct a.therapist_fullname from job_orders a)
+            ');
+
+        $payroll_frontdesk = DB::select('
+            select b.fullname, COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, x.name as name, x.time_in as time_in, x.time_out as time_out, sum(x.day1) as day1, sum(x.day2) as day2, sum(x.day3) as day3, sum(x.day4) as day4, sum(x.day5) as day5, sum(x.day6) as day6, sum(x.day7) as day7
+            from therapists b, attendances x
+            where b.fullname = x.name
+            and DATE_FORMAT(x.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
             group by b.fullname
             ');
 
-        return view('admin.report.payroll', compact('payroll'), ['startDate' => $startDate, 'endDate' => $endDate]);
+        return view('admin.report.payroll', compact('payroll_therapist', 'payroll_frontdesk'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
     
 }

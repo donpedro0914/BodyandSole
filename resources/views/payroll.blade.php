@@ -32,10 +32,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($payroll as $p)
+                                    @foreach($payroll_therapist as $p)
                                     <tr>
                                         <td>{{ $p->fullname }}</td>
-                                        <td>{{ $p->basic }}</td>
+                                        <td class="text-right">{{ $p->basic }}.00</td>
                                         @php
                                             $day = '0';
                                             if($p->Thurs) {
@@ -90,6 +90,67 @@
                                             @php
                                             $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
                                             $gross = $p->basic + $totalAllowance + $p->total;
+                                            @endphp
+                                            {{ $gross - $totalDeduction }}.00
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @foreach($payroll_frontdesk as $p)
+                                    <tr>
+                                        <td>{{ $p->fullname }}</td>
+                                        @php
+                                            $day = '0';
+                                            if($p->day1 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day2 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day3 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day4 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day5 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day6 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day7 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+                                        @endphp
+                                        <td class="text-right">{{ $p->basic * $day }}.00</td>
+                                        <td class="text-right">0.00</td>
+                                        <td class="text-right">0.00</td>
+                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}.00</td>
+                                        <td class="text-right">{{ $p->basic * $day }}.00</td>
+                                        <td>
+                                            @php
+                                            $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
+                                            $gross = $p->basic * $day;
                                             @endphp
                                             {{ $gross - $totalDeduction }}.00
                                         </td>

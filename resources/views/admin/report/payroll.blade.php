@@ -4,16 +4,16 @@
     @include('global.topnav')
     @include('global.sidemenu')
     <div class="content-page">
-    	<div class="content">
-    		<div class="container-fluid">
-    			<div class="page-title-box">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="page-title-box">
                     <ol class="breadcrumb float-right">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Body and Sole</a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Reports</a></li>
                         <li class="breadcrumb-item active">Payroll Report</li>
                     </ol>
                     <h4 class="page-title">Payroll Report</h4>
-    			</div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
@@ -34,16 +34,17 @@
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-payroll">
                                 <thead>
                                     <tr>
-                                        <th>Employee Name</th>
+                                        <th>Name</th>
                                         <th>Basic Pay</th>
                                         <th>Allowance</th>
                                         <th>Comm Earning</th>
+                                        <th>Deduction</th>
                                         <th>Gross Pay</th>
-                                        <th>Date</th>
+                                        <th>Net</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($payroll as $p)
+                                    @foreach($payroll_therapist as $p)
                                     <tr>
                                         <td>{{ $p->fullname }}</td>
                                         <td class="text-right">{{ $p->basic }}.00</td>
@@ -95,8 +96,76 @@
                                         @endphp
                                         <td class="text-right">{{ $totalAllowance }}.00</td>
                                         <td class="text-right">{{ $p->total }}.00</td>
+                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}.00</td>
                                         <td class="text-right">{{ $p->basic + $totalAllowance + $p->total }}.00</td>
-                                        <td class="text-right">{{ $p->created_at }}</td>
+                                        <td>
+                                            @php
+                                            $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
+                                            $gross = $p->basic + $totalAllowance + $p->total;
+                                            @endphp
+                                            {{ $gross - $totalDeduction }}.00
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @foreach($payroll_frontdesk as $p)
+                                    <tr>
+                                        <td>{{ $p->fullname }}</td>
+                                        @php
+                                            $day = '0';
+                                            if($p->day1 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day2 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day3 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day4 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day5 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day6 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+
+                                            if($p->day7 >= 9) {
+                                            $day += '1';
+                                            } else {
+                                            $day += '0';
+                                            }
+                                        @endphp
+                                        <td class="text-right">{{ $p->basic * $day }}.00</td>
+                                        <td class="text-right">0.00</td>
+                                        <td class="text-right">0.00</td>
+                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}.00</td>
+                                        <td class="text-right">{{ $p->basic * $day }}.00</td>
+                                        <td>
+                                            @php
+                                            $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
+                                            $gross = $p->basic * $day;
+                                            @endphp
+                                            {{ $gross - $totalDeduction }}.00
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -107,11 +176,13 @@
                                         <th class="text-center"></th>
                                         <th class="text-center"></th>
                                         <th class="text-center"></th>
+                                        <th class="text-center"></th>
+                                        <th class="text-center"></th>
                                     </tr>
                                 </tfoot>
                             </table>
                             <div id="payroll_printout" style="display:none;">
-                                @foreach($payroll as $p)
+                                @foreach($payroll_therapist as $p)
                                     <div class="card-box col-xl-12 table-bordered m-b-30" style="overflow:auto;">
                                         <h4>Body and Sole Spa</h4>
                                         <h5>Payroll Period : {{ $startDate }} - {{ $endDate }}</h5>
@@ -241,8 +312,8 @@
                         </div>
                     </div>
                 </div>
-    		</div>
-    	</div>
+            </div>
+        </div>
     </div>
 @endsection
 @push('scripts')
@@ -317,10 +388,26 @@
                     return intVal(a) + intVal(b);
                 },0);
 
+                pagetotal5 = api
+                .column(5, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
+                pagetotal6 = api
+                .column(6, {page: 'current'})
+                .data()
+                .reduce(function(a,b) {
+                    return intVal(a) + intVal(b);
+                },0);
+
                 $(api.column(1).footer()).html(pagetotal1+'.00');
                 $(api.column(2).footer()).html(pagetotal2+'.00');
                 $(api.column(3).footer()).html(pagetotal3+'.00');
                 $(api.column(4).footer()).html(pagetotal4+'.00');
+                $(api.column(5).footer()).html(pagetotal5+'.00');
+                $(api.column(6).footer()).html(pagetotal6+'.00');
             }
         });
 
