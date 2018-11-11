@@ -48,107 +48,83 @@
                                         <tr>
                                             <td>{{ $a->name }}</td>
                                             <td>
-                                                @php
-                                                $totalHrs = '0';
-                                                @endphp
                                                 @if($a->day1)
-                                                    @php
-                                                        $startTime = strtotime($a->time_in);
-                                                        $endTime = strtotime($a->time_out);
-                                                        $interval = abs($endTime - $startTime);
-                                                        $hours = round($interval / 3600);
-                                                        echo $hours . ' Hrs';
-                                                        $totalHrs += $hours;
-                                                    @endphp
+                                                    @if($a->day1 > 9)
+                                                        {{ $a->day1 }} (OT: {{ $a->day1 % 9}}hrs)
+                                                    @elseif($a->day1 = 9)
+                                                        {{ $a->day1 }}
+                                                    @endif
                                                 @else
                                                 {!! 0 !!}
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($a->day2)
-                                                    @php
-                                                        $startTime = strtotime($a->time_in);
-                                                        $endTime = strtotime($a->time_out);
-                                                        $interval = abs($endTime - $startTime);
-                                                        $hours = round($interval / 3600);
-                                                        echo $hours . ' Hrs';
-                                                        $totalHrs += $hours;
-                                                    @endphp
+                                                    @if($a->day2 > 9)
+                                                        {{ $a->day2 }} (OT: {{ $a->day2 % 9}}hrs)
+                                                    @elseif($a->day2 = 9)
+                                                        {{ $a->day2 }}
+                                                    @endif
                                                 @else
                                                 {!! 0 !!}
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($a->day3)
-                                                    @php
-                                                        $startTime = strtotime($a->time_in);
-                                                        $endTime = strtotime($a->time_out);
-                                                        $interval = abs($endTime - $startTime);
-                                                        $hours = round($interval / 3600);
-                                                        echo $hours . ' Hrs';
-                                                        $totalHrs += $hours;
-                                                    @endphp
+                                                    @if($a->day3 > 9)
+                                                        {{ $a->day3 }} (OT: {{ $a->day3 % 9}}hrs)
+                                                    @elseif($a->day3 = 9)
+                                                        {{ $a->day3 }}
+                                                    @endif
                                                 @else
                                                 {!! 0 !!}
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($a->day4)
-                                                    @php
-                                                        $startTime = strtotime($a->time_in);
-                                                        $endTime = strtotime($a->time_out);
-                                                        $interval = abs($endTime - $startTime);
-                                                        $hours = round($interval / 3600);
-                                                        echo $hours . ' Hrs';
-                                                        $totalHrs += $hours;
-                                                    @endphp
+                                                    @if($a->day4 > 9)
+                                                        {{ $a->day4 }} (OT: {{ $a->day4 % 9}}hrs)
+                                                    @elseif($a->day4 = 9)
+                                                        {{ $a->day4 }}
+                                                    @endif
                                                 @else
                                                 {!! 0 !!}
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($a->day5)
-                                                    @php
-                                                        $startTime = strtotime($a->time_in);
-                                                        $endTime = strtotime($a->time_out);
-                                                        $interval = abs($endTime - $startTime);
-                                                        $hours = round($interval / 3600);
-                                                        echo $hours . ' Hrs';
-                                                        $totalHrs += $hours;
-                                                    @endphp
+                                                    @if($a->day5 > 9)
+                                                        {{ $a->day5 }} (OT: {{ $a->day5 % 9}}hrs)
+                                                    @elseif($a->day5 = 9)
+                                                        {{ $a->day5 }}
+                                                    @endif
                                                 @else
                                                 {!! 0 !!}
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($a->day6)
-                                                    @php
-                                                        $startTime = strtotime($a->time_in);
-                                                        $endTime = strtotime($a->time_out);
-                                                        $interval = abs($endTime - $startTime);
-                                                        $hours = round($interval / 3600);
-                                                        echo $hours . ' Hrs';
-                                                        $totalHrs += $hours;
-                                                    @endphp
+                                                    @if($a->day6 > 9)
+                                                        {{ $a->day6 }} (OT: {{ $a->day6 % 9}}hrs)
+                                                    @elseif($a->day6 = 9)
+                                                        {{ $a->day6 }}
+                                                    @endif
                                                 @else
                                                 {!! 0 !!}
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($a->day7)
-                                                    @php
-                                                        $startTime = strtotime($a->time_in);
-                                                        $endTime = strtotime($a->time_out);
-                                                        $interval = abs($endTime - $startTime);
-                                                        $hours = round($interval / 3600);
-                                                        echo $hours . ' Hrs';
-                                                        $totalHrs += $hours;
-                                                    @endphp
+                                                    @if($a->day7 > 9)
+                                                        {{ $a->day7 }} (OT: {{ $a->day7 % 9}}hrs)
+                                                    @elseif($a->day7 = 9)
+                                                        {{ $a->day7 }}
+                                                    @endif
                                                 @else
                                                 {!! 0 !!}
                                                 @endif
                                             </td>
-                                            <td>{{ $totalHrs }} Hrs</td>
+                                            <td>{{ $a->day1 + $a->day2 + $a->day3 + $a->day4 + $a->day5 + $a->day6 + $a->day7 }} Hrs</td>
                                         </tr>
                                     @endforeach
                                 <tbody>
