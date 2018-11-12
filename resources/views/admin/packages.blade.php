@@ -45,7 +45,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
+                                        <a href="/packages/edit/{{ $p->id }}" class="btn btn-xs btn-default btn-edit"><i class="mdi mdi-pencil"></i></a>
                                             <a data-module="packages" id="{{ $p->id }}" data-name="{{ $p->package_name }}" class="btn btn-xs btn-default btn-delete"><i class="mdi mdi-delete"></i></a>
                                         </td>
                                     </tr>

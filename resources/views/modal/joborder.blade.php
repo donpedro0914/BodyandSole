@@ -21,7 +21,7 @@
 							<label class="col-sm-4 col-form-label">Date</label>
 							<div class="col-sm-8">
 								<div class="input-group m-b-30">
-                                <input type="text" class="form-control" id="job_order_date" value="{!! date('Y-m-d') !!}">
+                                <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose" value="{!! date('Y-m-d') !!}">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="mdi mdi-calendar"></i>

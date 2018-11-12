@@ -78,6 +78,8 @@ Route::get('packages', 'PackagesController@index');
 Route::get('/packages/add', 'PackagesController@add_page');
 Route::post('package/ajaxService', 'PackagesController@ajaxService');
 Route::post('packages/store', 'PackagesController@store');
+Route::get('packages/edit/{id}', 'PackagesController@edit');
+Route::post('packages/getServices', 'PackagesController@getServices');
 Route::delete('packages/delete/{id}', 'PackagesController@delete');
 
 /* Rooms */

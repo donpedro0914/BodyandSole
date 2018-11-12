@@ -244,27 +244,29 @@
 @endsection
 @push('scripts')
 <script type="text/javascript">
+    $(document).ready(function() {
+        var baseurl=window.location.protocol + "//" + window.location.host + "/";
 
-    var baseurl=window.location.protocol + "//" + window.location.host + "/";
-
-    $("#job_order_date").datepicker({
-        autoclose: true,
-        format: "yyyy-mm-dd",
-        clearBtn: true,
+        $("#jo_From").datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            clearBtn: true,
+        });
+        
+        $('.style_occupied').tooltip({
+            position: {
+                my: 'center top',
+                at: 'center center',
+            },
+            content: function() {
+                return $(this).attr('title');
+            },
+            show: {
+                delay: 1000
+            }
+        });
     });
     
-    $('.style_occupied').tooltip({
-        position: {
-            my: 'center top',
-            at: 'center center',
-        },
-        content: function() {
-            return $(this).attr('title');
-        },
-        show: {
-            delay: 1000
-        }
-    })
 
     $( function() {
 

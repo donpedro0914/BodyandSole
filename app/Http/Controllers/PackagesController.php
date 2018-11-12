@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Packages;
 use App\Services;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -46,6 +47,24 @@ class PackagesController extends Controller
 
         $package = Packages::create($data);
         return back();
+
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $packages = Packages::where('id', $id)->first();
+        $services = Services::pluck('service_name', 'id');
+
+        return view('admin.edit.packages', compact('services', 'selected'),['packages' => $packages]);
+    }
+
+    public function getServices(Request $request) {
+
+        // dd(request('services'));
+        $id = request('services');
+        // $service = Services::whereIn('id', request('services'))->get();
+        $service = DB::select('select * from services where id IN ('.$id.')');
+        return response()->json($service);
 
     }
 
