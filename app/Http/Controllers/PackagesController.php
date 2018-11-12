@@ -68,6 +68,24 @@ class PackagesController extends Controller
 
     }
 
+    public function update(Request $request, $id)
+    {
+        $data = array(
+            'package_name' => $request->input('package_name'),
+            'services' => $request->input('service'),
+            'price' => $request->input('price'),
+            'labor' => $request->input('labor'),
+            'status' => 'Active'
+        );
+
+        Packages::where('id', $id)->update($data);
+
+        $updateService = Packages::where('id', $id)->first();
+
+        return redirect('/packages');
+
+    }
+
     public function delete($id)
     {
         $package = Packages::find($id)->delete();

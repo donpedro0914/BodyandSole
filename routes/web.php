@@ -80,6 +80,7 @@ Route::post('package/ajaxService', 'PackagesController@ajaxService');
 Route::post('packages/store', 'PackagesController@store');
 Route::get('packages/edit/{id}', 'PackagesController@edit');
 Route::post('packages/getServices', 'PackagesController@getServices');
+Route::post('packages/update/{id}', 'PackagesController@update');
 Route::delete('packages/delete/{id}', 'PackagesController@delete');
 
 /* Rooms */
