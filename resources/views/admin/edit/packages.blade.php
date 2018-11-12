@@ -74,10 +74,10 @@
             success: function(data) {
                 var vals = [];
                 for(var i=0; i<data.length;i++){
-                    vals[i] = "'"+data[i].id+"'";
+                    vals[i] = data[i].id;
                 }
-                // alert(vals);
-                $('#package_services').val([vals]).trigger('change');
+                
+                $('#package_services').select2('val', [vals]);
                 
                 
             }
