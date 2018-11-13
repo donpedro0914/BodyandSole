@@ -309,14 +309,7 @@
                 url: baseurl + 'joborder/transfer',
                 data:{'job_order':joborder,'room_no_form':roomid},
                 success: function(data) {
-                    swal(
-                      'Done!',
-                      'Job Order #' + joborder + ' is transfered!',
-                      'success'
-                    )
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1000)
+                    location.reload();
                 }
             });
           } else {
