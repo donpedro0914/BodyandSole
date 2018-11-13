@@ -264,5 +264,22 @@ class ReportsController extends Controller
 
         return view('admin.report.payroll', compact('payroll_therapist', 'payroll_frontdesk'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
+
+    public function daily_commissions()
+    {
+        $day = Carbon::now()->format('Y-m-d');
+        $job_orders = JobOrder::select('job_orders.*', 'therapists.fullname as fullname', 'services.service_name as service_name', 'services.labor_s as labor')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.status', 'Done')->get();
+        return view('admin.report.daily_commissions', compact('job_orders'),['day' => $day]);
+    }
+
+    public function periodic_sales()
+    {
+        $periodic_sales = DB::select('
+        select a.price as price, b.value as value, a.created_at as create_date
+        from job_orders a, petty_expenses b
+        where DATE_FORMAT(a.created_at, "%Y-%m-%d") = DATE_FORMAT(b.created_at, "%Y-%m-%d")
+        group by create_date');
+        return view('admin.report.periodic_sales', compact('periodic_sales'));
+    }
     
 }

@@ -41,6 +41,8 @@
 	            	</a>
 	            	<ul class="nav-second-level" aria-expanded="false">
 	            		<li><a href="/sales-reports">Sales Reports</a></li>
+	            		<li><a href="/daily-commissions">Daily Commissions</a></li>
+	            		<li><a href="/periodic-sales">Periodic Sales</a></li>
 	            		<li><a href="/expense-reports">Petty Expense Reports</a></li>
 	            		<li><a href="/payroll-reports">Payroll Reports</a></li>
 	            		<li><a href="/weekly-commission-reports">Weekly Commission Reports</a></li>

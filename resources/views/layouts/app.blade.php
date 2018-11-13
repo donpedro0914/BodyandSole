@@ -51,6 +51,7 @@
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.rowsGroup.js') }}"></script>
     <script src="{{ asset('js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/jquery.select-multiple.js') }}"></script>
