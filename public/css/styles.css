@@ -24,3 +24,6 @@
 #payroll_printout .card-box {
 	overflow: auto;
 }
+.td-header {
+	background: #ffe1e1;
+}

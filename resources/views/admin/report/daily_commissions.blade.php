@@ -25,7 +25,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <table class="table table-bordered dataTable no-footer table-striped ajax-table-sales">
+                            <table class="table table-bordered dataTable no-footer ajax-table-sales">
                                 <thead>
                                     <tr>
                                         <th>Job Order</th>
@@ -34,7 +34,6 @@
                                         <th>Sales</th>
                                         <th>Commission</th>
                                         <th>Date</th>
-                                        <th>Total Commission</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -46,14 +45,12 @@
                                         <td>{{ $j->price }}</td>
                                         <td>{{ $j->labor }}</td>
                                         <td>{{ $j->created_at }}</td>
-                                        <td id="totalLabor"></td>
                                     </tr>
                                     @endforeach 
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th class="text-right">Total</th>
-                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -90,8 +87,56 @@
         var oTable = $('.ajax-table-sales').DataTable({
             paging: false,
             keys: true,
-            columnDefs: [{ targets:[5], visible: false, searchable: true }],
-            rowsGroup: [1],
+            columnDefs: [{ targets:[5], visible: false, searchable: true }, { targets:groupColumn, visible: false }],
+            order: [[ groupColumn, 'asc' ]],
+            "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+            var subTotal = new Array();
+            var groupID = -1;
+            var aData = new Array();
+            var index = 0;
+            
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                
+              // console.log(group+">>>"+i);
+            
+              var vals = api.row(api.row($(rows).eq(i)).index()).data();
+              var salary = vals[4] ? parseFloat(vals[4]) : 0;
+               
+              if (typeof aData[group] == 'undefined') {
+                 aData[group] = new Array();
+                 aData[group].rows = [];
+                 aData[group].salary = [];
+              }
+          
+                aData[group].rows.push(i); 
+                    aData[group].salary.push(salary); 
+                
+            } );
+    
+
+            var idx= 0;
+
+      
+            for(var office in aData){
+       
+                                     idx =  Math.max.apply(Math,aData[office].rows);
+      
+                   var sum = 0; 
+                   $.each(aData[office].salary,function(k,v){
+                        sum = sum + v;
+                   });
+                                    console.log(aData[office].salary);
+                   $(rows).eq( idx ).after(
+                        '<tr class="group td-header"><td colspan="3">'+office+'</td>'+
+                        '<td>'+sum+'</td></tr>'
+                    );
+                    
+            };
+
+        },
             "footerCallback": function (row,data,start,end,display) {
                 var api = this.api(), data;
 
@@ -118,7 +163,6 @@
 
                 $(api.column(3).footer()).html(pagetotal3+'.00');
                 $(api.column(4).footer()).html(pagetotal4+'.00');
-                $('#totalLabor').html(pagetotal4);
             }
         }).columns(5).search($searchVal).draw();
 
