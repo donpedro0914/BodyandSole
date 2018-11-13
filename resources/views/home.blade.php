@@ -244,7 +244,9 @@
 @endsection
 @push('scripts')
 <script type="text/javascript">
+    var baseurl=window.location.protocol + "//" + window.location.host + "/";
     $(document).ready(function() {
+        
         var baseurl=window.location.protocol + "//" + window.location.host + "/";
 
         $("#jo_From").datepicker({
