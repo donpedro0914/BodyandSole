@@ -336,6 +336,7 @@ $(document).ready(function() {
 				$('#commission').val(totalCommission);
 				var price = $('#package_price').val();
 				var totalPrice = parseInt(price) + parseInt(total);
+				$('#total_package_price').val(totalPrice);
 				$('#price').val(totalPrice);
 			}
 		});
@@ -1246,7 +1247,7 @@ $(document).ready(function() {
 			$('.gc_checker').empty();
 			$('.gc_checker').html('Gift Cert');
 			if($('input[type=radio][name=category]:checked').val() == 'Package') {
-				var price = $('#package_price').val();
+				var price = $('#total_package_price').val();
 			} else {
 				var price = $('#package_total').html();
 				var price = price.replace('₱', '');

@@ -13,7 +13,7 @@
 	        <li class="float-left">
 	            <a href="/" class="logo">
 	                <span class="logo-lg">
-	                    {{ HTML::image('img/body-and-sole-logo.jpg', 'Body and Sole', array('height' => '50')) }}
+	                    <!-- {{ HTML::image('img/body-and-sole-logo.jpg', 'Body and Sole', array('height' => '50')) }} -->
 	                </span>
 	                <span class="logo-sm">
 	                    BS

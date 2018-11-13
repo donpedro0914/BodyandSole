@@ -23,7 +23,7 @@
                                 <h4 class="header-title">Daily Sales</h4>
                                 <p class="text-muted">{{ $day }}</p>
                                 <div class="mb-3 mt-4">
-                                    <h2 class="font-weight-light">₱{{ $dailySales }}.00</h2>
+                                    <h2 class="font-weight-light">₱{{ $dailySales - $dailyExpenses}}.00</h2>
                                 </div>
                             </div>
                         </div>

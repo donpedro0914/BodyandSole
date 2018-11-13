@@ -45,6 +45,10 @@
 							</select>
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
+							<label>Particulars</label>
+							<input type="text" name="particulars" class="form-control" />
+						</div>
+						<div class="form-group col-md-12 col-xs-12">
 							<label>Value</label>
 							<div class="input-group">
 								<div class="input-group-prepend">

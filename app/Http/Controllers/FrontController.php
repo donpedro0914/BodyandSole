@@ -405,10 +405,12 @@ class FrontController extends Controller
         }
     }
 
-    public function f_expense_store(Request $request) {
+    public function f_expense_store(Request $request)
+    {
         $data = array(
             'therapist' => $request->input('therapist'),
             'category' => $request->input('category'),
+            'particulars' => $request->input('particulars'),
             'value' => $request->input('value')
         );
 

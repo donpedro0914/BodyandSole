@@ -122,9 +122,21 @@
 								@endforeach
 							</select>
 							<input type="hidden" id="package_price"/>
+							<input type="hidden" id="total_package_price"/>
 							<input type="hidden" id="package_commission"/>
 							<input type="hidden" id="addon_container" name="addon"/>
                             </div>
+						</div>
+						<div id="Addon" class="form-group row col-md-12 col-xs-12" style="display: none;">
+							<label class="col-sm-4 col-form-label">Addon</label>
+							<div class="col-sm-8">
+								<select id="addon_service" class="select2 form-control select2-multiple" multiple="multiple" data-tags="true" data-placeholder="Choose ..." required="">
+	                                @foreach($service as $s)
+	                                <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}({{ $s->charge }})</option>
+	                                @endforeach
+	                            </select>
+	                            <button type="button" class="btn btn-sm btn-primary" id="addon_service_btn">Apply Addon</button>
+							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Payment Method</label>
@@ -143,17 +155,6 @@
                                     <label class="custom-control-label" for="customRadio5">Care of</label>
                                 </div>
                                 <input type="text" class="form-control" id="careof" name="care_of" placeholder="Enter name.." style="display:none;"/>
-							</div>
-						</div>
-						<div id="Addon" class="form-group row col-md-12 col-xs-12" style="display: none;">
-							<label class="col-sm-4 col-form-label">Addon</label>
-							<div class="col-sm-8">
-								<select id="addon_service" class="select2 form-control select2-multiple" multiple="multiple" data-tags="true" data-placeholder="Choose ..." required="">
-	                                @foreach($service as $s)
-	                                <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}({{ $s->charge }})</option>
-	                                @endforeach
-	                            </select>
-	                            <button type="button" class="btn btn-sm btn-primary" id="addon_service_btn">Apply Addon</button>
 							</div>
 						</div>
 						<div class="form-group row col-md-12 col-xs-12">
