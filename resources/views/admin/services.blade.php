@@ -28,8 +28,7 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Labor(S)</th>
-                                        <th>Labor(P)</th>
+                                        <th>Labor</th>
                                         <th>Charge</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -40,7 +39,6 @@
                                     <tr>
                                         <td>{{ $s->service_name }}</td>
                                         <td class="text-center">₱{{ $s->labor_s }}.00</td>
-                                        <td class="text-center">₱{{ $s->labor_p }}.00</td>
                                         <td class="text-center">₱{{ $s->charge }}.00</td>
                                         <td class="text-center">
                                             @if($s->status == 'Active')

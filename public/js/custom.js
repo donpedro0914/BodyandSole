@@ -376,32 +376,66 @@ $(document).ready(function() {
 
 		var services = $('#package_services_front').val();
 
-		$('#service').val(services);
+		var serviceLength = $('select[name="service"] option:selected').length;
 
-		$.ajax({
-			type: 'POST',
-			dataType: 'json',
-			url: baseurl + 'front/ajaxService',
-			data: {'id':services},
-			success: function(data) {
-				$('#package_inclusion tbody').empty();
-				var total = 0;
-				var labor = 0;
-				for(var i=0; i<data.length;i++){
-					$('#package_inclusion tbody').append('<tr><td>'+data[i].id+'</td><td>'+data[i].service_name+'</td><td>'+data[i].labor_s+'</td><td>'+data[i].charge+'</td></tr>');
-					total += Number(data[i].charge);
-					labor += Number(data[i].labor_s);
+		if(serviceLength > 1) {
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: baseurl + 'front/ajaxService',
+				data: {'id':services},
+				success: function(data) {
+					$('#package_inclusion tbody').empty();
+					var total = 0;
+					var labor = 0;
+					var service_name = [];
+					for(var i=0; i<data.length;i++){
+						$('#package_inclusion tbody').append('<tr><td>'+data[i].id+'</td><td>'+data[i].service_name+'</td><td>'+data[i].labor_s+'</td><td>'+data[i].charge+'</td></tr>');
+						total += Number(data[i].charge);
+						labor += Number(data[i].labor_s);
+						service_name[i]= data[i].service_name;
+					}
+					$('#package_labor_total').empty();
+					$('#package_labor_total').html('₱'+labor+'.00');
+					$('#commission').empty();
+					$('#commission').val(labor);
+					$('#package_total').empty();
+					$('#package_total').html('₱'+total+'.00');
+					$('#price').empty();
+					$('#price').val(total)
+					$('#services').val('-');
+					$('#addon').val(service_name);
 				}
-				$('#package_labor_total').empty();
-				$('#package_labor_total').html('₱'+labor+'.00');
-				$('#commission').empty();
-				$('#commission').val(labor);
-				$('#package_total').empty();
-				$('#package_total').html('₱'+total+'.00');
-				$('#price').empty();
-				$('#price').val(total)
-			}
-		});
+			});
+		} else {
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: baseurl + 'front/ajaxService',
+				data: {'id':services},
+				success: function(data) {
+					$('#package_inclusion tbody').empty();
+					var total = 0;
+					var labor = 0;
+					for(var i=0; i<data.length;i++){
+						$('#package_inclusion tbody').append('<tr><td>'+data[i].id+'</td><td>'+data[i].service_name+'</td><td>'+data[i].labor_s+'</td><td>'+data[i].charge+'</td></tr>');
+						total += Number(data[i].charge);
+						labor += Number(data[i].labor_s);
+					}
+					$('#package_labor_total').empty();
+					$('#package_labor_total').html('₱'+labor+'.00');
+					$('#commission').empty();
+					$('#commission').val(labor);
+					$('#package_total').empty();
+					$('#package_total').html('₱'+total+'.00');
+					$('#price').empty();
+					$('#price').val(total)
+					$('#services').val(services);
+				}
+			});
+		}
+
+		
 	});
 
 	$('#jobOrderForm').on('submit', function(e) {

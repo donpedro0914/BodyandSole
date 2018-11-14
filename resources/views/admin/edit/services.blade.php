@@ -24,8 +24,8 @@
                                         <label>Service Name</label>
                                         <input type="text" class="form-control" name="service_name" id="service_name" value="{{ $services->service_name }}"/>
                                     </div>
-                                    <div class="form-group col-md-4 col-xs-12">
-                                        <label>Labor-S</label>
+                                    <div class="form-group col-md-6 col-xs-12">
+                                        <label>Labor</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class='input-group-text'>₱</span>
@@ -36,7 +36,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4 col-xs-12">
+                                    <!-- <div class="form-group col-md-4 col-xs-12">
                                         <label>Labor-P</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -47,8 +47,8 @@
                                                 <span class='input-group-text'>.00</span>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group col-md-4 col-xs-12">
+                                    </div> -->
+                                    <div class="form-group col-md-6 col-xs-12">
                                         <label>Charge</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">

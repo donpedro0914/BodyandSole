@@ -43,7 +43,23 @@
                                         <td>{{ $j->fullname }}</td>
                                         <td>{{ $j->service_name }}</td>
                                         <td>{{ $j->price }}</td>
-                                        <td>{{ $j->labor }}</td>
+                                        <td>
+                                        @if($j->day0)
+                                            {{ $j->day0 }}
+                                        @elseif($j->day1)
+                                            {{ $j->day1 }}
+                                        @elseif($j->day2)
+                                            {{ $j->day2 }}
+                                        @elseif($j->day3)
+                                            {{ $j->day3 }}
+                                        @elseif($j->day4)
+                                            {{ $j->day4 }}
+                                        @elseif($j->day5)
+                                            {{ $j->day5 }}
+                                        @elseif($j->day6)
+                                            {{ $j->day6 }}
+                                        @endif
+                                        </td>
                                         <td>{{ $j->created_at }}</td>
                                     </tr>
                                     @endforeach 

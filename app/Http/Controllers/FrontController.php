@@ -171,7 +171,7 @@ class FrontController extends Controller
     		'senior' => $request->input('senior'),
     		'therapist_fullname' => $request->input('therapist_fullname'),
     		'category' => $request->input('category'),
-            'service' => $request->input('service'),
+            'service' => $request->input('services'),
     		'addon' => $request->input('addon'),
     		'payment' => $request->input('payment'),
     		'care_of' => $request->input('care_of'),

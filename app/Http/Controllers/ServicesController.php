@@ -24,7 +24,6 @@ class ServicesController extends Controller
         $data = array(
             'service_name' => $request->input('service_name'),
             'labor_s' => $request->input('labor_s'),
-            'labor_p' => $request->input('labor_p'),
             'charge' => $request->input('charge'),
             'status' => 'Active'
         );
@@ -46,7 +45,6 @@ class ServicesController extends Controller
         $data = array(
             'service_name' => $request->input('service_name'),
             'labor_s' => $request->input('labor_s'),
-            'labor_p' => $request->input('labor_p'),
             'charge' => $request->input('charge'),
             'status' => $request->input('status')
         );

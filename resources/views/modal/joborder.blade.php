@@ -16,6 +16,7 @@
 					<input type="hidden" name="room_no" id="room_no_form" value="" />
 					<input type="hidden" name="day" id="day" value="day{{ $day }}" />
 					<input type="hidden" name="commmission" id="commission" value="" />
+					<input type="hidden" name="addon" id="addon" />
 					<div class="form-row">
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Date</label>
@@ -52,7 +53,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group row col-md-12 col-xs-12">
+						<!-- <div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Category</label>
 							<div class="col-sm-8">
                                 <div class="custom-control custom-radio">
@@ -64,9 +65,10 @@
                                     <label class="custom-control-label" for="customRadio2">Package</label>
                                 </div>
 							</div>
-						</div>
-						<div id="Service" class="form-group row col-md-12 col-xs-12" style="display: none;">
+						</div> -->
+						<div id="Service" class="form-group row col-md-12 col-xs-12">
 							<div class="form-group row col-md-12 col-xs-12">
+							<input type="hidden" id="services" name="services" />
 								<label class="col-sm-4 col-form-label">Services</label>
 	                            <div class="col-sm-8">
 	                            	<div class="input-group">
@@ -112,7 +114,7 @@
 	                            </div>
                             </div>
 						</div>
-						<div id="Package" class="form-group row col-md-12 col-xs-12" style="display: none;">
+						<!-- <div id="Package" class="form-group row col-md-12 col-xs-12" style="display: none;">
 							<label class="col-sm-4 col-form-label">Package</label>
                             <div class="col-sm-8">
 							<select class="form-control select2 select2-selection__rendered" id="package_id" name="service" required="">
@@ -137,7 +139,7 @@
 	                            </select>
 	                            <button type="button" class="btn btn-sm btn-primary" id="addon_service_btn">Apply Addon</button>
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Payment Method</label>
 							<div class="col-sm-8">

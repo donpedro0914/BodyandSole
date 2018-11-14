@@ -268,7 +268,7 @@ class ReportsController extends Controller
     public function daily_commissions()
     {
         $day = Carbon::now()->format('Y-m-d');
-        $job_orders = JobOrder::select('job_orders.*', 'therapists.fullname as fullname', 'services.service_name as service_name', 'services.labor_s as labor')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.status', 'Done')->get();
+        $job_orders = JobOrder::select('job_orders.*', 'therapists.fullname as fullname', 'services.service_name as service_name')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.status', 'Done')->get();
         return view('admin.report.daily_commissions', compact('job_orders'),['day' => $day]);
     }
 

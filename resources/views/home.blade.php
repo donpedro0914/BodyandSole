@@ -39,14 +39,13 @@
                                                 <td>{{ $j->job_order }}</td>
                                                 <td>{{ $j->client_fullname }}</td>
                                                 <td>{{ $j->therapistname }}</td>
-                                                @php
-                                                    if($j->category == 'Single') {
-                                                        $catSer = $j->service_name;
-                                                    } else {
-                                                        $catSer = $j->package_name;
-                                                    }
-                                                @endphp
-                                                <td>{{ $catSer }} ({{ $j->price }})</td>
+                                                <td>
+                                                @if($j->service != '-')
+                                                {{ $j->service_name }} ({{ $j->price }})
+                                                @else
+                                                {{ $j->addon }} ({{ $j->price }})
+                                                @endif
+                                                </td>
                                                 <td>
                                                     @if($j->care_of)
                                                     {{ $j->payment }} - {{ $j->care_of }}

@@ -55,7 +55,9 @@ class JobOrderController extends Controller
         $packages = Packages::where('status', 'Active')->get();
         $client = Clients::all();
 
-        return view('admin.job_order', compact('joborder', 'therapists', 'rooms', 'lounge', 'service', 'packages', 'client'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
+        $serviceName = Services::all();
+
+        return view('admin.job_order', compact('serviceName', 'joborder', 'therapists', 'rooms', 'lounge', 'service', 'packages', 'client'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
     public function edit($id) {
@@ -68,11 +70,13 @@ class JobOrderController extends Controller
     }
 
     public function update(Request $request, $id) {
+        $day = $request->input('day');
         $data = array(
             'therapist_fullname' => $request->input('therapist_fullname'),
             'category' => $request->input('category'),
             'service' => $request->input('service'),
             'price' => $request->input('price'),
+            $day => $request->input('labor')
         );
 
         JobOrder::where('job_order', $id)->update($data);

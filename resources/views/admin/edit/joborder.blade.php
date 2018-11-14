@@ -63,13 +63,42 @@
                                         {{ Form::select('service', $packages, $joborder->pname, ['class' => 'form-control select2', 'id' => 'opt_selectedservice']) }}
                                     </div>
                                     @endif
-                                    <div class="form-group col-md-6 col-xs-12">
+                                    <div class="form-group col-md-4 col-xs-12">
                                         <label>Payment</label>
                                         <input type="text" class="form-control" name="payment" id="payment" value="{{ $joborder->payment }}" readonly="" />
                                     </div>
-                                    <div class="form-group col-md-6 col-xs-12">
+                                    <div class="form-group col-md-4 col-xs-12">
                                         <label>Price</label>
                                         <input type="text" class="form-control" name="price" id="price" value="{{ $joborder->price }}"/>
+                                    </div>
+                                    <div class="form-group col-md-4 col-xs-12">
+                                        <label>Labor</label>
+                                        @php
+                                            if($joborder->day0) {
+                                                $labor = $joborder->day0;
+                                                $day = 'day0';
+                                            } else if($joborder->day1) {
+                                                $labor = $joborder->day1;
+                                                $day = 'day1';
+                                            } else if($joborder->day2) {
+                                                $labor = $joborder->day2;
+                                                $day = 'day2';
+                                            } else if($joborder->day3) {
+                                                $labor = $joborder->day3;
+                                                $day = 'day3';
+                                            } else if($joborder->day4) {
+                                                $labor = $joborder->day4;
+                                                $day = 'day4';
+                                            } else if($joborder->day5) {
+                                                $labor = $joborder->day5;
+                                                $day = 'day5';
+                                            } else if($joborder->day6) {
+                                                $labor = $joborder->day6;
+                                                $day = 'day6';
+                                            }
+                                        @endphp
+                                        <input type="text" class="form-control" name="labor" id="labor" value="{{ $labor }}"/>
+                                        <input type="hidden" name="day" value="{{ $day }}" />
                                     </div>
                                     <div class="form-group col-md-12 col-xs-12">
                                         <div class="clearfix text-right mt-3">
