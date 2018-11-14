@@ -72,12 +72,12 @@
                                 </div>
                             </div>
                             <div class="tab-pane active" id="job_order_grid">
-                                <div class="card-box" style="background: #227aff;">
+                                <div class="card-box" style="background: #ffe1e1;">
                                     <div class="row">
                                         <div class="col-xl-6" style="border-right:1px solid #636363">
                                             <div class="row">
                                                 <div class="col-xl-12">
-                                                    <h2 class="text-center" style="color: #fff">Rooms</h2>
+                                                    <h2 class="text-center" style="color: #635e5e">Rooms</h2>
                                                 </div>
                                             @foreach($rooms as $r)
                                                     @if($r->status == 'Active')
@@ -159,7 +159,7 @@
                                         <div class="col-xl-6">
                                             <div class="row">
                                                 <div class="col-xl-12">
-                                                    <h2 class="text-center" style="color: #fff">Lounges</h2>
+                                                    <h2 class="text-center" style="color: #635e5e">Lounges</h2>
                                                 </div>
                                             @foreach($lounge as $r)
                                                     @if($r->status == 'Active')

@@ -15,16 +15,40 @@
                     <h4 class="page-title">Sales Report</h4>
     			</div>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card-box">
-                            <div class="input-group col-xl-5 m-b-30">
-                                <input type="text" class="form-control" id="jo_From" value="{{ $day }}">
+                    <div class="form-group col-xl-12">
+                        <form action="{{ route('ds_filter') }}" method="get">
+                            <input type="hidden" name="day" id="day" value="{{ $day }}"/>
+                            <label>Date Range Filter</label>
+                            <div class="input-group">
+                                <input class="form-control" id="jo_From" type="text"value="{{ $day }}"/>
                                 <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="mdi mdi-calendar"></i>
-                                    </span>
+                                    <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="submit">Filter</button>
                                 </div>
                             </div>
+                        </form>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card-box">
+                            <h4 class="header-title">Daily Sales</h4>
+                            <p class="text-muted">{{ $day }}</p>
+                            <div class="mb-3 mt-4">
+                                <h2 class="font-weight-light">₱{{ $dailySales - $dailyExpenses}}.00</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card-box">
+                            <h4 class="header-title">Daily Expenses</h4>
+                            <p class="text-muted">{{ $day }}</p>
+                            <div class="mb-3 mt-4">
+                                <h2 class="font-weight-light">₱{{ $dailyExpenses }}.00</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
                             <table class="table table-bordered dataTable no-footer table-striped ajax-table-sales">
                                 <thead>
                                     <tr>
@@ -49,13 +73,6 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th class="text-right">Total</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -84,25 +101,6 @@
         var oTable = $('.ajax-table-sales').DataTable({
             paging: false,
             keys: true,
-            "footerCallback": function (row,data,start,end,display) {
-                var api = this.api(), data;
-
-                var intVal = function(i) {
-                    return typeof i === 'string'?
-                    i.replace(/[\$,]/g, '')*1 :
-                    typeof i === 'number' ?
-                    i:0;
-                };
-
-                pagetotal1 = api
-                .column(1, {page: 'current'})
-                .data()
-                .reduce(function(a,b) {
-                    return intVal(a) + intVal(b);
-                },0);
-
-                $(api.column(1).footer()).html(pagetotal1+'.00');
-            }
         }).columns(2).search($searchVal).draw();
 
         $("#jo_From").datepicker({
@@ -112,9 +110,8 @@
         });
 
         $('#jo_From').on('change', function() {
-            $searchVal = $(this).val().replace(/\\/g, '');
-            $('.ajax-table-sales').DataTable().columns(2).search($searchVal).draw();
-        });
+            $('#day').val($(this).val());
+        })
     });
 </script>
 @endpush
