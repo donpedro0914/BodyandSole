@@ -43,9 +43,9 @@
                                     @foreach($periodic_sales as $j)
                                     <tr>
                                         <td>{{ $j->date }}</td>
-                                        <td>{{ $j->sales }}</td>
+                                        <td>{{ $j->sales + $j->gc }}</td>
                                         <td>{{ $j->expenses }}</td>
-                                        <td>{{ $j->sales - $j->expenses}}</td>
+                                        <td>{{ $j->sales + $j->gc  - $j->expenses}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
