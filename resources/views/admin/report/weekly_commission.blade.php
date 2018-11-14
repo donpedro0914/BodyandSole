@@ -145,9 +145,6 @@
             }, 0 );
         } );
 
-        
-
-
         var table = $('#commission').DataTable({
             paging: false,
             dom: 'Bfrtip',

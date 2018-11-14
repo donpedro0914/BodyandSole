@@ -114,6 +114,7 @@ Route::get('/weekly-commission-reports/filter', 'ReportsController@wcr_filter')-
 Route::get('/payroll-reports/filter', 'ReportsController@payroll_filter')->name('payroll_filter');
 Route::get('/daily-commissions', 'ReportsController@daily_commissions');
 Route::get('/periodic-sales', 'ReportsController@periodic_sales');
+Route::get('/periodic-sales/filter', 'ReportsController@ps_filter')->name('ps_filter');
 
 /* Test */
 Route::get('home', 'HomeController@index');

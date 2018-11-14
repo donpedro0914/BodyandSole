@@ -84,7 +84,7 @@
         } );
 
         var groupColumn = 1;
-        var oTable = $('.ajax-table-sales').DataTable({
+        $('.ajax-table-sales').DataTable({
             paging: false,
             keys: true,
             columnDefs: [{ targets:[5], visible: false, searchable: true }, { targets:groupColumn, visible: false }],
@@ -99,40 +99,34 @@
             var index = 0;
             
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
-                
-              // console.log(group+">>>"+i);
-            
-              var vals = api.row(api.row($(rows).eq(i)).index()).data();
-              var salary = vals[4] ? parseFloat(vals[4]) : 0;
-               
-              if (typeof aData[group] == 'undefined') {
-                 aData[group] = new Array();
-                 aData[group].rows = [];
-                 aData[group].salary = [];
-              }
-          
-                aData[group].rows.push(i); 
-                    aData[group].salary.push(salary); 
-                
-            } );
-    
 
+                var vals = api.row(api.row($(rows).eq(i)).index()).data();
+                var salary = vals[4] ? parseFloat(vals[4]) : 0;
+
+                if (typeof aData[group] == 'undefined') {
+                    aData[group] = new Array();
+                    aData[group].rows = [];
+                    aData[group].salary = [];
+                }
+
+                aData[group].rows.push(i); 
+                aData[group].salary.push(salary); 
+
+            });
+    
             var idx= 0;
 
-      
-            for(var office in aData){
+            for(var sales in aData){
        
-                                     idx =  Math.max.apply(Math,aData[office].rows);
-      
-                   var sum = 0; 
-                   $.each(aData[office].salary,function(k,v){
-                        sum = sum + v;
-                   });
-                                    console.log(aData[office].salary);
-                   $(rows).eq( idx ).after(
-                        '<tr class="group td-header"><td colspan="3">'+office+'</td>'+
-                        '<td>'+sum+'</td></tr>'
-                    );
+                idx =  Math.min.apply(Math,aData[sales].rows);
+                var sum = 0; 
+                $.each(aData[sales].salary,function(k,v){
+                sum = sum + v;
+                });
+                $(rows).eq( idx ).before(
+                '<tr class="group td-header"><td colspan="3">'+sales+'</td>'+
+                '<td>'+sum+'</td></tr>'
+                );
                     
             };
 

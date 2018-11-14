@@ -274,12 +274,53 @@ class ReportsController extends Controller
 
     public function periodic_sales()
     {
-        $periodic_sales = DB::select('
-        select a.price as price, b.value as value, a.created_at as create_date
-        from job_orders a, petty_expenses b
-        where DATE_FORMAT(a.created_at, "%Y-%m-%d") = DATE_FORMAT(b.created_at, "%Y-%m-%d")
-        group by create_date');
-        return view('admin.report.periodic_sales', compact('periodic_sales'));
+
+        $now = Carbon::now()->format('Y-m-d');
+        $en = Carbon::parse($now);
+        $start = $en->startOfWeek(Carbon::FRIDAY);
+        $end = $en->endOfWeek(Carbon::THURSDAY);
+        $currentDay = Carbon::now();
+        $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $day = Carbon::now()->format('Y-m-d');
+
+        $periodic_sales = DB::select('select date, sum(sales) as sales, sum(expenses) as expenses
+        from ((select date(created_at) as date, sum(price) as sales, 0 as expenses
+               from job_orders
+               where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+               group by date(created_at)
+              ) union all
+              (select date(created_at) as date, 0 as sales, sum(value) as expenses
+               from petty_expenses
+               where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+               group by date(created_at)
+              )
+             ) t
+        group by date');
+        return view('admin.report.periodic_sales', compact('periodic_sales'), ['day' => $day, 'startDate' => $startDate, 'endDate' => $endDate]);
+    }
+
+    public function ps_filter(Request $request)
+    {
+        
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        $periodic_sales = DB::select('select date, sum(sales) as sales, sum(expenses) as expenses
+        from ((select date(created_at) as date, sum(price) as sales, 0 as expenses
+               from job_orders
+               where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+               group by date(created_at)
+              ) union all
+              (select date(created_at) as date, 0 as sales, sum(value) as expenses
+               from petty_expenses
+               where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+               group by date(created_at)
+              )
+             ) t
+        group by date');
+        return view('admin.report.periodic_sales', compact('periodic_sales'), ['startDate' => $startDate, 'endDate' => $endDate]);
+
     }
     
 }
