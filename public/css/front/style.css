@@ -24,3 +24,7 @@
 	background: #8a8a8a !important;
 	color: #fff !important;
 }
+
+.table .table, .table-hover tbody tr:hover, .table-striped tbody tr:nth-of-type(odd), .table-striped tbody tr:nth-of-type(even), .td-header {
+	background: #ffe1e1 !important;
+}

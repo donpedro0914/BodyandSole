@@ -330,16 +330,21 @@ class ReportsController extends Controller
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
 
-        $periodic_sales = DB::select('select date, sum(sales) as sales, sum(expenses) as expenses
-        from ((select date(created_at) as date, sum(price) as sales, 0 as expenses
+        $periodic_sales = DB::select('select date, sum(sales) as sales, sum(expenses) as expenses, sum(gc) as gc
+        from ((select date(created_at) as date, sum(price) as sales, 0 as expenses, 0 as gc
                from job_orders
                where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
                group by date(created_at)
               ) union all
-              (select date(created_at) as date, 0 as sales, sum(value) as expenses
+              (select date(created_at) as date, 0 as sales, sum(value) as expenses, 0 as gc
                from petty_expenses
                where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
                group by date(created_at)
+              ) union all
+              (select date(created_at) as date, 0 as sales, 0 as expenses, sum(value) as gc
+              from giftcertificates
+              where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+              group by date(created_at)
               )
              ) t
         group by date');
