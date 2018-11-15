@@ -53,6 +53,8 @@
                                     <div class="form-group col-md-4 col-xs-12">
                                         <label>Labor</label>
                                         @php
+                                            $labor = '';
+                                            $day = '';
                                             if($joborder->day0) {
                                                 $labor = $joborder->day0;
                                                 $day = 'day0';
@@ -74,6 +76,8 @@
                                             } else if($joborder->day6) {
                                                 $labor = $joborder->day6;
                                                 $day = 'day6';
+                                            } else {
+                                                $labor = '';
                                             }
                                         @endphp
                                         <input type="text" class="form-control" name="labor" id="labor" value="{{ $labor }}"/>
