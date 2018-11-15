@@ -32,35 +32,14 @@
                                         <label>Therapist</label>
                                         {{ Form::select('therapist_fullname', $therapists, $joborder->therapist_fullname, ['class' => 'form-control select2']) }}
                                     </div>
-                                    <div class="form-group col-md-6 col-xs-12">
-                                        <label>Category</label>
-                                        <select name="category" class="form-control" id="joborder_category">
-                                            @if($joborder->category == 'Single')
-                                            <option value="Single" selected>Single</option>
-                                            <option value="Package">Package</option>
-                                            @else
-                                            <option value="Single">Single</option>
-                                            <option value="Package" selected>Package</option>
-                                            @endif
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6 col-xs-12" style="display:none;" id="joborder_single">
+                                    <div class="form-group col-md-12 col-xs-12" style="" id="joborder_single">
                                         <label>Service</label>
                                         {{ Form::select('service', $service, '', ['class' => 'form-control select2', 'id' => 'opt_single']) }}
-                                    </div>
-                                    <div class="form-group col-md-6 col-xs-12" style="display:none;" id="joborder_package">
-                                        <label>Service</label>
-                                        {{ Form::select('service', $packages, '', ['class' => 'form-control select2', 'id' => 'opt_package']) }}
                                     </div>
                                     @if($joborder->category == 'Single')
                                     <div class="form-group col-md-6 col-xs-12 selectedservice">
                                         <label>Service</label>
                                         {{ Form::select('service', $service, $joborder->sname, ['class' => 'form-control select2', 'id' => 'opt_selectedservice']) }}
-                                    </div>
-                                    @else
-                                    <div class="form-group col-md-6 col-xs-12 selectedservice">
-                                        <label>Service</label>
-                                        {{ Form::select('service', $packages, $joborder->pname, ['class' => 'form-control select2', 'id' => 'opt_selectedservice']) }}
                                     </div>
                                     @endif
                                     <div class="form-group col-md-4 col-xs-12">

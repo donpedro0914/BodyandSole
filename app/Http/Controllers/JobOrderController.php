@@ -73,7 +73,6 @@ class JobOrderController extends Controller
         $day = $request->input('day');
         $data = array(
             'therapist_fullname' => $request->input('therapist_fullname'),
-            'category' => $request->input('category'),
             'service' => $request->input('service'),
             'price' => $request->input('price'),
             $day => $request->input('labor')
