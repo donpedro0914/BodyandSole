@@ -61,12 +61,22 @@ class JobOrderController extends Controller
     }
 
     public function edit($id) {
+
+        $now = Carbon::now()->format('Y-m-d');
+        $en = Carbon::parse($now);
+        $start = $en->startOfWeek(Carbon::FRIDAY);
+        $end = $en->endOfWeek(Carbon::THURSDAY);
+        $currentDay = Carbon::now();
+        $day = $currentDay->dayOfWeek;
+        $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+
         $joborder = JobOrder::select('job_orders.*', 'services.service_name', 'services.id', 'services.service_name as sname', 'packages.package_name as pname', 'therapists.id', 'therapists.fullname as fullname')->leftJoin('services', 'job_orders.service', '=', 'services.id')->leftJoin('packages', 'job_orders.service', '=', 'packages.id')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->where('job_orders.job_order', $id)->first();
         $therapists = Therapist::where('status', 'Active')->pluck('fullname', 'id');
         $service = Services::where('status', 'Active')->pluck('service_name', 'id');
         $packages = Packages::pluck('package_name', 'id');
 
-        return view('admin.edit.joborder', ['joborder' => $joborder, 'therapists' => $therapists, 'service' => $service, 'packages' => $packages]);
+        return view('admin.edit.joborder', ['day' => $day, 'joborder' => $joborder, 'therapists' => $therapists, 'service' => $service, 'packages' => $packages]);
     }
 
     public function update(Request $request, $id) {
