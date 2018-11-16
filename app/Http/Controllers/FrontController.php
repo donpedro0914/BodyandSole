@@ -47,14 +47,14 @@ class FrontController extends Controller
     	$therapists = DB::select('select * from therapists');
 
         $rooms = DB::select('
-            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, a.category as category, c.service_name as servicename, d.package_name as packagename, b.fullname as therapistname from rooms_lounges
+            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, a.category as category, a.addon as addon, c.service_name as servicename, d.package_name as packagename, b.fullname as therapistname from rooms_lounges
             left join (select * from job_orders where job_orders.status="Active") as a on rooms_lounges.id = a.room_no_form
             left join (select * from services) as c on c.id = a.service
             left join (select * from packages) as d on d.id = a.service
             left join (select * from therapists) as b on a.therapist_fullname = b.id where rooms_lounges.type ="room" order by rooms_lounges.id asc');
 
         $lounge = DB::select('
-            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, a.category as category, c.service_name as servicename, d.package_name as packagename, b.fullname as therapistname from rooms_lounges
+            select rooms_lounges.status as roomstatus, rooms_lounges.name as roomname, rooms_lounges.id as roomid, a.*, a.addon as addon, a.category as category, c.service_name as servicename, d.package_name as packagename, b.fullname as therapistname from rooms_lounges
             left join (select * from job_orders where job_orders.status="Active") as a on rooms_lounges.id = a.room_no_form
             left join (select * from services) as c on c.id = a.service
             left join (select * from packages) as d on d.id = a.service
@@ -64,7 +64,7 @@ class FrontController extends Controller
         $packages = Packages::where('status', 'Active')->get();
         $client = Clients::all();
 
-        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id', 'packages.package_name as package_name', 'job_orders.addon as addon')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->leftJoin('packages', 'job_orders.service', '=', 'packages.id')->whereDate('job_orders.created_at', $formattedCurrentDay)->orderBy('job_orders.id', 'desc')->get();
+        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id', 'job_orders.addon as addon')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->whereDate('job_orders.created_at', $formattedCurrentDay)->orderBy('job_orders.id', 'desc')->get();
 
 
         $jobOrderCount = JobOrder::count();
@@ -173,7 +173,7 @@ class FrontController extends Controller
             'client_fullname' => $request->input('client_fullname'),
     		'senior' => $request->input('senior'),
     		'therapist_fullname' => $request->input('therapist_fullname'),
-    		'category' => $request->input('category'),
+    		'category' => 'Single',
             'service' => $request->input('services'),
     		'addon' => $request->input('addon'),
     		'payment' => $request->input('payment'),
@@ -214,7 +214,10 @@ class FrontController extends Controller
 
     public function duration(Request $request) {
 
-        $date = date('Y-m-d H:i:s');
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+        $hr = request('hr');
+        $min = request('min');
+        dd($hr . ' ' . $min);
 
         $data = array(
             'duration' => date('Y-m-d H:i:s', strtotime('+'.request('hr').' hour +'.request('min').' minutes', strtotime($date)))

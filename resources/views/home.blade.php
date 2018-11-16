@@ -98,14 +98,14 @@
                                                         @endphp
                                                     @endif
                                                     @php
-                                                        if($r->category == 'Single') {
-                                                            $catSer = $r->servicename;
+                                                        if($r->service != '-') {
+                                                            $service = $r->servicename;
                                                         } else {
-                                                            $catSer = $r->packagename;
+                                                            $service = $r->addon;
                                                         }
                                                     @endphp
                                                 <div class="col-xl-3 {{ $dragclass }}">
-                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $catSer }}">
+                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $service }}">
                                                         <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                                         @if($r->status == 'Active')
                                                             <p class="header-title float-left">{{ $r->roomname}}</p>
@@ -126,8 +126,8 @@
                                                                         @if($r->duration)
                                                                             <div id="countdown" data-room="{{ $r->roomname }}" data-timer="{{ $r->duration }}"></div>
                                                                         @else
-                                                                            <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="H"/>
-                                                                            <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="M"/>
+                                                                            <input type="text" class="col-sm-6 form-control time_in" name="time_in[]" placeholder="H"/>
+                                                                            <input type="text" class="col-sm-6 form-control time_out" name="time_out[]" placeholder="M"/>
                                                                         @endif
                                                                     </div>
                                                                     @php
@@ -179,8 +179,15 @@
                                                             $dragcontainer = "";
                                                         @endphp
                                                     @endif
+                                                    @php
+                                                        if($r->service != '-') {
+                                                            $service = $r->servicename;
+                                                        } else {
+                                                            $service = $r->addon;
+                                                        }
+                                                    @endphp
                                                 <div class="col-xl-3 {{ $dragclass }}">
-                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $r->servicename }}">
+                                                    <div class="card-box {{ $room }}" title="Job Order#:{{ $r->job_order}}<br/>Therapist:{{ $r->therapistname }}<br/>Service:{{ $service }}">
                                                         <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                                         @if($r->status == 'Active')
                                                             <p class="header-title float-left">{{ $r->roomname}}</p>

@@ -561,38 +561,44 @@ $(document).ready(function() {
 		});
 	});
 
-	$('.start_time').on('click', function(e) {
+	$('.start_time').each(function(e) {
 
-		$.ajaxSetup({
+		$(this).on('click', function() {
+
+			$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			}
 		});
 
-		e.preventDefault();
-
-		var hr = $('#time_in_hr').val();
-		var min = $('#time_in_min').val();
+		var hr = $('#input[name="time_in[]"]').val();
+		var min = $('#input[name="time_out[]"]').val();
 		var job_order = $(this).attr('data-id');
 		var room_id = $(this).attr('data-room');
 
-		$.ajax({
-			type: 'POST',
-			url: baseurl + 'joborder/duration',
-			data:{'job_order':job_order,'hr':hr,'min':min},
-			success: function(data) {
-				$('#room_id_'+room_id+' #enter_time').hide();
-				$('#room_id_'+room_id+' #show_timer').show();
+		alert(hr + ' ' + min);
 
-				$('#room_id_'+room_id+' #show_timer').countdown(data['duration'], function(event) {
-				  $(this).html(event.strftime(''
-				    + '<span>%H</span> hr '
-				    + '<span>%M</span> min '
-				    + '<span>%S</span> sec'));
-				});
-				location.reload();
-			}
 		});
+
+		
+
+		// $.ajax({
+		// 	type: 'POST',
+		// 	url: baseurl + 'joborder/duration',
+		// 	data:{'job_order':job_order,'hr':hr,'min':min},
+		// 	success: function(data) {
+		// 		$('#room_id_'+room_id+' #enter_time').hide();
+		// 		$('#room_id_'+room_id+' #show_timer').show();
+
+		// 		$('#room_id_'+room_id+' #show_timer').countdown(data['duration'], function(event) {
+		// 		  $(this).html(event.strftime(''
+		// 		    + '<span>%H</span> hr '
+		// 		    + '<span>%M</span> min '
+		// 		    + '<span>%S</span> sec'));
+		// 		});
+		// 		location.reload();
+		// 	}
+		// });
 
 	});
 
