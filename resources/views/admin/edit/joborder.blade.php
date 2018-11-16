@@ -36,12 +36,6 @@
                                         <label>Service</label>
                                         {{ Form::select('service', $service, '', ['class' => 'form-control select2', 'id' => 'opt_single']) }}
                                     </div>
-                                    @if($joborder->category == 'Single')
-                                    <div class="form-group col-md-6 col-xs-12 selectedservice">
-                                        <label>Service</label>
-                                        {{ Form::select('service', $service, $joborder->sname, ['class' => 'form-control select2', 'id' => 'opt_selectedservice']) }}
-                                    </div>
-                                    @endif
                                     <div class="form-group col-md-4 col-xs-12">
                                         <label>Payment</label>
                                         <input type="text" class="form-control" name="payment" id="payment" value="{{ $joborder->payment }}" readonly="" />
