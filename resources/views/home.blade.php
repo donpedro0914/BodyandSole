@@ -126,8 +126,8 @@
                                                                         @if($r->duration)
                                                                             <div id="countdown" data-room="{{ $r->roomname }}" data-timer="{{ $r->duration }}"></div>
                                                                         @else
-                                                                            <input type="text" class="col-sm-6 form-control time_in" name="time_in[]" placeholder="H"/>
-                                                                            <input type="text" class="col-sm-6 form-control time_out" name="time_out[]" placeholder="M"/>
+                                                                            <input type="text" class="col-sm-6 form-control" id="time_in_hr" placeholder="H"/>
+                                                                            <input type="text" class="col-sm-6 form-control" id="time_in_min" placeholder="M"/>
                                                                         @endif
                                                                     </div>
                                                                     @php

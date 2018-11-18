@@ -215,9 +215,6 @@ class FrontController extends Controller
     public function duration(Request $request) {
 
         $date = Carbon::now()->format('Y-m-d H:i:s');
-        $hr = request('hr');
-        $min = request('min');
-        dd($hr . ' ' . $min);
 
         $data = array(
             'duration' => date('Y-m-d H:i:s', strtotime('+'.request('hr').' hour +'.request('min').' minutes', strtotime($date)))
