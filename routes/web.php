@@ -110,6 +110,7 @@ Route::get('/weekly-commission-reports', 'ReportsController@weekly_commission_re
 Route::get('/weekly-attendance-reports', 'ReportsController@weekly_attendance_reports');
 Route::get('/expense-reports', 'ReportsController@expense_reports');
 Route::get('weekly-commission-reports/therapist/{id}', 'ReportsController@therapist_detailed_report');
+Route::get('weekly-commission-reports/therapist/{id}/filter', 'ReportsController@therapist_detailed_report_filtered');
 Route::get('/weekly-commission-reports/filter', 'ReportsController@wcr_filter')->name('wcr_filter');
 Route::get('/payroll-reports/filter', 'ReportsController@payroll_filter')->name('payroll_filter');
 Route::get('/daily-commissions', 'ReportsController@daily_commissions');

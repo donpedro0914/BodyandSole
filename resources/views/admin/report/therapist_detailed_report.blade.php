@@ -41,8 +41,11 @@
                                             @foreach($day1 as $d1)
                                                 <tr>
                                                     <td>
-                                                    {{ $d1->service_name }} - 
-                                                    {{ $d1->day5 }}
+                                                        @if($d1->service == '-')
+                                                            {{ $d1->addon }} - {{ $d1->day5 }}
+                                                        @else
+                                                            {{ $d1->service_name }} - {{ $d1->day5 }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -53,8 +56,11 @@
                                             @foreach($day2 as $d2)
                                                 <tr>
                                                     <td>
-                                                    {{ $d2->service_name }} - 
-                                                    {{ $d2->day6 }}
+                                                        @if($d2->service == '-')
+                                                            {{ $d2->addon }} - {{ $d2->day6 }}
+                                                        @else
+                                                            {{ $d2->service_name }} - {{ $d2->day6 }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -65,8 +71,11 @@
                                             @foreach($day3 as $d3)
                                                 <tr>
                                                     <td>
-                                                    {{ $d3->service_name }} - 
-                                                    {{ $d3->day0 }}
+                                                        @if($d3->service == '-')
+                                                            {{ $d3->addon }} - {{ $d3->day0 }}
+                                                        @else
+                                                            {{ $d3->service_name }} - {{ $d3->day0 }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -77,8 +86,11 @@
                                             @foreach($day4 as $d4)
                                                 <tr>
                                                     <td>
-                                                    {{ $d4->service_name }} - 
-                                                    {{ $d4->day1 }}
+                                                        @if($d4->service == '-')
+                                                            {{ $d4->addon }} - {{ $d4->day1 }}
+                                                        @else
+                                                            {{ $d4->service_name }} - {{ $d4->day1 }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -89,8 +101,11 @@
                                             @foreach($day5 as $d5)
                                                 <tr>
                                                     <td>
-                                                    {{ $d5->service_name }} - 
-                                                    {{ $d5->day2 }}
+                                                        @if($d5->service == '-')
+                                                            {{ $d5->addon }} - {{ $d5->day2 }}
+                                                        @else
+                                                            {{ $d5->service_name }} - {{ $d5->day2 }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -101,8 +116,11 @@
                                             @foreach($day6 as $d6)
                                                 <tr>
                                                     <td>
-                                                    {{ $d6->service_name }} - 
-                                                    {{ $d6->day3 }}
+                                                        @if($d6->service == '-')
+                                                            {{ $d6->addon }} - {{ $d6->day3 }}
+                                                        @else
+                                                            {{ $d6->service_name }} - {{ $d6->day3 }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -113,8 +131,11 @@
                                             @foreach($day7 as $d7)
                                                 <tr>
                                                     <td>
-                                                    {{ $d7->service_name }} - 
-                                                    {{ $d7->day4 }}
+                                                        @if($d7->service == '-')
+                                                            {{ $d7->addon }} - {{ $d7->day4 }}
+                                                        @else
+                                                            {{ $d7->service_name }} - {{ $d7->day4 }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

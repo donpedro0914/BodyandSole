@@ -41,7 +41,11 @@
                                     <tr>
                                         <td>{{ $j->job_order }}</td>
                                         <td>{{ $j->fullname }}</td>
+                                        @if($j->service == '-')
+                                        <td>{{ $j->addon }}</td>
+                                        @else
                                         <td>{{ $j->service_name }}</td>
+                                        @endif
                                         <td>{{ $j->price }}</td>
                                         <td>
                                         @if($j->day0)

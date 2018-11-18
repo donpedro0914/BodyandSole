@@ -23,7 +23,7 @@
                                     <input type="hidden" name="endDate" id="endDate" value="{{ $endDate }}"/>
                                     <label>Date Range Filter</label>
                                     <div class="input-group">
-                                        <input class="form-control input-daterange-datepicker" id="daterange" type="text"value="{{ $startDate }} - {{ $endDate }}"/>
+                                        <input class="form-control input-daterange-datepicker" id="daterange" type="text" value="{{ $startDate }} - {{ $endDate }}"/>
                                         <div class="input-group-append">
                                             <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="submit">Filter</button>
                                         </div>
@@ -48,7 +48,16 @@
                                 <tbody>
                                     @foreach($commission as $c)
                                     <tr>
-                                        <td><a href="/weekly-commission-reports/therapist/{!! $c->id !!}">{{ $c->fullname }}</a></td>
+                                        <td>
+                                            @php
+                                                if(empty($_GET['startDate'])) {
+                                                    $url = "weekly-commission-reports/therapist/".$c->id;
+                                                } else {
+                                                    $url = "/weekly-commission-reports/therapist/" . $c->id . "/filter?startDate=".$startDate."&endDate=".$endDate;
+                                                }
+                                            @endphp
+                                            <a href="{{ $url }}">{{ $c->fullname }}</a>
+                                        </td>
                                         <td class='text-center'>{{ $c->Fri }}.00</td>
                                         <td class='text-center'>{{ $c->Sat }}.00</td>
                                         <td class='text-center'>{{ $c->Sun }}.00</td>

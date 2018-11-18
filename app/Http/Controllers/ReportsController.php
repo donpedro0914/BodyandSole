@@ -121,7 +121,7 @@ class ReportsController extends Controller
 
     }
 
-    public function therapist_detailed_report($id) {
+    public function therapist_detailed_report(Request $request, $id) {
 
         $now = Carbon::now()->format('Y-m-d');
         $en = Carbon::parse($now);
@@ -134,82 +134,43 @@ class ReportsController extends Controller
 
         $therapistInfo = Therapist::where('id', $id)->first();
 
-        $day1 = DB::select('
-                select b.fullname, c.service_name, a.job_order, a.created_at, a.status, a.day5
-                from job_orders a, therapists b, services c
-                where a.therapist_fullname = b.id
-                and a.service = c.id
-                and b.id = "'.$id.'"
-                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-                and a.status = "Done"
-                and a.day5 <> ""
-                group by b.fullname, c.service_name, a.job_order, a.day5');
+        $day1 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day5 as day5', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day5', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
 
-        $day2 = DB::select('
-                select b.fullname, c.service_name, a.job_order, a.created_at, a.status, a.day6
-                from job_orders a, therapists b, services c
-                where a.therapist_fullname = b.id
-                and a.service = c.id
-                and b.id = "'.$id.'"
-                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-                and a.status = "Done"
-                and a.day6 <> ""
-                group by b.fullname, c.service_name, a.job_order, a.day6');
+        $day2 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day6 as day6', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day6', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
 
-        $day3 = DB::select('
-                select b.fullname, c.service_name, a.job_order, a.created_at, a.status, a.day0
-                from job_orders a, therapists b, services c
-                where a.therapist_fullname = b.id
-                and a.service = c.id
-                and b.id = "'.$id.'"
-                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-                and a.status = "Done"
-                and a.day0 <> ""
-                group by b.fullname, c.service_name, a.job_order, a.day0');
+        $day3 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day0 as day0', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day0', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
 
-        $day4 = DB::select('
-                select b.fullname, c.service_name, a.job_order, a.created_at, a.status, a.day1
-                from job_orders a, therapists b, services c
-                where a.therapist_fullname = b.id
-                and a.service = c.id
-                and b.id = "'.$id.'"
-                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-                and a.status = "Done"
-                and a.day1 <> ""
-                group by b.fullname, c.service_name, a.job_order, a.day1');
+        $day4 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day1 as day1', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day1', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
 
-        $day5 = DB::select('
-                select b.fullname, c.service_name, a.job_order, a.created_at, a.status, a.day2
-                from job_orders a, therapists b, services c
-                where a.therapist_fullname = b.id
-                and a.service = c.id
-                and b.id = "'.$id.'"
-                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-                and a.status = "Done"
-                and a.day2 <> ""
-                group by b.fullname, c.service_name, a.job_order, a.day2');
+        $day5 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day2 as day2', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day2', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
 
-        $day6 = DB::select('
-                select b.fullname, c.service_name, a.job_order, a.created_at, a.status, a.day3
-                from job_orders a, therapists b, services c
-                where a.therapist_fullname = b.id
-                and a.service = c.id
-                and b.id = "'.$id.'"
-                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-                and a.status = "Done"
-                and a.day3 <> ""
-                group by b.fullname, c.service_name, a.job_order, a.day3');
+        $day6 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day3 as day3', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day3', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
 
-        $day7 = DB::select('
-                select b.fullname, c.service_name, a.job_order, a.created_at, a.status, a.day4
-                from job_orders a, therapists b, services c
-                where a.therapist_fullname = b.id
-                and a.service = c.id
-                and b.id = "'.$id.'"
-                and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-                and a.status = "Done"
-                and a.day4 <> ""
-                group by b.fullname, c.service_name, a.job_order, a.day4');
+        $day7 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day4 as day4', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day4', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
+
+        return view('admin.report.therapist_detailed_report',compact('therapistInfo', 'day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'), ['startDate' => $startDate, 'endDate' => $endDate]);
+    }
+
+    public function therapist_detailed_report_filtered(Request $request, $id) {
+
+        $startDate = $request->get('startDate');
+        $endDate = $request->get('endDate');
+
+        $therapistInfo = Therapist::where('id', $id)->first();
+
+        $day1 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day5 as day5', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day5', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
+
+        $day2 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day6 as day6', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day6', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
+
+        $day3 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day0 as day0', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day0', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
+
+        $day4 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day1 as day1', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day1', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
+
+        $day5 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day2 as day2', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day2', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
+
+        $day6 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day3 as day3', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day3', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
+
+        $day7 = JobOrder::select('job_orders.therapist_fullname as fullname', 'job_orders.addon as addon', 'job_orders.service as service', 'job_orders.day4 as day4', 'services.service_name as service_name')->leftJoin('services', 'job_orders.service', '=', 'services.id')->where('job_orders.therapist_fullname', $id)->where('job_orders.day4', '!=', NULL)->where('job_orders.status', 'Done')->whereBetween('job_orders.created_at', [$startDate, $endDate])->get();
 
         return view('admin.report.therapist_detailed_report',compact('therapistInfo', 'day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
