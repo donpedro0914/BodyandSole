@@ -115,8 +115,9 @@
                                             $ot = '0';
                                             if($p->day1) {
                                                 if($p->day1 > 8) {
+                                                    $hr = $p->day1 - 1;
                                                     $day += '1';
-                                                    $ot += $p->day1 % 8;
+                                                    $ot += $hr % 8;
                                                 } else if($p->day1 = 8) {
                                                     $day += '1';
                                                 }
@@ -126,8 +127,9 @@
 
                                             if($p->day2) {
                                                 if($p->day2 > 8) {
+                                                    $hr = $p->day2 - 1;
                                                     $day += '1';
-                                                    $ot += $p->day2 % 8;
+                                                    $ot += $hr % 8;
                                                 } else if($p->day2 = 8) {
                                                     $day += '1';
                                                 }
@@ -137,8 +139,9 @@
 
                                             if($p->day3) {
                                                 if($p->day3 > 8) {
+                                                    $hr = $p->day3 - 1;
                                                     $day += '1';
-                                                    $ot += $p->day3 % 8;
+                                                    $ot += $hr % 8;
                                                 } else if($p->day3 = 8) {
                                                     $day += '1';
                                                 }
@@ -148,8 +151,9 @@
 
                                             if($p->day4) {
                                                 if($p->day4 > 8) {
+                                                    $hr = $p->day4 - 1;
                                                     $day += '1';
-                                                    $ot += $p->day4 % 8;
+                                                    $ot += $hr % 8;
                                                 } else if($p->day4 = 8) {
                                                     $day += '1';
                                                 }
@@ -159,8 +163,9 @@
 
                                             if($p->day5) {
                                                 if($p->day5 > 8) {
+                                                    $hr = $p->day5 - 1;
                                                     $day += '1';
-                                                    $ot += $p->day5 % 8;
+                                                    $ot += $hr % 8;
                                                 } else if($p->day5 = 8) {
                                                     $day += '1';
                                                 }
@@ -170,8 +175,9 @@
 
                                             if($p->day6) {
                                                 if($p->day6 > 8) {
+                                                    $hr = $p->day6 - 1;
                                                     $day += '1';
-                                                    $ot += $p->day6 % 8;
+                                                    $ot += $hr % 8;
                                                 } else if($p->day6 = 8) {
                                                     $day += '1';
                                                 }
@@ -181,8 +187,9 @@
 
                                             if($p->day7) {
                                                 if($p->day7 > 8) {
+                                                    $hr = $p->day7 - 1;
                                                     $day += '1';
-                                                    $ot += $p->day7 % 8;
+                                                    $ot += $hr % 8;
                                                 } else if($p->day7 = 8) {
                                                     $day += '1';
                                                 }
@@ -378,8 +385,9 @@
                                                 $ot = '0';
                                                 if($p->day1) {
                                                     if($p->day1 > 8) {
+                                                        $hr = $p->day1 - 1;
                                                         $day += '1';
-                                                        $ot += $p->day1 % 8;
+                                                        $ot += $hr % 8;
                                                     } else if($p->day1 = 8) {
                                                         $day += '1';
                                                     }
@@ -389,8 +397,9 @@
 
                                                 if($p->day2) {
                                                     if($p->day2 > 8) {
+                                                        $hr = $p->day2 - 1;
                                                         $day += '1';
-                                                        $ot += $p->day2 % 8;
+                                                        $ot += $hr % 8;
                                                     } else if($p->day2 = 8) {
                                                         $day += '1';
                                                     }
@@ -400,8 +409,9 @@
 
                                                 if($p->day3) {
                                                     if($p->day3 > 8) {
+                                                        $hr = $p->day3 - 1;
                                                         $day += '1';
-                                                        $ot += $p->day3 % 8;
+                                                        $ot += $hr % 8;
                                                     } else if($p->day3 = 8) {
                                                         $day += '1';
                                                     }
@@ -411,8 +421,9 @@
 
                                                 if($p->day4) {
                                                     if($p->day4 > 8) {
+                                                        $hr = $p->day4 - 1;
                                                         $day += '1';
-                                                        $ot += $p->day4 % 8;
+                                                        $ot += $hr % 8;
                                                     } else if($p->day4 = 8) {
                                                         $day += '1';
                                                     }
@@ -422,8 +433,9 @@
 
                                                 if($p->day5) {
                                                     if($p->day5 > 8) {
+                                                        $hr = $p->day5 - 1;
                                                         $day += '1';
-                                                        $ot += $p->day5 % 8;
+                                                        $ot += $hr % 8;
                                                     } else if($p->day5 = 8) {
                                                         $day += '1';
                                                     }
@@ -433,8 +445,9 @@
 
                                                 if($p->day6) {
                                                     if($p->day6 > 8) {
+                                                        $hr = $p->day6 - 1;
                                                         $day += '1';
-                                                        $ot += $p->day6 % 8;
+                                                        $ot += $hr % 8;
                                                     } else if($p->day6 = 8) {
                                                         $day += '1';
                                                     }
@@ -444,8 +457,9 @@
 
                                                 if($p->day7) {
                                                     if($p->day7 > 8) {
+                                                        $hr = $p->day7 - 1;
                                                         $day += '1';
-                                                        $ot += $p->day7 % 8;
+                                                        $ot += $hr % 8;
                                                     } else if($p->day7 = 8) {
                                                         $day += '1';
                                                     }

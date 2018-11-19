@@ -49,10 +49,13 @@
                                             <td>{{ $a->name }}</td>
                                             <td>
                                                 @if($a->day1)
-                                                    @if($a->day1 > 8)
-                                                        {{ $a->day1 }} (OT: {{ $a->day1 % 8}}hrs)
-                                                    @elseif($a->day1 = 8)
-                                                        {{ $a->day1 }}
+                                                    @if($a->day1 > 9)
+                                                        @php
+                                                            $hr = $a->day1 - 1;
+                                                        @endphp
+                                                        {{ $a->day1 }} (OT: {{ $hr % 8}}hrs)
+                                                    @elseif($a->day1 = 9)
+                                                        {{ $a->day1 - 1 }}
                                                     @endif
                                                 @else
                                                 {!! 0 !!}
@@ -61,7 +64,10 @@
                                             <td>
                                                 @if($a->day2)
                                                     @if($a->day2 > 8)
-                                                        {{ $a->day2 }} (OT: {{ $a->day2 % 8}}hrs)
+                                                        @php
+                                                            $hr = $a->day2 - 1;
+                                                        @endphp
+                                                        {{ $a->day2 }} (OT: {{ $hr % 8}}hrs)
                                                     @elseif($a->day2 = 8)
                                                         {{ $a->day2 }}
                                                     @endif
@@ -72,7 +78,10 @@
                                             <td>
                                                 @if($a->day3)
                                                     @if($a->day3 > 8)
-                                                        {{ $a->day3 }} (OT: {{ $a->day3 % 8}}hrs)
+                                                        @php
+                                                            $hr = $a->day3 - 1;
+                                                        @endphp
+                                                        {{ $a->day3 }} (OT: {{ $hr % 8}}hrs)
                                                     @elseif($a->day3 = 8)
                                                         {{ $a->day3 }}
                                                     @endif
@@ -83,7 +92,10 @@
                                             <td>
                                                 @if($a->day4)
                                                     @if($a->day4 > 8)
-                                                        {{ $a->day4 }} (OT: {{ $a->day4 % 8}}hrs)
+                                                        @php
+                                                            $hr = $a->day4 - 1;
+                                                        @endphp
+                                                        {{ $a->day4 }} (OT: {{ $hr % 8}}hrs)
                                                     @elseif($a->day4 = 8)
                                                         {{ $a->day4 }}
                                                     @endif
@@ -94,7 +106,10 @@
                                             <td>
                                                 @if($a->day5)
                                                     @if($a->day5 > 8)
-                                                        {{ $a->day5 }} (OT: {{ $a->day5 % 8}}hrs)
+                                                        @php
+                                                            $hr = $a->day5 - 1;
+                                                        @endphp
+                                                        {{ $a->day5 }} (OT: {{ $hr % 8}}hrs)
                                                     @elseif($a->day5 = 8)
                                                         {{ $a->day5 }}
                                                     @endif
@@ -105,7 +120,10 @@
                                             <td>
                                                 @if($a->day6)
                                                     @if($a->day6 > 8)
-                                                        {{ $a->day6 }} (OT: {{ $a->day6 % 8}}hrs)
+                                                        @php
+                                                            $hr = $a->day6 - 1;
+                                                        @endphp
+                                                        {{ $a->day6 }} (OT: {{ $hr % 8}}hrs)
                                                     @elseif($a->day6 = 8)
                                                         {{ $a->day6 }}
                                                     @endif
@@ -116,7 +134,10 @@
                                             <td>
                                                 @if($a->day7)
                                                     @if($a->day7 > 8)
-                                                        {{ $a->day7 }} (OT: {{ $a->day7 % 8}}hrs)
+                                                        @php
+                                                            $hr = $a->day7 - 1;
+                                                        @endphp
+                                                        {{ $a->day7 }} (OT: {{ $hr % 8}}hrs)
                                                     @elseif($a->day7 = 8)
                                                         {{ $a->day7 }}
                                                     @endif

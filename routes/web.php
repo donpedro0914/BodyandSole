@@ -37,6 +37,7 @@ Route::post('f_gc/store', 'FrontController@f_gc_store');
 /* Expenses  Front */
 Route::get('f_petty-expenses', 'FrontController@f_petty_expenses');
 Route::post('f_expense/store', 'FrontController@f_expense_store');
+Route::get('/f_expenses/filter', 'FrontController@f_expenses_filter')->name('f_expenses_filter');
 
 /* Payroll Front */
 Route::get('f_payroll', 'FrontController@f_payroll');
@@ -102,6 +103,13 @@ Route::get('/job-order', 'JobOrderController@index');
 Route::get('/joborder/edit/{id}', 'JobOrderController@edit');
 Route::post('/joborder/update/{id}', 'JobOrderController@update');
 Route::delete('joborder/delete/{id}', 'JobOrderController@delete');
+
+/* Expenses */
+Route::get('/petty-expense', 'PettyExpenseController@index');
+Route::get('/expenses/edit/{id}', 'PettyExpenseController@edit');
+Route::post('expenses/update/{id}', 'PettyExpenseController@update');
+Route::delete('expenses/delete/{id}', 'PettyExpenseController@delete');
+Route::get('/expenses/filter', 'PettyExpenseController@expenses_filter')->name('expenses_filter');
 
 /* Reports */
 Route::get('/sales-reports', 'ReportsController@sales_reports');

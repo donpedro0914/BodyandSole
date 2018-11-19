@@ -34,6 +34,7 @@
 	            	<ul class="nav-second-level" aria-expanded="false">
 	            		<li><a href="/job-order">Job Order</a></li>
 	            		<li><a href="/gift-certificate">Gift Certificate</a></li>
+	            		<li><a href="/petty-expense">Petty Expense</a></li>
 	            	</ul>
 	            </li>
 	            <li>
@@ -43,7 +44,7 @@
 	            		<li><a href="/sales-reports">Sales Reports</a></li>
 	            		<li><a href="/daily-commissions">Daily Commissions</a></li>
 	            		<li><a href="/periodic-sales">Periodic Sales</a></li>
-	            		<li><a href="/expense-reports">Petty Expense Reports</a></li>
+	            		<li><a href="/expense-reports">Deduction Reports</a></li>
 	            		<li><a href="/payroll-reports">Payroll Reports</a></li>
 	            		<li><a href="/weekly-commission-reports">Weekly Commission Reports</a></li>
 	            		<li><a href="/weekly-attendance-reports">Weekly Attendance Reports</a></li>

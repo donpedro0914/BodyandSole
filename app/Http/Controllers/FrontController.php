@@ -181,7 +181,8 @@ class FrontController extends Controller
             'gcno' => $request->input('gcno'),
     		'price' => $request->input('price'),
     		'status' => 'Active',
-            $day => $request->input('commmission')
+            $day => $request->input('commmission'),
+            'created_at' => date('Y-m-d H:i:s', strtotime($request->input('date')))
     	);
 
     	$jo = JobOrder::create($data);
@@ -348,14 +349,28 @@ class FrontController extends Controller
         $day = $start->format('N');
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
-        $alltherapists = Therapist::where('status', 'Active')->get();
 
         $alltherapists = Therapist::where('status', 'Active')->get();
-        $therapist = Therapist::where('status', 'Active')->get();
-        $expenses = PettyExpense::select('petty_expenses.*', 'therapists.id', 'therapists.fullname', 'petty_expenses.created_at as date')->leftJoin('therapists', 'petty_expenses.therapist', '=', 'therapists.id')->where('petty_expenses.value', '!=', '0')->whereDate('petty_expenses.created_at', Carbon::now()->format('Y-m-d'))->orderBy('petty_expenses.created_at', 'asc')->get();
 
         $expenseCount = PettyExpense::count();
-        return view('expenses', compact('therapist', 'expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day]);
+        $expenses = PettyExpense::all();
+        return view('expenses', compact('expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day, 'startDate' => $startDate, 'endDate' => $endDate]);
+    }
+
+    public function f_expenses_filter(Request $request) {
+
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $day = $start->format('N');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        $alltherapists = Therapist::where('status', 'Active')->get();
+        
+        $expenseCount = PettyExpense::count();
+        $expenses = PettyExpense::whereBetween('created_at', [$startDate, $endDate])->get();
+        return view('expenses', compact('expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day, 'startDate' => $startDate, 'endDate' => $endDate]);
     }
 
     public function attendance_store(Request $request) {
@@ -411,6 +426,7 @@ class FrontController extends Controller
     public function f_expense_store(Request $request)
     {
         $data = array(
+            'ref_no' => $request->input('ref_no'),
             'therapist' => $request->input('therapist'),
             'category' => $request->input('category'),
             'particulars' => $request->input('particulars'),

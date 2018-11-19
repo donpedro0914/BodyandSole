@@ -1399,6 +1399,9 @@ $(document).ready(function() {
 			} else if(module == 'roomslounge') {
 				var url = document.location.origin + "/rooms/delete/" + id;
 				var datatable = "ajax-table-rooms";					
+			} else if(module == 'expenses') {
+				var url = document.location.origin + "/expenses/delete/" + id;
+				var datatable = "ajax-table-expenses";	
 			}
 
 			var data = "id="+id;

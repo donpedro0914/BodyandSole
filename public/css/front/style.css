@@ -28,3 +28,7 @@
 .table .table, .table-hover tbody tr:hover, .table-striped tbody tr:nth-of-type(odd), .table-striped tbody tr:nth-of-type(even), .td-header {
 	background: #ffe1e1 !important;
 }
+
+.table-bordered, .table-bordered td, .table-bordered th {
+	border: 1px solid #c7cbce;
+}
