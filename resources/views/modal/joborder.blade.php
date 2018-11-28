@@ -9,10 +9,12 @@
 				<form id="jobOrderForm" action="{{ URL::to('joborder/store') }}" method="post" novalidate>
 					@csrf
 					@php
-						$jobOrderCount = $jobOrderCount + 1;
-						$jobOrderCount = sprintf("%05d", $jobOrderCount);
+						$jobOrderCount = $jobOrderCount->job_order;
+						$orderCount = explode("-", $jobOrderCount);
+						$orderCount2 = $orderCount[1] + 1;
+						$orderCount2 = sprintf("%05d", $orderCount2);
 					@endphp
-					<input type="hidden" name="job_order" value="{!! date('y') !!}-{!! $jobOrderCount !!}"/>
+					<input type="hidden" name="job_order" value="{!! date('y') !!}-{!! $orderCount2 !!}"/>
 					<input type="hidden" name="room_no" id="room_no_form" value="" />
 					<input type="hidden" name="day" id="day" value="day{{ $day }}" />
 					<input type="hidden" name="commmission" id="commission" value="" />

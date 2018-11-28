@@ -67,7 +67,7 @@ class FrontController extends Controller
         $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id', 'job_orders.addon as addon')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->whereDate('job_orders.created_at', $formattedCurrentDay)->orderBy('job_orders.id', 'desc')->get();
 
 
-        $jobOrderCount = JobOrder::count();
+        $jobOrderCount = JobOrder::orderBy('created_at', 'desc')->first();
         return view('home', compact('rooms', 'lounge', 'alltherapists', 'therapists', 'day', 'service', 'packages', 'client', 'joborder'), ['wcpScript' => $wcpScript, 'jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
