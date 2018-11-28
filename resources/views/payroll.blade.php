@@ -35,7 +35,7 @@
                                     @foreach($payroll_therapist as $p)
                                     <tr>
                                         <td>{{ $p->fullname }}</td>
-                                        <td class="text-right">{{ $p->basic }}.00</td>
+                                        <td class="text-right">{{ $p->basic }}</td>
                                         @php
                                             $day = '0';
                                             if($p->Thurs) {
@@ -82,16 +82,16 @@
 
                                             $totalAllowance = $p->allowance * $day;
                                         @endphp
-                                        <td class="text-right">{{ $totalAllowance }}.00</td>
-                                        <td class="text-right">{{ $p->total }}.00</td>
-                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}.00</td>
-                                        <td class="text-right">{{ $p->basic + $totalAllowance + $p->total }}.00</td>
+                                        <td class="text-right">{{ $totalAllowance }}</td>
+                                        <td class="text-right">{{ $p->total }}</td>
+                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}</td>
+                                        <td class="text-right">{{ $p->basic + $totalAllowance + $p->total }}</td>
                                         <td>
                                             @php
                                             $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
                                             $gross = $p->basic + $totalAllowance + $p->total;
                                             @endphp
-                                            {{ $gross - $totalDeduction }}.00
+                                            {{ $gross - $totalDeduction }}
                                         </td>
                                     </tr>
                                     @endforeach
@@ -184,16 +184,16 @@
                                             $finalBasic = $basicpay + $otpay;
                                         @endphp
                                         <td class="text-right">{{ $finalBasic }}</td>
-                                        <td class="text-right">0.00</td>
-                                        <td class="text-right">0.00</td>
-                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}.00</td>
-                                        <td class="text-right">{{ $finalBasic }}.00</td>
+                                        <td class="text-right">0</td>
+                                        <td class="text-right">0</td>
+                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}</td>
+                                        <td class="text-right">{{ $finalBasic }}</td>
                                         <td>
                                             @php
                                             $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
                                             $gross = $finalBasic;
                                             @endphp
-                                            {{ $gross - $totalDeduction }}.00
+                                            {{ $gross - $totalDeduction }}
                                         </td>
                                     </tr>
                                     @endforeach
