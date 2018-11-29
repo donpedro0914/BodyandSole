@@ -247,42 +247,42 @@
                 };
 
                 pagetotal1 = api
-                .column(1, {page: 'current'})
+                .column(1)
                 .data()
                 .reduce(function(a,b) {
                     return intVal(a) + intVal(b);
                 },0);
 
                 pagetotal2 = api
-                .column(2, {page: 'current'})
+                .column(2)
                 .data()
                 .reduce(function(a,b) {
                     return intVal(a) + intVal(b);
                 },0);
 
                 pagetotal3 = api
-                .column(3, {page: 'current'})
+                .column(3)
                 .data()
                 .reduce(function(a,b) {
                     return intVal(a) + intVal(b);
                 },0);
 
                 pagetotal4 = api
-                .column(4, {page: 'current'})
+                .column(4)
                 .data()
                 .reduce(function(a,b) {
                     return intVal(a) + intVal(b);
                 },0);
 
                 pagetotal5 = api
-                .column(5, {page: 'current'})
+                .column(5)
                 .data()
                 .reduce(function(a,b) {
                     return intVal(a) + intVal(b);
                 },0);
 
                 pagetotal6 = api
-                .column(6, {page: 'current'})
+                .column(6)
                 .data()
                 .reduce(function(a,b) {
                     return intVal(a) + intVal(b);
