@@ -256,10 +256,10 @@ class FrontController extends Controller
         $alltherapists = Therapist::where('status', 'Active')->get();
 
         $alltherapists = Therapist::where('status', 'Active')->get();
+
         $client = Clients::select('clients.*', 'job_orders.job_order', 'job_orders.client_fullname', 'job_orders.therapist_fullname', 'therapists.id', 'therapists.fullname as therafullname', 'job_orders.created_at as lastvisit')
                 ->leftJoin('job_orders', 'clients.fullname', '=', 'job_orders.client_fullname')
                 ->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')
-                ->groupBy('therapists.id')
                 ->orderBy('job_orders.created_at', 'desc')
                 ->get();
 
