@@ -18,6 +18,19 @@
 							<input type="text" name="ref_no" class="form-control" value="{!! $expenseCount !!}" readonly="" />
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
+							<label>Date</label>
+							<div class="col-sm-12">
+								<div class="input-group m-b-30">
+                                <input type="text" class="form-control" placeholder="mm/dd/yyyy" name="date" id="datepicker-autoclose" value="{!! date('Y-m-d') !!}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="mdi mdi-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+							</div>
+						</div>
+						<div class="form-group col-md-12 col-xs-12">
 							<label>Payee Name</label>
 							<input type="text" name="therapist" class="form-control" />
 						</div>

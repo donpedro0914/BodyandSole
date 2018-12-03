@@ -430,7 +430,8 @@ class FrontController extends Controller
             'therapist' => $request->input('therapist'),
             'category' => $request->input('category'),
             'particulars' => $request->input('particulars'),
-            'value' => $request->input('value')
+            'value' => $request->input('value'),
+            'created_at' => date('Y-m-d H:i:s', strtotime($request->input('date')))
         );
 
         $expenseAdd = PettyExpense::create($data);
