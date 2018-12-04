@@ -19,7 +19,7 @@ class PettyExpenseController extends Controller
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
-        $expenseCount = PettyExpense::count();
+        $expenseCount = PettyExpense::orderBy('created_at', 'desc')->first();
         $expenses = PettyExpense::all();
         return view('admin.expenses', compact('expenses', 'day'),['expenseCount' => $expenseCount, 'startDate' => $startDate, 'endDate' => $endDate]);
     }

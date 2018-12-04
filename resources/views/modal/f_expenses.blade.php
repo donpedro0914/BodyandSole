@@ -9,19 +9,24 @@
 				<form id="f_expenseForm" action="{{ URL::to('f_expense/store') }}" method="post">
 					@csrf
 					@php
-						$expenseCount = $expenseCount + 1;
-						$expenseCount = sprintf("%05d", $expenseCount);
+						if(empty($expenseCount->ref_no)) {
+							$orderCount2 = '00001';
+						} else {
+							$expenseCount = $expenseCount->ref_no;
+							$orderCount2 = $expenseCount + 1;
+							$orderCount2 = sprintf("%05d", $orderCount2);
+						}
 					@endphp
 					<div class="form-row">
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Reference No.</label>
-							<input type="text" name="ref_no" class="form-control" value="{!! $expenseCount !!}" readonly="" />
+							<input type="text" name="ref_no" class="form-control" value="{!! $orderCount2 !!}" readonly="" />
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Date</label>
 							<div class="col-sm-12">
 								<div class="input-group m-b-30">
-                                <input type="text" class="form-control" placeholder="mm/dd/yyyy" name="date" id="datepicker-autoclose" value="{!! date('Y-m-d') !!}">
+                                <input type="text" class="form-control" data-date-format="yyyy-mm-dd" name="date" id="datepicker-autoclose" value="{!! date('Y-m-d') !!}">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="mdi mdi-calendar"></i>

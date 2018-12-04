@@ -43,6 +43,7 @@
     <script src="{{ asset('js/jquery.app.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
@@ -55,7 +56,6 @@
     <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/daterangepicker.js') }}"></script>
     <script src="{{ asset('js/jquery.form-advanced.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

@@ -9,10 +9,14 @@
 				<form id="jobOrderForm" action="{{ URL::to('joborder/store') }}" method="post" novalidate>
 					@csrf
 					@php
-						$jobOrderCount = $jobOrderCount->job_order;
-						$orderCount = explode("-", $jobOrderCount);
-						$orderCount2 = $orderCount[1] + 1;
-						$orderCount2 = sprintf("%05d", $orderCount2);
+						if(empty($jobOrderCount->job_order)) {
+							$orderCount2 = '00001';
+						} else {
+							$jobOrderCount = $jobOrderCount->job_order;
+							$orderCount = explode("-", $jobOrderCount);
+							$orderCount2 = $orderCount[1] + 1;
+							$orderCount2 = sprintf("%05d", $orderCount2);
+						}
 					@endphp
 					<input type="hidden" name="job_order" value="{!! date('y') !!}-{!! $orderCount2 !!}"/>
 					<input type="hidden" name="room_no" id="room_no_form" value="" />
@@ -24,7 +28,7 @@
 							<label class="col-sm-4 col-form-label">Date</label>
 							<div class="col-sm-8">
 								<div class="input-group m-b-30">
-                                <input type="text" class="form-control" placeholder="mm/dd/yyyy" name="date" id="datepicker-autoclose" value="{!! date('Y-m-d H:i:s') !!}">
+                                <input type="text" class="form-control" name="date" id="datepicker-autoclose" data-date-format="yyyy-mm-dd" value="{!! date('Y-m-d') !!}">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="mdi mdi-calendar"></i>

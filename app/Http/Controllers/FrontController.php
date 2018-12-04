@@ -42,7 +42,7 @@ class FrontController extends Controller
         $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
-        $alltherapists = Therapist::where('status', 'Active')->get();
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
 
     	$therapists = DB::select('select * from therapists');
 
@@ -186,7 +186,7 @@ class FrontController extends Controller
     	);
 
     	$jo = JobOrder::create($data);
-    	$jobOrder = JobOrder::where('job_order', $jo->job_order)->first();
+        $jobOrder = JobOrder::where('job_order', $jo->job_order)->first();
 
     	return response()->json($jobOrder);
     }
@@ -253,9 +253,8 @@ class FrontController extends Controller
         $day = $start->format('N');
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
-        $alltherapists = Therapist::where('status', 'Active')->get();
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
 
-        $alltherapists = Therapist::where('status', 'Active')->get();
 
         $client = Clients::select('clients.*', 'job_orders.job_order', 'job_orders.client_fullname', 'job_orders.therapist_fullname', 'therapists.id', 'therapists.fullname as therafullname', 'job_orders.created_at as lastvisit')
                 ->leftJoin('job_orders', 'clients.fullname', '=', 'job_orders.client_fullname')
@@ -290,9 +289,8 @@ class FrontController extends Controller
         $day = $start->format('N');
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
-        $alltherapists = Therapist::where('status', 'Active')->get();
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
 
-        $alltherapists = Therapist::where('status', 'Active')->get();
         $gc = DB::select('select t.*, COALESCE(a.gcount,0) gcounts, service_name
             from giftcertificates t
             left join (
@@ -350,9 +348,9 @@ class FrontController extends Controller
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
-        $alltherapists = Therapist::where('status', 'Active')->get();
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
 
-        $expenseCount = PettyExpense::count();
+        $expenseCount = PettyExpense::orderBy('created_at', 'desc')->first();
         $expenses = PettyExpense::all();
         return view('expenses', compact('expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day, 'startDate' => $startDate, 'endDate' => $endDate]);
     }
@@ -366,9 +364,9 @@ class FrontController extends Controller
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
 
-        $alltherapists = Therapist::where('status', 'Active')->get();
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
         
-        $expenseCount = PettyExpense::count();
+        $expenseCount = PettyExpense::orderBy('created_at', 'desc')->first();
         $expenses = PettyExpense::whereBetween('created_at', [$startDate, $endDate])->get();
         return view('expenses', compact('expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day, 'startDate' => $startDate, 'endDate' => $endDate]);
     }
@@ -449,7 +447,7 @@ class FrontController extends Controller
         $day = $start->format('N');
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
-        $alltherapists = Therapist::where('status', 'Active')->get();
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
 
         $payroll_therapist = DB::select('
             select a.created_at as created_at, b.id, b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 
@@ -481,7 +479,7 @@ class FrontController extends Controller
 
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-        $alltherapists = Therapist::where('status', 'Active')->get();
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
 
         $payroll_therapist = DB::select('
             select a.created_at as created_at, b.id, b.fullname , COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, sum(COALESCE(b.uniform,0) + COALESCE(b.fare,0) + COALESCE(b.others,0)) as others, 

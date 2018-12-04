@@ -469,7 +469,8 @@ $(document).ready(function() {
 	                    text: 'Job Order #: '+data['job_order']+' added!',
 	                    type: 'success'
 	                }
-	            );
+				);
+				$('#tester').trigger('click');
 				setTimeout(function() {
 					location.reload();
 				}, 1000)
