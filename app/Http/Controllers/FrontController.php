@@ -385,7 +385,7 @@ class FrontController extends Controller
 
         $day = $request->input('day');
         if($validateUser) {
-            $checkIn = Attendance::where('name', $validateUser->fullname)->whereDate('created_at', Carbon::now()->format('Y-m-d'))->first();
+            $checkIn = Attendance::where('name', $validateUser->fullname)->first();
             if(empty($checkIn->time_in)) {
                 $data = array(
                     'name' => $request->input('therapist'),
@@ -397,24 +397,29 @@ class FrontController extends Controller
                 $checkIn3 = Attendance::where('id', $checkIn2->id)->first();
                 return response()->json($checkIn3);
             } else {
-                $data = array(
-                    'name' => $request->input('therapist'),
-                    'time_out' => Carbon::now()
-                );
-                $check4 = Attendance::where('name', $request->input('therapist'))->whereDate('created_at', Carbon::now()->format('Y-m-d'))->update($data);
-
                 $check5 = Attendance::where('name', $request->input('therapist'))->orderBy('updated_at', 'desc')->first();
 
                 $timeIn = Carbon::parse($check5->time_in);
-                $timeOut = Carbon::parse($check5->time_out);
+                $timeOut = Carbon::parse(Carbon::now());
                 $calculateHrs = $timeOut->diffInHours($timeIn);
 
-                $calculatedHrs = array(
-                    $day => $calculateHrs
-                );
+                if($calculateHrs >9) {
+                    return response()->json('test');
+                } else {
+                    $data = array(
+                    'name' => $request->input('therapist'),
+                    'time_out' => Carbon::now()
+                    );
+                    $check4 = Attendance::where('name', $request->input('therapist'))->update($data);
 
-                $finalUpdate = Attendance::where('id', $check5->id)->update($calculatedHrs);
-                return response()->json($finalUpdate);
+                    $calculatedHrs = array(
+                    $day => $calculateHrs
+                    );
+
+                    $finalUpdate = Attendance::where('id', $check5->id)->update($calculatedHrs);
+                    return response()->json($finalUpdate);
+
+                }
             }
         } else {
             return false;

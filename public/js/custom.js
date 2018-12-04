@@ -80,6 +80,35 @@ $(document).ready(function() {
 				$('#f_attendanceBtn').html('Add Submit').removeAttr("disabled");
 				$('#attendance_time').modal('hide');
 				$('#f_attendanceForm')[0].reset();
+				if(data == 'test') {
+					(async function getColor () {
+					// inputOptions can be an object or Promise
+					const inputOptions = new Promise((resolve) => {
+					  setTimeout(() => {
+					    resolve({
+					      'OT': 'OT',
+					      'Forgot': 'Forgot'
+					    })
+					  }, 2000)
+					})
+
+					const {value: option} = await swal({
+					  title: 'Select Option',
+					  input: 'radio',
+					  inputOptions: inputOptions,
+					  inputValidator: (value) => {
+					    return !value && 'You need to choose something!'
+					  }
+					})
+
+					if (option == 'OT') {
+					  swal({html: 'You selected: ' + option})
+					} else {
+					  swal('ok');
+					}
+
+					})()
+				} else {
 				swal(
 	                {
 	                    title: 'Done!',
@@ -87,9 +116,17 @@ $(document).ready(function() {
 	                    confirmButtonClass: 'btn btn-confirm mt-2'
 	                }
 	            );
-				location.reload();
+				// location.reload();				
+				}
 			},
 			error: function(xhr, status, error) {
+				$('#f_attendanceBtn').html('Add Submit').removeAttr("disabled");
+				if(xhr.status === 500) {
+					swal('Incorrect PIN');					
+				} else {
+					swal('ok');
+				}
+
 				console.log(xhr);
 				console.log(status);
 				console.log(error);
@@ -1421,3 +1458,7 @@ $(document).ready(function() {
 	});
 
 });
+
+function createButton(text, cb) {
+  return $('<button>' + text + '</button>').on('click', cb);
+}
