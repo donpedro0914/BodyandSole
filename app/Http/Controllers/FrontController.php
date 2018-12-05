@@ -350,7 +350,7 @@ class FrontController extends Controller
 
         $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
 
-        $expenseCount = PettyExpense::orderBy('created_at', 'desc')->first();
+        $expenseCount = PettyExpense::orderBy('id', 'desc')->first();
         $expenses = PettyExpense::all();
         return view('expenses', compact('expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day, 'startDate' => $startDate, 'endDate' => $endDate]);
     }
@@ -366,7 +366,7 @@ class FrontController extends Controller
 
         $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
         
-        $expenseCount = PettyExpense::orderBy('created_at', 'desc')->first();
+        $expenseCount = PettyExpense::orderBy('id', 'desc')->first();
         $expenses = PettyExpense::whereBetween('created_at', [$startDate, $endDate])->get();
         return view('expenses', compact('expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day, 'startDate' => $startDate, 'endDate' => $endDate]);
     }
