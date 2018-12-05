@@ -8,11 +8,11 @@
 			<div class="modal-body">
 				<form id="f_attendanceForm" action="{{ URL::to('f_attendance/store') }}" method="post">
 					@csrf
-					<input type="hidden" name="day" value="day{{$day}}" />
+					<input type="hidden" name="day" id="day_attendance" value="day{{$day}}" />
 					<div class="form-row">
 						<div class="form-group col-md-6 col-xs-12">
 							<label>Name</label>
-							<select name="therapist" class="form-control select2 select2-selection__rendered">
+							<select id="front_attendance" name="therapist" class="form-control select2 select2-selection__rendered">
 								@foreach($alltherapists as $a)
 								<option value="{{ $a->fullname }}">{{ $a->fullname }}</option>
 								@endforeach

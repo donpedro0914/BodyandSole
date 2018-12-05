@@ -81,6 +81,9 @@ $(document).ready(function() {
 				$('#attendance_time').modal('hide');
 				$('#f_attendanceForm')[0].reset();
 				if(data == 'test') {
+
+					var front_attendance = $('#front_attendance').val();
+					var day_attendance = $('#day_attendance').val();
 					(async function getColor () {
 					// inputOptions can be an object or Promise
 					const inputOptions = new Promise((resolve) => {
@@ -97,14 +100,42 @@ $(document).ready(function() {
 					  input: 'radio',
 					  inputOptions: inputOptions,
 					  inputValidator: (value) => {
-					    return !value && 'You need to choose something!'
+					    return !value && front_attendance+' You need to choose something!'
 					  }
 					})
 
 					if (option == 'OT') {
-					  swal({html: 'You selected: ' + option})
+						$.ajaxSetup({
+							headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							}
+						});
+
+					  $.ajax({
+						type: "POST",
+						url: "attendance/update",
+						async: true,
+						data: {'name':front_attendance,'day':day_attendance},
+						success:function(data) {
+							swal('Done ' + data['name']);
+						}
+					  });
 					} else {
-					  swal('ok');
+						$.ajaxSetup({
+							headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							}
+						});
+
+					  $.ajax({
+						type: "POST",
+						url: "attendance/update_forgot",
+						async: true,
+						data: {'name':front_attendance,'day':day_attendance},
+						success:function(data) {
+							swal('Done ' + data['name']);
+						}
+					  });
 					}
 
 					})()
@@ -506,7 +537,7 @@ $(document).ready(function() {
 	                }
 				);
 				
-				sWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=EPSON TM-T82II Receipt5');
+				sWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=BIXOLON SRP-350');
 
 				setTimeout(function() {
 					location.reload();

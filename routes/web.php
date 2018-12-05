@@ -24,6 +24,8 @@ Route::post('joborder/duration', 'FrontController@duration');
 Route::post('joborder/checkavailable', 'FrontController@checkavailable');
 Route::post('joborder/transfer', 'FrontController@transfer');
 Route::post('f_attendance/store', 'FrontController@attendance_store');
+Route::post('attendance/update', 'FrontController@attendance_update_ot');
+Route::post('attendance/update_forgot', 'FrontController@attendance_update_forgot');
 
 /* Clients Front */
 Route::get('f_clients', 'FrontController@f_clients');

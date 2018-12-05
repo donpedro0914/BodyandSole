@@ -67,7 +67,7 @@ class FrontController extends Controller
         $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id', 'job_orders.addon as addon')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->whereDate('job_orders.created_at', $formattedCurrentDay)->orderBy('job_orders.id', 'desc')->get();
 
 
-        $jobOrderCount = JobOrder::orderBy('created_at', 'desc')->first();
+        $jobOrderCount = JobOrder::orderBy('id', 'desc')->first();
         return view('home', compact('rooms', 'lounge', 'alltherapists', 'therapists', 'day', 'service', 'packages', 'client', 'joborder'), ['wcpScript' => $wcpScript, 'jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
@@ -385,8 +385,8 @@ class FrontController extends Controller
 
         $day = $request->input('day');
         if($validateUser) {
-            $checkIn = Attendance::where('name', $validateUser->fullname)->first();
-            if(empty($checkIn->time_in)) {
+            $checkIn = Attendance::where('name', $validateUser->fullname)->orderBy('id', 'desc')->first();
+            if(empty($checkIn->time_in) OR (!empty($checkIn->time_in) AND !empty($checkIn->time_out))) {
                 $data = array(
                     'name' => $request->input('therapist'),
                     'time_in' => Carbon::now(),
@@ -424,6 +424,40 @@ class FrontController extends Controller
         } else {
             return false;
         }
+    }
+
+    public function attendance_update_ot(Request $request)
+    {
+        $day = request('day');
+        $user = Attendance::where('name', request('name'))->orderBy('id', 'desc')->first();
+
+        $timeIn = Carbon::parse($user->time_in);
+        $timeOut = Carbon::parse(Carbon::now());
+        $calculateHrs = $timeOut->diffInHours($timeIn);
+
+        $calculatedHrs = array(
+            'time_out' => Carbon::now(),
+            $day => $calculateHrs
+        );
+
+        $finalUpdate = Attendance::where('id', $user->id)->update($calculatedHrs);
+
+        return response()->json($user);
+    }
+
+    public function attendance_update_forgot(Request $request)
+    {
+        $day = request('day');
+        $user = Attendance::where('name', request('name'))->orderBy('id', 'desc')->first();
+
+        $calculatedHrs = array(
+            'time_out' => Carbon::now(),
+            $day => 9
+        );
+
+        $finalUpdate = Attendance::where('id', $user->id)->update($calculatedHrs);
+
+        return response()->json($user);
     }
 
     public function f_expense_store(Request $request)
