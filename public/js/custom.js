@@ -301,9 +301,7 @@ $(document).ready(function() {
 
 	$('#joborder').on('hide.bs.modal', function() {
 		$('#Service').hide();
-		$('#Package').hide();
 		$('#Service select').removeAttr('name');
-		$('#Package select').removeAttr('name');
 	});
 
 
@@ -507,7 +505,9 @@ $(document).ready(function() {
 	                    type: 'success'
 	                }
 				);
-				$('#tester').trigger('click');
+				
+				sWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=EPSON TM-T82II Receipt5');
+
 				setTimeout(function() {
 					location.reload();
 				}, 1000)
@@ -1253,49 +1253,6 @@ $(document).ready(function() {
 			processData: false
 		});
 
-	});
-
-	//Job Order Front
-	$('input[type=radio][name=category]').on('click', function() {
-		var category = $('input[type=radio][name=category]:checked').val();
-
-		if(category == 'Single') {
-			$('#package_services_front').val(null).trigger('change');
-			$('#package_inclusion tbody').empty();
-			$('#commission').val(null);
-			$('#package_inclusion tbody').append('<tr><td class="text-center" colspan="4">No Services Yet</td></tr>');
-			$('#Service').show();
-			$('#Service select').attr('name', 'service');
-			$('#Package').hide();
-			$('#Package select').removeAttr('name');
-			$('#package_labor_total').empty();
-			$('#package_labor_total').html('₱0.00');
-			$('#package_total').empty();
-			$('#package_total').html('₱0.00');
-			$('#price').val(null);
-			$('#addon_service').val(null).trigger('change');
-			$('#Addon').hide()
-
-		} else if(category == 'Package') {
-			$('#package_id').val(null).trigger('change');
-			$('#Service').hide();
-			$('#Service select').removeAttr('name');
-			$('#Package').show();
-			$('#Package select').attr('name', 'service');
-			$('#package_labor_total').empty();
-			$('#package_labor_total').html('₱0.00');
-			$('#package_total').empty();
-			$('#package_total').html('₱0.00');
-			$('#commission').val(null);
-			$('#price').val(null);
-			$('#addon_service').val(null).trigger('change');
-		} else {
-			$('#Service').hide();
-			$('#Package').hide();
-			$('#Service select').removeAttr('name');
-			$('#Package select').removeAttr('name');
-
-		}
 	});
 
 	$('input[type=radio][name=payment]').on('click', function() {

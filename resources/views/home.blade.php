@@ -109,7 +109,6 @@
                                                         <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                                         @if($r->status == 'Active')
                                                             <p class="header-title float-left">{{ $r->roomname}}</p>
-                                                            <div id="tester" onclick="alert('test');"></div>
                                                             <a id="job_order_print" class="header-title float-right" onclick="javascript:jsWebClientPrint.print('id={!! $r->job_order !!}&useDefaultPrinter=checked&printerName=BIXOLON SRP-350')""><i class="mdi mdi-printer"></i></a>
                                                             <button type="button" class="btn btn-block btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
                                                         @else
@@ -253,12 +252,6 @@
 <script type="text/javascript">
     var baseurl=window.location.protocol + "//" + window.location.host + "/";
     $(document).ready(function() {
-
-    $("#datepicker-autoclose").datepicker({
-            autoclose: true,
-            format: "yyyy-mm-dd H:i:s",
-            clearBtn: true,
-        });
 
         var baseurl=window.location.protocol + "//" + window.location.host + "/";
 

@@ -32,3 +32,6 @@
 .table-bordered, .table-bordered td, .table-bordered th {
 	border: 1px solid #c7cbce;
 }
+#Service {
+	display: block !important;
+}

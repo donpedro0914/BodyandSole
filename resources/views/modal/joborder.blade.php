@@ -59,19 +59,6 @@
 								</select>
 							</div>
 						</div>
-						<!-- <div class="form-group row col-md-12 col-xs-12">
-							<label class="col-sm-4 col-form-label">Category</label>
-							<div class="col-sm-8">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="customRadio1" name="category" class="custom-control-input" value="Single" required>
-                                    <label class="custom-control-label" for="customRadio1">Single</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="customRadio2" name="category" class="custom-control-input" value="Package">
-                                    <label class="custom-control-label" for="customRadio2">Package</label>
-                                </div>
-							</div>
-						</div> -->
 						<div id="Service" class="form-group row col-md-12 col-xs-12">
 							<div class="form-group row col-md-12 col-xs-12">
 							<input type="hidden" id="services" name="services" />
@@ -120,32 +107,6 @@
 	                            </div>
                             </div>
 						</div>
-						<!-- <div id="Package" class="form-group row col-md-12 col-xs-12" style="display: none;">
-							<label class="col-sm-4 col-form-label">Package</label>
-                            <div class="col-sm-8">
-							<select class="form-control select2 select2-selection__rendered" id="package_id" name="service" required="">
-								<option value="">--Select Package--</option>
-								@foreach($packages as $p)
-								<option value="{{ $p->id }}">{{ $p->package_name }}</option>
-								@endforeach
-							</select>
-							<input type="hidden" id="package_price"/>
-							<input type="hidden" id="total_package_price"/>
-							<input type="hidden" id="package_commission"/>
-							<input type="hidden" id="addon_container" name="addon"/>
-                            </div>
-						</div>
-						<div id="Addon" class="form-group row col-md-12 col-xs-12" style="display: none;">
-							<label class="col-sm-4 col-form-label">Addon</label>
-							<div class="col-sm-8">
-								<select id="addon_service" class="select2 form-control select2-multiple" multiple="multiple" data-tags="true" data-placeholder="Choose ..." required="">
-	                                @foreach($service as $s)
-	                                <option value="{{ $s->id }}" data-price="{{ $s->charge }}" data-name="{{ $s->service_name }}">{{ $s->service_name }}({{ $s->charge }})</option>
-	                                @endforeach
-	                            </select>
-	                            <button type="button" class="btn btn-sm btn-primary" id="addon_service_btn">Apply Addon</button>
-							</div>
-						</div> -->
 						<div class="form-group row col-md-12 col-xs-12">
 							<label class="col-sm-4 col-form-label">Payment Method</label>
 							<div class="col-sm-8">
