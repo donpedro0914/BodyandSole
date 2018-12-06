@@ -537,7 +537,7 @@ $(document).ready(function() {
 	                }
 				);
 				
-				sWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=BIXOLON SRP-350');
+				sWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=EPSON TM-T82II Receipt5');
 
 				setTimeout(function() {
 					location.reload();
