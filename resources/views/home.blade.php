@@ -109,7 +109,7 @@
                                                         <div id="{{ $r->job_order }}" class="{{ $drag }} {{ $room }}" room="{{ $r->roomname }}">
                                                         @if($r->status == 'Active')
                                                             <p class="header-title float-left">{{ $r->roomname}}</p>
-                                                            <a id="job_order_print" class="header-title float-right" onclick="javascript:jsWebClientPrint.print('id={!! $r->job_order !!}&useDefaultPrinter=checked&printerName=EPSON TM-T82II Receipt5')""><i class="mdi mdi-printer"></i></a>
+                                                            <a id="job_order_print" class="header-title float-right" onclick="javascript:jsWebClientPrint.print('id={!! $r->job_order !!}&useDefaultPrinter=checked&printerName=BIXOLON SRP-350')""><i class="mdi mdi-printer"></i></a>
                                                             <button type="button" class="btn btn-block btn-success btn-sm doneJobOrder" data-id="{{ $r->job_order }}">Done</button>
                                                         @else
                                                         <p class="header-title">{{ $r->roomname}}</p>
