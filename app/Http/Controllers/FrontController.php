@@ -371,6 +371,36 @@ class FrontController extends Controller
         return view('expenses', compact('expenses', 'alltherapists', 'day'), ['expenseCount' => $expenseCount, 'day' => $day, 'startDate' => $startDate, 'endDate' => $endDate]);
     }
 
+    public function attendance()
+    {
+
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::FRIDAY);
+        $end = $now->endOfWeek(Carbon::THURSDAY);
+        $day = $start->format('N');
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
+
+        $attendance = DB::select('select a.fullname as name',);
+        
+        $attendance = DB::select('select b.fullname as name, a.time_in, a.time_out,
+            sum(a.day1) as day1, 
+            sum(a.day2) as day2, 
+            sum(a.day3) as day3, 
+            sum(a.day4) as day4, 
+            sum(a.day5) as day5, 
+            sum(a.day6) as day6, 
+            sum(a.day7) as day7
+            from attendances a, therapists b
+            where a.name = b.fullname
+            and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+            group by name');
+
+        return view('attendance',compact('alltherapists', 'attendance'),['startDate' => $startDate, 'endDate' => $endDate, 'day' => $day]);
+    }
+
     public function attendance_store(Request $request) {
         $now = Carbon::now()->format('Y-m-d');
         $en = Carbon::parse($now);

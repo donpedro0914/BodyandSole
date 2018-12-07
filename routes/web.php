@@ -32,6 +32,9 @@ Route::get('f_clients', 'FrontController@f_clients');
 Route::post('f_client/store', 'FrontController@f_client_store');
 Route::get('f_client/clientlist', 'FrontController@clientlist')->name('f_client.clientlist');
 
+/* Attendance Front */
+Route::get('/attendance', 'FrontController@attendance');
+
 /* GC Front */
 Route::get('f_gift-certificate', 'FrontController@f_gift_certificate');
 Route::post('f_gc/store', 'FrontController@f_gc_store');
