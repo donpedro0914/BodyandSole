@@ -123,12 +123,11 @@ class FrontController extends Controller
             $cmds .= '0x0A';
             $cmds .= '0x0A';
             $cmds .= '0x0A';
+            $cmds .= 'PLEASE PRESENT THIS TO YOUR';
+            $cmds .= '0x0A';
+            $cmds .= 'ATTENDING THERAPIST'; 
             $cmds .= '0x0A';
             $cmds .= '0x0A';
-            $cmds .= '0x0A';
-            $cmds .= 'PLEASE PRESENT THIS'; 
-            $cmds .= $newLine;
-            $cmds .= 'TO YOUR ATTENDING THERAPIST';
  
             //Create a ClientPrintJob obj that will be processed at the client side by the WCPP
             $cpj = new ClientPrintJob();
