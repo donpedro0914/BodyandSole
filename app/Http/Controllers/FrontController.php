@@ -113,13 +113,19 @@ class FrontController extends Controller
             $cmds .= '                               Total:'.$jobInfo->price;
             $cmds .= $newLine;
             $cmds .= 'IN :___________';
-            $cmds .= $newLine;
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
             $cmds .= 'OUT:___________'.'  '.'Thera:____________';
-            $cmds .= $newLine;
-            $cmds .= $newLine;
-            $cmds .= $newLine;
-            $cmds .= $newLine;
-            $cmds .= $newLine;
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
+            $cmds .= '0x0A';
             $cmds .= 'PLEASE PRESENT THIS'; 
             $cmds .= $newLine;
             $cmds .= 'TO YOUR ATTENDING THERAPIST';
@@ -383,7 +389,7 @@ class FrontController extends Controller
         
         $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
 
-        $attendance = DB::select('select a.fullname as name',);
+        // $attendance = DB::select('select a.fullname as name',);
         
         $attendance = DB::select('select b.fullname as name, a.time_in, a.time_out,
             sum(a.day1) as day1, 
