@@ -574,4 +574,34 @@ class FrontController extends Controller
 
         return view('payroll', compact('alltherapists', 'payroll_therapist', 'payroll_frontdesk', 'day'), ['startDate' => $startDate, 'endDate' => $endDate, 'day' => $day]);
     }
+
+    public function sales_tally()
+    {
+        $day = Carbon::now()->format('Y-m-d');
+        $gc = Giftcertificate::all();
+        $job_orders = JobOrder::where('status', 'Done')->whereDate('created_at', Carbon::today())->get();
+        $dailySales = DB::table('job_orders')
+                    ->where('status', 'Done')
+                    ->whereDate('created_at', Carbon::today())
+                    ->sum('price');
+        $dailySales += Giftcertificate::whereDate('created_at', Carbon::today())->sum('value');
+        $dailyExpenses = PettyExpense::whereDate('created_at', Carbon::today())->sum('value');
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
+        return view('sales', compact('job_orders', 'gc', 'alltherapists'),['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
+    }
+
+    public function st_filter(Request $request)
+    {
+        $day = $request->get('day');
+        $gc = Giftcertificate::all();
+        $job_orders = JobOrder::where('status', 'Done')->whereDate('created_at', $day)->get();
+        $dailySales = DB::table('job_orders')
+                    ->where('status', 'Done')
+                    ->whereDate('created_at', $day)
+                    ->sum('price');
+        $dailySales += Giftcertificate::whereDate('created_at', $day)->sum('value');
+        $dailyExpenses = PettyExpense::whereDate('created_at', $day)->sum('value');
+        $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
+        return view('sales', compact('job_orders', 'gc', 'alltherapists'),['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
+    }
 }

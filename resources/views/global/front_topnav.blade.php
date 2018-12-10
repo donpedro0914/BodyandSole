@@ -8,6 +8,7 @@
 				<li><a href="/f_gift-certificate" class="nav-link">Gift Certificates</a></li>
 				<li><a href="/f_petty-expenses" class="nav-link">Petty Expenses</a></li>
 				<li><a href="#" class="nav-link" id="payroll_prompt">Payroll</a></li>
+				<li><a href="/f_sales-tally" class="nav-link" id="payroll_prompt">Sales Tally</a></li>
 			</ul>
 			<ul class="list-inline menu-left mb-0">
 	        <li class="float-left">

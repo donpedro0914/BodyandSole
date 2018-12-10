@@ -48,6 +48,10 @@ Route::get('/f_expenses/filter', 'FrontController@f_expenses_filter')->name('f_e
 Route::get('f_payroll', 'FrontController@f_payroll');
 Route::get('f_payroll/filtered', 'FrontController@f_payroll_filter')->name('f_payroll_filter');
 
+/* Sales Tally */
+Route::get('f_sales-tally', 'FrontController@sales_tally');
+Route::get('f_sales-tally/filter', 'FrontController@st_filter')->name('st_filter');
+
 Auth::routes();
 
 /* Dashboard */
