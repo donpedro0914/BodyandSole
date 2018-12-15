@@ -96,7 +96,7 @@
                                         @endphp
                                         <td class="text-right">{{ $totalAllowance }}</td>
                                         <td class="text-right">{{ $p->total }}.00</td>
-                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}</td>
+                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->uniform + $p->fare + $p->others }}</td>
                                         <td class="text-right">{{ $p->basic + $totalAllowance + $p->total }}</td>
                                         <td>
                                             @php
@@ -205,11 +205,11 @@
                                         <td class="text-right">{{ $finalBasic }}</td>
                                         <td class="text-right">0</td>
                                         <td class="text-right">0</td>
-                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}</td>
+                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->uniform + $p->fare + $p->others }}</td>
                                         <td class="text-right">{{ $finalBasic }}</td>
                                         <td>
                                             @php
-                                            $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
+                                            $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->uniform + $p->fare + $p->others;
                                             $gross = $finalBasic;
                                             @endphp
                                             {{ $gross - $totalDeduction }}
@@ -241,7 +241,7 @@
                                                 <td>{{ $p->id }}</td>
                                                 <td width="20%"></td>
                                                 <td>Department:</td>
-                                                <td>SF</td>
+                                                <td>AC</td>
                                             </tr>
                                             <tr>
                                                 <td>Name:</td>
@@ -336,8 +336,8 @@
                                             <div class="col-6 text-right float-right">0.00</div>
                                             <div class="col-6 text-right float-left">Lodging:</div>
                                             <div class="col-6 text-right float-right">{{ $p->lodging }}.00</div>
-                                            <div class="col-6 text-right float-left">Others:</div>
-                                            <div class="col-6 text-right float-right">{{ $p->others }}.00</div>
+                                            <div class="col-6 text-right float-left">Others<small>(Uniform, Fare, Others Included)</small>:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->uniform + $p->fare + $p->others }}.00</div>
                                             <hr style="border-top:1px solid #9a9a9a;clear:both"/>
                                             <strong class="col-6 text-right float-left">Total Deduction:</strong>
                                             @php
@@ -508,8 +508,8 @@
                                             <div class="col-6 text-right float-right">0.00</div>
                                             <div class="col-6 text-right float-left">Lodging:</div>
                                             <div class="col-6 text-right float-right">{{ $p->lodging }}.00</div>
-                                            <div class="col-6 text-right float-left">Others:</div>
-                                            <div class="col-6 text-right float-right">{{ $p->others }}.00</div>
+                                            <div class="col-6 text-right float-left">Others<small>(Uniform, Fare, Others Included)</small>:</div>
+                                            <div class="col-6 text-right float-right">{{ $p->uniform + $p->fare + $p->others }}.00</div>
                                             <hr style="border-top:1px solid #9a9a9a;clear:both"/>
                                             <strong class="col-6 text-right float-left">Total Deduction:</strong>
                                             @php
