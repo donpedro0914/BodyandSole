@@ -231,7 +231,7 @@
                             </table>
                             <div id="payroll_printout" style="display:none;">
                                 @foreach($payroll_therapist as $p)
-                                    <div class="card-box col-xl-12 table-bordered m-b-30" style="overflow:auto;">
+                                    <div class="card-box col-xl-12 table-bordered" style="overflow:auto;">
                                         <h4>Body and Sole Spa</h4>
                                         <h5>Payroll Period : {{ $startDate }} - {{ $endDate }}</h5>
                                         <hr style="border-top:1px solid #9a9a9a"/>
@@ -352,12 +352,12 @@
                                         </div>
                                         <div class="clear"></div>
                                         <div class="col-12">
-                                            <div class="m-t-50 text-right signature">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                            <div class="m-t-30 text-right signature">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                                         </div>
                                     </div>
                                 @endforeach
                                 @foreach($payroll_frontdesk as $p)
-                                    <div class="card-box col-xl-12 table-bordered m-b-30" style="overflow:auto;">
+                                    <div class="card-box col-xl-12 table-bordered" style="overflow:auto;">
                                         <h4>Body and Sole Spa</h4>
                                         <h5>Payroll Period : {{ $startDate }} - {{ $endDate }}</h5>
                                         <hr style="border-top:1px solid #9a9a9a"/>
@@ -524,7 +524,7 @@
                                         </div>
                                         <div class="clear"></div>
                                         <div class="col-12">
-                                            <div class="m-t-50 text-right signature">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                            <div class="m-t-30 text-right signature">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -541,7 +541,10 @@
     $(document).ready(function(){
         $('#print_btn').on("click", function () {
             $('#payroll_printout').printThis({
-                removeInline: true
+                removeInline: true,
+                header: null,
+                footer: null,
+                pageTitle: null
             });
         });
 
