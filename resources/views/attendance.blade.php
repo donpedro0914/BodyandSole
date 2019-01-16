@@ -34,9 +34,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($attendance as $a)
+                                @foreach(App\Therapist::whereNotNull('basic')->get() as $a)
                                 <tr>
-                                    <td>{{ $a->name }}</td>
+                                    <td>{{ $a->fullname }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

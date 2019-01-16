@@ -9,4 +9,11 @@ class Therapist extends Model
     protected $table = 'therapists';
 
     protected $fillable = ['fullname', 'phone', 'address', 'dob', 'hired', 'resigned', 'basic', 'lodging', 'allowance', 'sss', 'phealth', 'hdf', 'uniform', 'fare', 'others', 'avatar', 'status', 'pin'];
+
+    
+
+    public function attendances()
+    {
+        return $this->hasMany('App\Attendance', 'user_id');
+    }
 }

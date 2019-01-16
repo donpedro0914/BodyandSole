@@ -8,5 +8,10 @@ class Attendance extends Model
 {
     protected $table = 'attendances';
 
-    protected $fillable = ['name', 'time_in', 'time_out', 'day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7', 'no_of_hrs'];
+    protected $fillable = ['user_id', 'time_in', 'time_out', 'day'];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'user_id');
+    }
 }
