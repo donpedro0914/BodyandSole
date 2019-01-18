@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+
 	var baseurl=window.location.protocol + "//" + window.location.host + "/";
 
 	//Plugins
@@ -55,117 +61,118 @@ $(document).ready(function() {
     });
 
     //Attendance
-    $('#f_attendanceForm').on('submit', function(e) {
+    $('.time_in').on('click', function() {
+		var day = $(this).attr('data-day');
+		var employeeid = $(this).attr('data-employeeid');
+		var arr = new Array();
+		Swal({
+			title: 'Input PIN',
+			input: 'password',
+			inputAttributes: {
+			  autocapitalize: 'off'
+			},
+			showCancelButton: true,
+			confirmButtonText: 'Time In',
+			showLoaderOnConfirm: true,
+			preConfirm: (login) => {
+				arr.push(day);
+				arr.push(employeeid);
+				arr.push(login);
+				console.log(arr);
+			  return fetch(baseurl+`attendance/checkpin/${arr}`)
+				.then(response => {
+				  if (!response.ok) {
+					throw new Error(response.statusText)
+				  }
+				  return response.json()
+				})
+				.catch(error => {
+				  Swal.showValidationMessage(
+					`Request failed: ${error}`
+				  )
+				})
+			},
+			allowOutsideClick: () => !Swal.isLoading()
+		  }).then((result) => {
+			if (result.value) {
+			  $.ajax({
+				  type: 'POST',
+				  async: true,
+				  url: baseurl + 'attendance/timein/' + arr,
+				  data:{'info':arr},
+				  success: function(data) {
+					  swal({title: 'Done'});
+					  setTimeout(function() {
+						location.reload();
+					}, 1000)
+				  },
+				  error: function(xhr, status, error) {
+					  swal({title: 'Error'});
 
-		$.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					  console.log(xhr);
+					  console.log(status);
+					  console.log(error);
+				  }
+			  })
 			}
-		});
-
-		e.preventDefault();
-		var formData = new FormData($('#f_attendanceForm')[0]);
-		var url = $(this).attr('action');
-		var post = $(this).attr('method');
-
-		$.ajax({
-			type: post,
-			url: url,
-			async: true,
-			data: formData,
-			beforeSend:function() {
-				$('#f_attendanceBtn').html('<img src="../img/ajax-loader.gif">').attr("disabled","disabled");
+		})
+	});
+	
+	$('.time_out').on('click', function() {
+		var day = $(this).attr('data-day');
+		var employeeid = $(this).attr('data-employeeid');
+		var arr = new Array();
+		Swal({
+			title: 'Input PIN',
+			input: 'password',
+			inputAttributes: {
+			  autocapitalize: 'off'
 			},
-			success:function(data) {
-				$('#f_attendanceBtn').html('Add Submit').removeAttr("disabled");
-				$('#attendance_time').modal('hide');
-				$('#f_attendanceForm')[0].reset();
-				if(data == 'test') {
-
-					var front_attendance = $('#front_attendance').val();
-					var day_attendance = $('#day_attendance').val();
-					(async function getColor () {
-					// inputOptions can be an object or Promise
-					const inputOptions = new Promise((resolve) => {
-					  setTimeout(() => {
-					    resolve({
-					      'OT': 'OT',
-					      'Forgot': 'Forgot'
-					    })
-					  }, 2000)
-					})
-
-					const {value: option} = await swal({
-					  title: 'Select Option',
-					  input: 'radio',
-					  inputOptions: inputOptions,
-					  inputValidator: (value) => {
-					    return !value && front_attendance+' You need to choose something!'
-					  }
-					})
-
-					if (option == 'OT') {
-						$.ajaxSetup({
-							headers: {
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							}
-						});
-
-					  $.ajax({
-						type: "POST",
-						url: "attendance/update",
-						async: true,
-						data: {'name':front_attendance,'day':day_attendance},
-						success:function(data) {
-							swal('Done ' + data['name']);
-						}
-					  });
-					} else {
-						$.ajaxSetup({
-							headers: {
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							}
-						});
-
-					  $.ajax({
-						type: "POST",
-						url: "attendance/update_forgot",
-						async: true,
-						data: {'name':front_attendance,'day':day_attendance},
-						success:function(data) {
-							swal('Done ' + data['name']);
-						}
-					  });
-					}
-
-					})()
-				} else {
-				swal(
-	                {
-	                    title: 'Done!',
-	                    type: 'success',
-	                    confirmButtonClass: 'btn btn-confirm mt-2'
-	                }
-	            );
-				// location.reload();				
-				}
+			showCancelButton: true,
+			confirmButtonText: 'Time Out',
+			showLoaderOnConfirm: true,
+			preConfirm: (login) => {
+				arr.push(day);
+				arr.push(employeeid);
+				arr.push(login);
+				console.log(arr);
+			  return fetch(baseurl+`attendance/checkpin/${arr}`)
+				.then(response => {
+				  if (!response.ok) {
+					throw new Error(response.statusText)
+				  }
+				  return response.json()
+				})
+				.catch(error => {
+				  Swal.showValidationMessage(
+					`Request failed: ${error}`
+				  )
+				})
 			},
-			error: function(xhr, status, error) {
-				$('#f_attendanceBtn').html('Add Submit').removeAttr("disabled");
-				if(xhr.status === 500) {
-					swal('Incorrect PIN');					
-				} else {
-					swal('ok');
-				}
+			allowOutsideClick: () => !Swal.isLoading()
+		  }).then((result) => {
+			if (result.value) {
+			  $.ajax({
+				  type: 'POST',
+				  async: true,
+				  url: baseurl + 'attendance/timeout/' + arr,
+				  data:{'info':arr},
+				  success: function(data) {
+					  swal({title: 'Done'});
+					  setTimeout(function() {
+						location.reload();
+					}, 1000)
+				  },
+				  error: function(xhr, status, error) {
+					  swal({title: 'Error'});
 
-				console.log(xhr);
-				console.log(status);
-				console.log(error);
-			},
-			cache: false,
-			contentType: false,
-			processData: false
-		});
+					  console.log(xhr);
+					  console.log(status);
+					  console.log(error);
+				  }
+			  })
+			}
+		})
 	});
 
 	//Add Client

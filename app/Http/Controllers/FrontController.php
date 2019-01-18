@@ -378,102 +378,53 @@ class FrontController extends Controller
 
     public function attendance()
     {
-        
-        $startDate = Carbon::now()->format('m-d');
-        $endDate = Carbon::now()->format('m-d');
-        $day = Carbon::now()->format('d');
+        $now = Carbon::now();
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $day = Carbon::now()->format('N');
+        // dd($day);
         $month = Carbon::now()->format('m');
 
         return view('attendance', ['day' => $day, 'month' => $month, 'startDate' => $startDate, 'endDate' => $endDate]);
     }
 
-    public function attendance_store(Request $request) {
-        $now = Carbon::now()->format('Y-m-d');
-        $en = Carbon::parse($now);
-        $start = $en->startOfWeek(Carbon::FRIDAY);
-        $end = $en->endOfWeek(Carbon::THURSDAY);
-        $currentDay = Carbon::now();
-        $formattedCurrentDay = Carbon::now()->format('Y-m-d');
-        $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
-        $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+    public function checkpin($id)
+    {
+        $info = explode(',', $id);
+        
+        $validateUser = Therapist::where('id', $info[1])->where('pin', $info[2])->first();
 
-        $validateUser = Therapist::where('fullname', $request->input('therapist'))->where('pin', $request->input('pin'))->first();
-
-        $day = $request->input('day');
         if($validateUser) {
-            $checkIn = Attendance::where('name', $validateUser->fullname)->orderBy('id', 'desc')->first();
-            if(empty($checkIn->time_in) OR (!empty($checkIn->time_in) AND !empty($checkIn->time_out))) {
-                $data = array(
-                    'name' => $request->input('therapist'),
-                    'time_in' => Carbon::now(),
-                    $day => 1
-                );
-
-                $checkIn2 = Attendance::create($data);
-                $checkIn3 = Attendance::where('id', $checkIn2->id)->first();
-                return response()->json($checkIn3);
-            } else {
-                $check5 = Attendance::where('name', $request->input('therapist'))->orderBy('updated_at', 'desc')->first();
-
-                $timeIn = Carbon::parse($check5->time_in);
-                $timeOut = Carbon::parse(Carbon::now());
-                $calculateHrs = $timeOut->diffInHours($timeIn);
-
-                if($calculateHrs >9) {
-                    return response()->json('test');
-                } else {
-                    $data = array(
-                    'name' => $request->input('therapist'),
-                    'time_out' => Carbon::now()
-                    );
-                    $check4 = Attendance::where('name', $request->input('therapist'))->update($data);
-
-                    $calculatedHrs = array(
-                    $day => $calculateHrs
-                    );
-
-                    $finalUpdate = Attendance::where('id', $check5->id)->update($calculatedHrs);
-                    return response()->json($finalUpdate);
-
-                }
-            }
+            return response()->json($validateUser);
         } else {
             return false;
         }
     }
 
-    public function attendance_update_ot(Request $request)
+    public function timein($id, Request $request)
     {
-        $day = request('day');
-        $user = Attendance::where('name', request('name'))->orderBy('id', 'desc')->first();
+        $info = explode(',', $id);
 
-        $timeIn = Carbon::parse($user->time_in);
-        $timeOut = Carbon::parse(Carbon::now());
-        $calculateHrs = $timeOut->diffInHours($timeIn);
+        $attendance = new Attendance;
+        $attendance->user_id = $info[1];
+        $attendance->time_in = Carbon::now();
+        $attendance->day = $info[0];
+        $attendance->save();
 
-        $calculatedHrs = array(
-            'time_out' => Carbon::now(),
-            $day => $calculateHrs
-        );
-
-        $finalUpdate = Attendance::where('id', $user->id)->update($calculatedHrs);
-
-        return response()->json($user);
+        return response()->json($attendance);
     }
 
-    public function attendance_update_forgot(Request $request)
+    public function timeout($id, Request $request)
     {
-        $day = request('day');
-        $user = Attendance::where('name', request('name'))->orderBy('id', 'desc')->first();
+        $info = explode(',', $id);
 
-        $calculatedHrs = array(
-            'time_out' => Carbon::now(),
-            $day => 9
+        $attendance = Attendance::where('user_id', $info[1])->orderBy('id', 'desc')->first();
+        $data = array(
+            'time_out' => Carbon::now()
         );
 
-        $finalUpdate = Attendance::where('id', $user->id)->update($calculatedHrs);
-
-        return response()->json($user);
+        $updateAttendance = Attendance::where('id', $attendance->id)->update($data);
+        return response()->json($updateAttendance);
     }
 
     public function f_expense_store(Request $request)

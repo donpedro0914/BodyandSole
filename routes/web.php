@@ -34,6 +34,9 @@ Route::get('f_client/clientlist', 'FrontController@clientlist')->name('f_client.
 
 /* Attendance Front */
 Route::get('/attendance', 'FrontController@attendance');
+Route::get('/attendance/checkpin/{id}', 'FrontController@checkpin');
+Route::post('/attendance/timein/{id}', 'FrontController@timein');
+Route::post('/attendance/timeout/{id}', 'FrontController@timeout');
 
 /* GC Front */
 Route::get('f_gift-certificate', 'FrontController@f_gift_certificate');

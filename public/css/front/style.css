@@ -35,3 +35,12 @@
 #Service {
 	display: block !important;
 }
+.font-white {
+	color: #fff !important;
+}
+.v-align-mid {
+	vertical-align: middle !important;
+}
+#attendance_table td {
+	padding: 5px;
+}

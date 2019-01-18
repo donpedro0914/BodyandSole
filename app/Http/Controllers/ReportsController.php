@@ -63,15 +63,7 @@ class ReportsController extends Controller
             group by b.fullname
             ');
 
-        $payroll_frontdesk = DB::select('
-            select b.id as id, b.fullname, COALESCE(b.basic,0) as basic, COALESCE(b.allowance,0) as allowance, COALESCE(b.lodging,0) as lodging, COALESCE(b.sss,0) as sss, COALESCE(b.phealth,0) as phealth, COALESCE(b.hdf,0) as hdf, COALESCE(b.uniform,0) as uniform, COALESCE(b.fare,0) as fare, COALESCE(b.others,0) as others, x.name as name, x.time_in as time_in, x.time_out as time_out, sum(x.day1) as day1, sum(x.day2) as day2, sum(x.day3) as day3, sum(x.day4) as day4, sum(x.day5) as day5, sum(x.day6) as day6, sum(x.day7) as day7
-            from therapists b, attendances x
-            where b.fullname = x.name
-            and DATE_FORMAT(x.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-            group by b.fullname
-            ');
-
-        return view('admin.report.payroll', compact('payroll_therapist', 'payroll_frontdesk'), ['startDate' => $startDate, 'endDate' => $endDate]);
+        return view('admin.report.payroll', compact('payroll_therapist'), ['startDate' => $startDate, 'endDate' => $endDate]);
     }
 
     public function weekly_commission_reports() {

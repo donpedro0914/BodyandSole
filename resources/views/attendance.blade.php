@@ -37,6 +37,77 @@
                                 @foreach(App\Therapist::whereNotNull('basic')->get() as $a)
                                 <tr>
                                     <td>{{ $a->fullname }}</td>
+                                    @for ($i = 0; $i <= 7; $i++)
+                                    <td>
+                                        @forelse (\App\Attendance::whereRaw('user_id = '. $a->id.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
+                                        @if ($day == $i)
+                                            @if ($attendance->time_in AND $attendance->time_out)
+                                                <table class="table table-bordered" id="attendance_table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="bg-success font-white">
+                                                                @php
+                                                                    $date = \Carbon\Carbon::parse($attendance->time_in);
+                                                                @endphp
+                                                                {{ date_format($date, 'Y-m-d h:i:s A') }}
+                                                            </td>
+                                                            <td class="bg-primary font-white v-align-mid" rowspan="2">
+                                                                @php
+                                                                    $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
+                                                                    $hourdiff2 = $hourdiff - 1;
+                                                                @endphp
+                                                                {{ $hourdiff }}hrs
+                                                                <div class="clearfix"></div>
+                                                                {{ $hourdiff2 % 8 }}hrs(ot)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="bg-danger font-white">
+                                                                @php
+                                                                    $date = \Carbon\Carbon::parse($attendance->time_out);
+                                                                @endphp
+                                                                {{ date_format($date, 'Y-m-d h:i:s A') }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>                                                                
+                                            @else
+                                                @if (!$attendance->time_in)
+                                                    <div><button class="btn btn-block btn-sm btn-success time_in" data-employeeid="{{ $a->id }}" data-day="{{ $day }}">Time In</button></div>
+                                                @else
+                                                    @php
+                                                        $date = \Carbon\Carbon::parse($attendance->time_in);
+                                                    @endphp
+                                                    {{ date_format($date, 'Y-m-d h:i:s A') }}
+                                                @endif
+                                                <div class="clearfix"></div>
+                                                @if (!$attendance->time_out)
+                                                    <div><button class="btn btn-block btn-sm btn-danger time_out" data-employeeid="{{ $a->id }}" data-day="{{ $day }}">Time Out</button></div>
+                                                @else
+                                                    @php
+                                                        $date = \Carbon\Carbon::parse($attendance->time_out);
+                                                    @endphp
+                                                    {{ date_format($date, 'Y-m-d h:i:s A') }}
+                                                @endif
+                                            @endif
+                                        @else
+                                            <div><button class="btn btn-block btn-sm btn-success time_in" disabled>Time In</button></div>
+                                            <div class="clearfix"></div>
+                                            <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
+                                        @endif
+                                        @empty
+                                            @if ($day == $i)
+                                                <div><button class="btn btn-block btn-sm btn-success time_in" data-employeeid="{{ $a->id }}" data-day="{{ $day }}">Time In</button></div>
+                                                <div class="clearfix"></div>
+                                                <div><button class="btn btn-block btn-sm btn-danger">Time Out</button></div>
+                                            @else
+                                                <div><button class="btn btn-block btn-sm btn-success time_in" disabled>Time In</button></div>
+                                                <div class="clearfix"></div>
+                                                <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
+                                            @endif
+                                        @endforelse
+                                    </td>
+                                    @endfor
                                 </tr>
                                 @endforeach
                             </tbody>

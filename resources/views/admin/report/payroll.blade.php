@@ -107,114 +107,51 @@
                                         </td>
                                     </tr>
                                     @endforeach
-                                    @foreach($payroll_frontdesk as $p)
-                                    <tr>
-                                        <td>{{ $p->fullname }}</td>
-                                        @php
-                                            $day = '0';
-                                            $ot = '0';
-                                            if($p->day1) {
-                                                if($p->day1 > 8) {
-                                                    $hr = $p->day1 - 1;
-                                                    $day += '1';
-                                                    $ot += $hr % 8;
-                                                } else if($p->day1 = 8) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
+                                    @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
+                                        <tr>
+                                            <td>{{ $employee->fullname }}</td>
+                                            <td>
+                                                @for ($i = 0; $i <= 7; $i++)
+                                                    @foreach($employee->attendances->where('day', $i) as $attendance)
+                                                        @php
+                                                            $ot = '0';
+                                                            $days = '0';
+                                                        @endphp
+                                                        @php
+                                                            $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
 
-                                            if($p->day2) {
-                                                if($p->day2 > 8) {
-                                                    $hr = $p->day2 - 1;
-                                                    $day += '1';
-                                                    $ot += $hr % 8;
-                                                } else if($p->day2 = 8) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day3) {
-                                                if($p->day3 > 8) {
-                                                    $hr = $p->day3 - 1;
-                                                    $day += '1';
-                                                    $ot += $hr % 8;
-                                                } else if($p->day3 = 8) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day4) {
-                                                if($p->day4 > 8) {
-                                                    $hr = $p->day4 - 1;
-                                                    $day += '1';
-                                                    $ot += $hr % 8;
-                                                } else if($p->day4 = 8) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day5) {
-                                                if($p->day5 > 8) {
-                                                    $hr = $p->day5 - 1;
-                                                    $day += '1';
-                                                    $ot += $hr % 8;
-                                                } else if($p->day5 = 8) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day6) {
-                                                if($p->day6 > 8) {
-                                                    $hr = $p->day6 - 1;
-                                                    $day += '1';
-                                                    $ot += $hr % 8;
-                                                } else if($p->day6 = 8) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day7) {
-                                                if($p->day7 > 8) {
-                                                    $hr = $p->day7 - 1;
-                                                    $day += '1';
-                                                    $ot += $hr % 8;
-                                                } else if($p->day7 = 8) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            $otFormula = (int)($p->basic / 8);
-                                            $basicpay = $p->basic * $day;
-                                            $otpay = $otFormula * $ot;
-                                            $finalBasic = $basicpay + $otpay;
-                                        @endphp
-                                        <td class="text-right">{{ $finalBasic }}</td>
-                                        <td class="text-right">0</td>
-                                        <td class="text-right">0</td>
-                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->uniform + $p->fare + $p->others }}</td>
-                                        <td class="text-right">{{ $finalBasic }}</td>
-                                        <td>
-                                            @php
-                                            $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->uniform + $p->fare + $p->others;
-                                            $gross = $finalBasic;
-                                            @endphp
-                                            {{ $gross - $totalDeduction }}
-                                        </td>
-                                    </tr>
+                                                            if($hourdiff == 9) {
+                                                                $days += '1';
+                                                            } else if($hourdiff > 9) {
+                                                                $hourdiff2 = $hourdiff - 1;
+                                                                $ot += $hourdiff2 % 8;
+                                                                $days += '1';
+                                                            } else {
+                                                                $days += '0';
+                                                            }
+                                                        @endphp
+                                                        @php
+                                                            $otFormula = (int)($employee->basic / 8);
+                                                            $basicPay = $employee->basic * $days;
+                                                            $otPay = $otFormula * $ot;
+                                                            $finalBasic = $basicPay + $otPay;
+                                                        @endphp
+                                                    @endforeach
+                                                @endfor
+                                                {{ $finalBasic }}
+                                            </td>
+                                            <td class="text-right">0</td>
+                                            <td class="text-right">0</td>
+                                            <td>{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
+                                            <td class="text-right">{{ $finalBasic }}</td>
+                                            <td>
+                                                @php
+                                                $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
+                                                $gross = $finalBasic;
+                                                @endphp
+                                                {{ $gross - $totalDeduction }}
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
@@ -356,7 +293,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                @foreach($payroll_frontdesk as $p)
+                                @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
                                     <div class="card-box col-xl-12 table-bordered" style="overflow:auto;">
                                         <h4>Body and Sole Spa</h4>
                                         <h5>Payroll Period : {{ $startDate }} - {{ $endDate }}</h5>
@@ -364,14 +301,14 @@
                                         <table class="table">
                                             <tr>
                                                 <td>Employee No.:</td>
-                                                <td>{{ $p->id }}</td>
+                                                <td>{{ $employee->id }}</td>
                                                 <td width="20%"></td>
                                                 <td>Department:</td>
                                                 <td>SF</td>
                                             </tr>
                                             <tr>
                                                 <td>Name:</td>
-                                                <td>{{ $p->fullname }}</td>
+                                                <td>{{ $employee->fullname }}</td>
                                                 <td width="20%"></td>
                                                 <td>Rate:</td>
                                                 <td>0.00</td>
@@ -380,102 +317,37 @@
                                         <hr style="border-top:1px solid #9a9a9a"/>
                                         <div class="col-6 float-left">
                                             <h5>EARNINGS</h5>
-                                            @php
-                                                $day = '0';
-                                                $ot = '0';
-                                                if($p->day1) {
-                                                    if($p->day1 > 8) {
-                                                        $hr = $p->day1 - 1;
-                                                        $day += '1';
-                                                        $ot += $hr % 8;
-                                                    } else if($p->day1 = 8) {
-                                                        $day += '1';
-                                                    }
-                                                } else {
-                                                    $day += '0';
-                                                }
+                                            @for ($i = 0; $i <= 7; $i++)
+                                                @foreach($employee->attendances->where('day', $i) as $attendance)
+                                                    @php
+                                                        $ot = '0';
+                                                        $days = '0';
+                                                    @endphp
+                                                    @php
+                                                        $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
 
-                                                if($p->day2) {
-                                                    if($p->day2 > 8) {
-                                                        $hr = $p->day2 - 1;
-                                                        $day += '1';
-                                                        $ot += $hr % 8;
-                                                    } else if($p->day2 = 8) {
-                                                        $day += '1';
-                                                    }
-                                                } else {
-                                                    $day += '0';
-                                                }
-
-                                                if($p->day3) {
-                                                    if($p->day3 > 8) {
-                                                        $hr = $p->day3 - 1;
-                                                        $day += '1';
-                                                        $ot += $hr % 8;
-                                                    } else if($p->day3 = 8) {
-                                                        $day += '1';
-                                                    }
-                                                } else {
-                                                    $day += '0';
-                                                }
-
-                                                if($p->day4) {
-                                                    if($p->day4 > 8) {
-                                                        $hr = $p->day4 - 1;
-                                                        $day += '1';
-                                                        $ot += $hr % 8;
-                                                    } else if($p->day4 = 8) {
-                                                        $day += '1';
-                                                    }
-                                                } else {
-                                                    $day += '0';
-                                                }
-
-                                                if($p->day5) {
-                                                    if($p->day5 > 8) {
-                                                        $hr = $p->day5 - 1;
-                                                        $day += '1';
-                                                        $ot += $hr % 8;
-                                                    } else if($p->day5 = 8) {
-                                                        $day += '1';
-                                                    }
-                                                } else {
-                                                    $day += '0';
-                                                }
-
-                                                if($p->day6) {
-                                                    if($p->day6 > 8) {
-                                                        $hr = $p->day6 - 1;
-                                                        $day += '1';
-                                                        $ot += $hr % 8;
-                                                    } else if($p->day6 = 8) {
-                                                        $day += '1';
-                                                    }
-                                                } else {
-                                                    $day += '0';
-                                                }
-
-                                                if($p->day7) {
-                                                    if($p->day7 > 8) {
-                                                        $hr = $p->day7 - 1;
-                                                        $day += '1';
-                                                        $ot += $hr % 8;
-                                                    } else if($p->day7 = 8) {
-                                                        $day += '1';
-                                                    }
-                                                } else {
-                                                    $day += '0';
-                                                }
-
-                                                $otFormula = (int)($p->basic / 8);
-                                                $basicpay = $p->basic * $day;
-                                                $otpay = $otFormula * $ot;
-                                                $finalBasic = $basicpay + $otpay;
-                                            @endphp
+                                                        if($hourdiff == 9) {
+                                                            $days += '1';
+                                                        } else if($hourdiff > 9) {
+                                                            $hourdiff2 = $hourdiff - 1;
+                                                            $ot += $hourdiff2 % 8;
+                                                            $days += '1';
+                                                        } else {
+                                                            $days += '0';
+                                                        }
+                                                    @endphp
+                                                    @php
+                                                        $otFormula = (int)($employee->basic / 8);
+                                                        $basicPay = $employee->basic * $days;
+                                                        $otPay = $otFormula * $ot;
+                                                        $finalBasic = $basicPay + $otPay;
+                                                    @endphp
+                                                @endforeach
+                                            @endfor
                                             <div class="col-6 text-right float-left">Regular Pay:</div>
-                                            <div class="col-6 text-right float-right">{{ $basicpay }}.00</div>
+                                            <div class="col-6 text-right float-right">{{ $basicPay }}.00</div>
                                             <div class="col-6 text-right float-left">Overtime Pay:</div>
-                                            <div class="col-6 text-right float-right">{{ $otpay }}.00</div>
+                                            <div class="col-6 text-right float-right">{{ $otPay }}.00</div>
                                             <div class="col-6 text-right float-left">Holiday Pay:</div>
                                             <div class="col-6 text-right float-right">0.00</div>
                                             <div class="col-6 text-right float-left">Allowance:</div>
@@ -488,7 +360,7 @@
                                             <div class="col-6 text-right float-right m-b-30">0.00</div>
                                             <hr style="border-top:1px solid #9a9a9a;clear:both"/>
                                             <strong class="col-6 text-right float-left">Gross Pay:</strong>
-                                            <strong class="col-6 text-right float-right">{{ $finalBasic }}.00</strong>
+                                            <strong class="col-6 text-right float-right">{{ $finalBasic     }}.00</strong>
                                         </div>
                                         <div class="col-6 float-right">
                                             <h5>DEDUCTIONS</h5>
@@ -497,23 +369,23 @@
                                             <div class="col-6 text-right float-left">W/Tax:</div>
                                             <div class="col-6 text-right float-right">0.00</div>
                                             <div class="col-6 text-right float-left">SSS Contrib:</div>
-                                            <div class="col-6 text-right float-right">{{ $p->sss }}.00</div>
+                                            <div class="col-6 text-right float-right">{{ $employee->sss }}.00</div>
                                             <div class="col-6 text-right float-left">Phil Health:</div>
-                                            <div class="col-6 text-right float-right">{{ $p->phealth }}.00</div>
+                                            <div class="col-6 text-right float-right">{{ $employee->phealth }}.00</div>
                                             <div class="col-6 text-right float-left">SSS Loan:</div>
                                             <div class="col-6 text-right float-right">0.00</div>
                                             <div class="col-6 text-right float-left">HDMF Contrib:</div>
-                                            <div class="col-6 text-right float-right">{{ $p->hdf }}.00</div>
+                                            <div class="col-6 text-right float-right">{{ $employee->hdf }}.00</div>
                                             <div class="col-6 text-right float-left">HDMF Loan:</div>
                                             <div class="col-6 text-right float-right">0.00</div>
                                             <div class="col-6 text-right float-left">Lodging:</div>
-                                            <div class="col-6 text-right float-right">{{ $p->lodging }}.00</div>
+                                            <div class="col-6 text-right float-right">{{ $employee->lodging }}.00</div>
                                             <div class="col-6 text-right float-left">Others<small>(Uniform, Fare, Others Included)</small>:</div>
-                                            <div class="col-6 text-right float-right">{{ $p->uniform + $p->fare + $p->others }}.00</div>
+                                            <div class="col-6 text-right float-right">{{ $employee->uniform + $employee->fare + $employee->others }}.00</div>
                                             <hr style="border-top:1px solid #9a9a9a;clear:both"/>
                                             <strong class="col-6 text-right float-left">Total Deduction:</strong>
                                             @php
-                                            $totalD = $p->sss + $p->phealth + $p->hdf + $p->lodging + $p->others;
+                                            $totalD = $employee->sss + $employee->phealth + $employee->hdf + $employee->lodging + $employee->others;
                                             @endphp
                                             <div class="col-6 text-right float-right">{{ $totalD }}.00</div>
                                             <strong class="col-6 text-right float-left">Net Pay:</strong>
