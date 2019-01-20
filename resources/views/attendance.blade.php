@@ -37,7 +37,7 @@
                                 @foreach(App\Therapist::whereNotNull('basic')->get() as $a)
                                 <tr>
                                     <td>{{ $a->fullname }}</td>
-                                    @for ($i = 0; $i <= 7; $i++)
+                                    @for ($i = 1; $i <= 7; $i++)
                                     <td>
                                         @forelse (\App\Attendance::whereRaw('user_id = '. $a->id.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
                                         @if ($day == $i)

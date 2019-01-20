@@ -95,107 +95,51 @@
                                         </td>
                                     </tr>
                                     @endforeach
-                                    @foreach($payroll_frontdesk as $p)
-                                    <tr>
-                                        <td>{{ $p->fullname }}</td>
-                                        @php
-                                            $day = '0';
-                                            $ot = '0';
-                                            if($p->day1) {
-                                                if($p->day1 > 9) {
-                                                    $day += '1';
-                                                    $ot += $p->day1 % 9;
-                                                } else if($p->day1 = 9) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
+                                    @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
+                                        <tr>
+                                            <td>{{ $employee->fullname }}</td>
+                                            <td>
+                                                @for ($i = 1; $i <= 7; $i++)
+                                                    @foreach($employee->attendances->where('day', $i) as $attendance)
+                                                        @php
+                                                            $ot = '0';
+                                                            $days = '0';
+                                                        @endphp
+                                                        @php
+                                                            $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
 
-                                            if($p->day2) {
-                                                if($p->day2 > 9) {
-                                                    $day += '1';
-                                                    $ot += $p->day2 % 9;
-                                                } else if($p->day2 = 9) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day3) {
-                                                if($p->day3 > 9) {
-                                                    $day += '1';
-                                                    $ot += $p->day3 % 9;
-                                                } else if($p->day3 = 9) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day4) {
-                                                if($p->day4 > 9) {
-                                                    $day += '1';
-                                                    $ot += $p->day4 % 9;
-                                                } else if($p->day4 = 9) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day5) {
-                                                if($p->day5 > 9) {
-                                                    $day += '1';
-                                                    $ot += $p->day5 % 9;
-                                                } else if($p->day5 = 9) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day6) {
-                                                if($p->day6 > 9) {
-                                                    $day += '1';
-                                                    $ot += $p->day6 % 9;
-                                                } else if($p->day6 = 9) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            if($p->day7) {
-                                                if($p->day7 > 9) {
-                                                    $day += '1';
-                                                    $ot += $p->day7 % 9;
-                                                } else if($p->day7 = 9) {
-                                                    $day += '1';
-                                                }
-                                            } else {
-                                                $day += '0';
-                                            }
-
-                                            $otFormula = (int)($p->basic / 9);
-                                            $basicpay = $p->basic * $day;
-                                            $otpay = $otFormula * $ot;
-                                            $finalBasic = $basicpay + $otpay;
-                                        @endphp
-                                        <td class="text-right">{{ $finalBasic }}</td>
-                                        <td class="text-right">0</td>
-                                        <td class="text-right">0</td>
-                                        <td>{{ $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others }}</td>
-                                        <td class="text-right">{{ $finalBasic }}</td>
-                                        <td>
-                                            @php
-                                            $totalDeduction = $p->lodging + $p->sss + $p->phealth + $p->hdf + $p->others;
-                                            $gross = $finalBasic;
-                                            @endphp
-                                            {{ $gross - $totalDeduction }}
-                                        </td>
-                                    </tr>
+                                                            if($hourdiff == 9) {
+                                                                $days += '1';
+                                                            } else if($hourdiff > 9) {
+                                                                $hourdiff2 = $hourdiff - 1;
+                                                                $ot += $hourdiff2 % 8;
+                                                                $days += '1';
+                                                            } else {
+                                                                $days += '0';
+                                                            }
+                                                        @endphp
+                                                        @php
+                                                            $otFormula = (int)($employee->basic / 8);
+                                                            $basicPay = $employee->basic * $days;
+                                                            $otPay = $otFormula * $ot;
+                                                            $finalBasic = $basicPay + $otPay;
+                                                        @endphp
+                                                    @endforeach
+                                                @endfor
+                                                {{ $finalBasic }}
+                                            </td>
+                                            <td class="text-right">0</td>
+                                            <td class="text-right">0</td>
+                                            <td>{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
+                                            <td class="text-right">{{ $finalBasic }}</td>
+                                            <td>
+                                                @php
+                                                $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
+                                                $gross = $finalBasic;
+                                                @endphp
+                                                {{ $gross - $totalDeduction }}
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>

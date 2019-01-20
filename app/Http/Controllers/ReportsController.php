@@ -169,28 +169,12 @@ class ReportsController extends Controller
 
     public function weekly_attendance_reports() {
 
-        $now = Carbon::now()->format('Y-m-d');
-        $en = Carbon::parse($now);
-        $start = $en->startOfWeek(Carbon::FRIDAY);
-        $end = $en->endOfWeek(Carbon::THURSDAY);
-        $currentDay = Carbon::now();
-        $day = $currentDay->dayOfWeek;
-        $startDate = $en->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
-        $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $now = Carbon::now();
+        $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
+        $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        $day = Carbon::now()->format('N');
 
-        $attendance = DB::select('select name, time_in, time_out,
-            sum(day1) as day1, 
-            sum(day2) as day2, 
-            sum(day3) as day3, 
-            sum(day4) as day4, 
-            sum(day5) as day5, 
-            sum(day6) as day6, 
-            sum(day7) as day7
-            from attendances
-            where DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
-            group by name');
-
-        return view('admin.report.weekly_attendance', compact('attendance'), ['startDate' => $startDate, 'endDate' => $endDate]);
+        return view('admin.report.weekly_attendance', ['startDate' => $startDate, 'endDate' => $endDate, 'day' => $day]);
     }
 
     public function wcr_filter(Request $request) {

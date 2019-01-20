@@ -111,7 +111,7 @@
                                         <tr>
                                             <td>{{ $employee->fullname }}</td>
                                             <td>
-                                                @for ($i = 0; $i <= 7; $i++)
+                                                @for ($i = 1; $i <= 7; $i++)
                                                     @foreach($employee->attendances->where('day', $i) as $attendance)
                                                         @php
                                                             $ot = '0';
@@ -317,7 +317,7 @@
                                         <hr style="border-top:1px solid #9a9a9a"/>
                                         <div class="col-6 float-left">
                                             <h5>EARNINGS</h5>
-                                            @for ($i = 0; $i <= 7; $i++)
+                                            @for ($i = 1; $i <= 7; $i++)
                                                 @foreach($employee->attendances->where('day', $i) as $attendance)
                                                     @php
                                                         $ot = '0';
