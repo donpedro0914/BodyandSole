@@ -30,3 +30,12 @@
 .table-bordered, .table-bordered td, .table-bordered th {
 	border: 1px solid #c7cbce;
 }
+.font-white {
+	color: #fff !important;
+}
+.v-align-mid {
+	vertical-align: middle !important;
+}
+#attendance_table td {
+	padding: 5px;
+}

@@ -20,7 +20,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Reference No.</label>
-							<input type="text" name="ref_no" class="form-control" value="{!! $orderCount2 !!}" readonly="" />
+							<input type="text" name="ref_no" class="form-control" value="{!! $expenseCount->ref_no !!}" readonly="" />
 						</div>
 						<div class="form-group col-md-12 col-xs-12">
 							<label>Date</label>

@@ -44,7 +44,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(App\Therapist::whereNotNull('basic')->get() as $a)
+                                    @foreach(App\Therapist::all() as $a)
                                     <tr>
                                         <td>{{ $a->fullname }}</td>
                                         @for ($i = 1; $i <= 7; $i++)
