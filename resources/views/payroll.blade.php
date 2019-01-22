@@ -100,14 +100,13 @@
                                             <td>{{ $employee->fullname }}</td>
                                             <td>
                                                 @for ($i = 1; $i <= 7; $i++)
-                                                    @foreach($employee->attendances->where('day', $i) as $attendance)
+                                                    @forelse ($employee->attendances->where('day', $i) as $attendance)
                                                         @php
                                                             $ot = '0';
                                                             $days = '0';
                                                         @endphp
                                                         @php
                                                             $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
-
                                                             if($hourdiff == 9) {
                                                                 $days += '1';
                                                             } else if($hourdiff > 9) {
@@ -116,6 +115,7 @@
                                                                 $days += '1';
                                                             } else {
                                                                 $days += '0';
+                                                                $ot += '0';
                                                             }
                                                         @endphp
                                                         @php
@@ -123,21 +123,26 @@
                                                             $basicPay = $employee->basic * $days;
                                                             $otPay = $otFormula * $ot;
                                                             $finalBasic = $basicPay + $otPay;
+                                                            
+                                                            if($finalBasic) {
+                                                                echo $finalBasic;
+                                                            } else {
+                                                                echo '0';
+                                                            }
                                                         @endphp
                                                     @endforeach
                                                 @endfor
-                                                {{ $finalBasic }}
                                             </td>
                                             <td class="text-right">0</td>
                                             <td class="text-right">0</td>
                                             <td>{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
-                                            <td class="text-right">{{ $finalBasic }}</td>
+                                            <td class="text-right"></td>
                                             <td>
                                                 @php
                                                 $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
                                                 $gross = $finalBasic;
                                                 @endphp
-                                                {{ $gross - $totalDeduction }}
+                                                {{-- {{ $gross - $totalDeduction }} --}}
                                             </td>
                                         </tr>
                                     @endforeach
