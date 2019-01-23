@@ -96,16 +96,15 @@
                                     </tr>
                                     @endforeach
                                     @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
-                                        <tr>
-                                            <td>{{ $employee->fullname }}</td>
-                                            <td>
-                                                @for ($i = 1; $i <= 7; $i++)
-                                                    @forelse ($employee->attendances->where('day', $i) as $attendance)
+                                        @for ($i = 1; $i <= 7; $i++)
+                                            @foreach (\App\Attendance::whereRaw('user_id = '. $employee->id.' AND day = '.$i.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
+                                                <tr>
+                                                    <td>{{ $employee->fullname }}</td>
+                                                    <td>
                                                         @php
                                                             $ot = '0';
                                                             $days = '0';
-                                                        @endphp
-                                                        @php
+                                                            
                                                             $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
                                                             if($hourdiff == 9) {
                                                                 $days += '1';
@@ -117,34 +116,28 @@
                                                                 $days += '0';
                                                                 $ot += '0';
                                                             }
-                                                        @endphp
-                                                        @php
+                                                            
                                                             $otFormula = (int)($employee->basic / 8);
                                                             $basicPay = $employee->basic * $days;
                                                             $otPay = $otFormula * $ot;
                                                             $finalBasic = $basicPay + $otPay;
-                                                            
-                                                            if($finalBasic) {
-                                                                echo $finalBasic;
-                                                            } else {
-                                                                echo '0';
-                                                            }
                                                         @endphp
-                                                    @endforeach
-                                                @endfor
-                                            </td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td>{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
-                                            <td class="text-right"></td>
-                                            <td>
-                                                @php
-                                                $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
-                                                $gross = $finalBasic;
-                                                @endphp
-                                                {{-- {{ $gross - $totalDeduction }} --}}
-                                            </td>
-                                        </tr>
+                                                        {{ $finalBasic }}
+                                                    </td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="text-right">0</td>
+                                                    <td>{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
+                                                    <td class="text-right">{{ $finalBasic }}</td>
+                                                    <td>
+                                                        @php
+                                                        $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
+                                                        $gross = $finalBasic;
+                                                        @endphp
+                                                        {{ $gross - $totalDeduction }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endfor
                                     @endforeach
                                 </tbody>
                                 <tfoot>

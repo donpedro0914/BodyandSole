@@ -108,16 +108,15 @@
                                     </tr>
                                     @endforeach
                                     @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
-                                        <tr>
-                                            <td>{{ $employee->fullname }}</td>
-                                            <td>
-                                                @for ($i = 1; $i <= 7; $i++)
-                                                    @foreach($employee->attendances->where('day', $i) as $attendance)
+                                        @for ($i = 1; $i <= 7; $i++)
+                                            @foreach (\App\Attendance::whereRaw('user_id = '. $employee->id.' AND day = '.$i.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
+                                            <tr>
+                                                    <td>{{ $employee->fullname }}</td>
+                                                    <td>
                                                         @php
                                                             $ot = '0';
                                                             $days = '0';
-                                                        @endphp
-                                                        @php
+                                                            
                                                             $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
 
                                                             if($hourdiff == 9) {
@@ -129,29 +128,28 @@
                                                             } else {
                                                                 $days += '0';
                                                             }
-                                                        @endphp
-                                                        @php
+                                                            
                                                             $otFormula = (int)($employee->basic / 8);
                                                             $basicPay = $employee->basic * $days;
                                                             $otPay = $otFormula * $ot;
                                                             $finalBasic = $basicPay + $otPay;
                                                         @endphp
-                                                    @endforeach
-                                                @endfor
-                                                {{ $finalBasic }}
-                                            </td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td>{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
-                                            <td class="text-right">{{ $finalBasic }}</td>
-                                            <td>
-                                                @php
-                                                $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
-                                                $gross = $finalBasic;
-                                                @endphp
-                                                {{ $gross - $totalDeduction }}
-                                            </td>
-                                        </tr>
+                                                        {{ $finalBasic }}
+                                                    </td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="text-right">0</td>
+                                                    <td>{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
+                                                    <td class="text-right">{{ $finalBasic }}</td>
+                                                    <td>
+                                                        @php
+                                                        $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
+                                                        $gross = $finalBasic;
+                                                        @endphp
+                                                        {{ $gross - $totalDeduction }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endfor
                                     @endforeach
                                 </tbody>
                                 <tfoot>
@@ -294,36 +292,35 @@
                                     </div>
                                 @endforeach
                                 @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
-                                    <div class="card-box col-xl-12 table-bordered" style="overflow:auto;">
-                                        <h4>Body and Sole Spa</h4>
-                                        <h5>Payroll Period : {{ $startDate }} - {{ $endDate }}</h5>
-                                        <hr style="border-top:1px solid #9a9a9a"/>
-                                        <table class="table">
-                                            <tr>
-                                                <td>Employee No.:</td>
-                                                <td>{{ $employee->id }}</td>
-                                                <td width="20%"></td>
-                                                <td>Department:</td>
-                                                <td>SF</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Name:</td>
-                                                <td>{{ $employee->fullname }}</td>
-                                                <td width="20%"></td>
-                                                <td>Rate:</td>
-                                                <td>0.00</td>
-                                            </tr>
-                                        </table>
-                                        <hr style="border-top:1px solid #9a9a9a"/>
-                                        <div class="col-6 float-left">
-                                            <h5>EARNINGS</h5>
-                                            @for ($i = 1; $i <= 7; $i++)
-                                                @foreach($employee->attendances->where('day', $i) as $attendance)
+                                    @for ($i = 1; $i <= 7; $i++)
+                                        @foreach (\App\Attendance::whereRaw('user_id = '. $employee->id.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
+                                            <div class="card-box col-xl-12 table-bordered" style="overflow:auto;">
+                                                <h4>Body and Sole Spa</h4>
+                                                <h5>Payroll Period : {{ $startDate }} - {{ $endDate }}</h5>
+                                                <hr style="border-top:1px solid #9a9a9a"/>
+                                                <table class="table">
+                                                    <tr>
+                                                        <td>Employee No.:</td>
+                                                        <td>{{ $employee->id }}</td>
+                                                        <td width="20%"></td>
+                                                        <td>Department:</td>
+                                                        <td>SF</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Name:</td>
+                                                        <td>{{ $employee->fullname }}</td>
+                                                        <td width="20%"></td>
+                                                        <td>Rate:</td>
+                                                        <td>0.00</td>
+                                                    </tr>
+                                                </table>
+                                                <hr style="border-top:1px solid #9a9a9a"/>
+                                                <div class="col-6 float-left">
+                                                    <h5>EARNINGS</h5>
                                                     @php
                                                         $ot = '0';
                                                         $days = '0';
-                                                    @endphp
-                                                    @php
+                                                        
                                                         $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
 
                                                         if($hourdiff == 9) {
@@ -335,70 +332,69 @@
                                                         } else {
                                                             $days += '0';
                                                         }
-                                                    @endphp
-                                                    @php
+                                                        
                                                         $otFormula = (int)($employee->basic / 8);
                                                         $basicPay = $employee->basic * $days;
                                                         $otPay = $otFormula * $ot;
                                                         $finalBasic = $basicPay + $otPay;
                                                     @endphp
-                                                @endforeach
-                                            @endfor
-                                            <div class="col-6 text-right float-left">Regular Pay:</div>
-                                            <div class="col-6 text-right float-right">{{ $basicPay }}.00</div>
-                                            <div class="col-6 text-right float-left">Overtime Pay:</div>
-                                            <div class="col-6 text-right float-right">{{ $otPay }}.00</div>
-                                            <div class="col-6 text-right float-left">Holiday Pay:</div>
-                                            <div class="col-6 text-right float-right">0.00</div>
-                                            <div class="col-6 text-right float-left">Allowance:</div>
-                                            <div class="col-6 text-right float-right">0.00</div>
-                                            <div class="col-6 text-right float-left">Commission:</div>
-                                            <div class="col-6 text-right float-right">0.00</div>
-                                            <div class="col-6 text-right float-left">Incent/Others:</div>
-                                            <div class="col-6 text-right float-right" >0.00</div>
-                                            <div class="col-6 text-right float-left">13th Month:</div>
-                                            <div class="col-6 text-right float-right m-b-30">0.00</div>
-                                            <hr style="border-top:1px solid #9a9a9a;clear:both"/>
-                                            <strong class="col-6 text-right float-left">Gross Pay:</strong>
-                                            <strong class="col-6 text-right float-right">{{ $finalBasic     }}.00</strong>
-                                        </div>
-                                        <div class="col-6 float-right">
-                                            <h5>DEDUCTIONS</h5>
-                                            <div class="col-6 text-right float-left">Cash Advance:</div>
-                                            <div class="col-6 text-right float-right">0.00</div>
-                                            <div class="col-6 text-right float-left">W/Tax:</div>
-                                            <div class="col-6 text-right float-right">0.00</div>
-                                            <div class="col-6 text-right float-left">SSS Contrib:</div>
-                                            <div class="col-6 text-right float-right">{{ $employee->sss }}.00</div>
-                                            <div class="col-6 text-right float-left">Phil Health:</div>
-                                            <div class="col-6 text-right float-right">{{ $employee->phealth }}.00</div>
-                                            <div class="col-6 text-right float-left">SSS Loan:</div>
-                                            <div class="col-6 text-right float-right">0.00</div>
-                                            <div class="col-6 text-right float-left">HDMF Contrib:</div>
-                                            <div class="col-6 text-right float-right">{{ $employee->hdf }}.00</div>
-                                            <div class="col-6 text-right float-left">HDMF Loan:</div>
-                                            <div class="col-6 text-right float-right">0.00</div>
-                                            <div class="col-6 text-right float-left">Lodging:</div>
-                                            <div class="col-6 text-right float-right">{{ $employee->lodging }}.00</div>
-                                            <div class="col-6 text-right float-left">Others<small>(Uniform, Fare, Others Included)</small>:</div>
-                                            <div class="col-6 text-right float-right">{{ $employee->uniform + $employee->fare + $employee->others }}.00</div>
-                                            <hr style="border-top:1px solid #9a9a9a;clear:both"/>
-                                            <strong class="col-6 text-right float-left">Total Deduction:</strong>
-                                            @php
-                                            $totalD = $employee->sss + $employee->phealth + $employee->hdf + $employee->lodging + $employee->others;
-                                            @endphp
-                                            <div class="col-6 text-right float-right">{{ $totalD }}.00</div>
-                                            <strong class="col-6 text-right float-left">Net Pay:</strong>
-                                            @php
-                                            $gross = $finalBasic;
-                                            @endphp
-                                            <div class="col-6 text-right float-right">{{ $gross - $totalD }}.00</div>
-                                        </div>
-                                        <div class="clear"></div>
-                                        <div class="col-12">
-                                            <div class="m-t-30 text-right signature">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                        </div>
-                                    </div>
+                                                    <div class="col-6 text-right float-left">Regular Pay:</div>
+                                                    <div class="col-6 text-right float-right">{{ $employee->basic }}.00</div>
+                                                    <div class="col-6 text-right float-left">Overtime Pay:</div>
+                                                    <div class="col-6 text-right float-right">{{ $otPay }}.00</div>
+                                                    <div class="col-6 text-right float-left">Holiday Pay:</div>
+                                                    <div class="col-6 text-right float-right">0.00</div>
+                                                    <div class="col-6 text-right float-left">Allowance:</div>
+                                                    <div class="col-6 text-right float-right">0.00</div>
+                                                    <div class="col-6 text-right float-left">Commission:</div>
+                                                    <div class="col-6 text-right float-right">0.00</div>
+                                                    <div class="col-6 text-right float-left">Incent/Others:</div>
+                                                    <div class="col-6 text-right float-right" >0.00</div>
+                                                    <div class="col-6 text-right float-left">13th Month:</div>
+                                                    <div class="col-6 text-right float-right m-b-30">0.00</div>
+                                                    <hr style="border-top:1px solid #9a9a9a;clear:both"/>
+                                                    <strong class="col-6 text-right float-left">Gross Pay:</strong>
+                                                    <strong class="col-6 text-right float-right">{{ $finalBasic     }}.00</strong>
+                                                </div>
+                                                <div class="col-6 float-right">
+                                                    <h5>DEDUCTIONS</h5>
+                                                    <div class="col-6 text-right float-left">Cash Advance:</div>
+                                                    <div class="col-6 text-right float-right">0.00</div>
+                                                    <div class="col-6 text-right float-left">W/Tax:</div>
+                                                    <div class="col-6 text-right float-right">0.00</div>
+                                                    <div class="col-6 text-right float-left">SSS Contrib:</div>
+                                                    <div class="col-6 text-right float-right">{{ $employee->sss }}.00</div>
+                                                    <div class="col-6 text-right float-left">Phil Health:</div>
+                                                    <div class="col-6 text-right float-right">{{ $employee->phealth }}.00</div>
+                                                    <div class="col-6 text-right float-left">SSS Loan:</div>
+                                                    <div class="col-6 text-right float-right">0.00</div>
+                                                    <div class="col-6 text-right float-left">HDMF Contrib:</div>
+                                                    <div class="col-6 text-right float-right">{{ $employee->hdf }}.00</div>
+                                                    <div class="col-6 text-right float-left">HDMF Loan:</div>
+                                                    <div class="col-6 text-right float-right">0.00</div>
+                                                    <div class="col-6 text-right float-left">Lodging:</div>
+                                                    <div class="col-6 text-right float-right">{{ $employee->lodging }}.00</div>
+                                                    <div class="col-6 text-right float-left">Others<small>(Uniform, Fare, Others Included)</small>:</div>
+                                                    <div class="col-6 text-right float-right">{{ $employee->uniform + $employee->fare + $employee->others }}.00</div>
+                                                    <hr style="border-top:1px solid #9a9a9a;clear:both"/>
+                                                    <strong class="col-6 text-right float-left">Total Deduction:</strong>
+                                                    @php
+                                                    $totalD = $employee->sss + $employee->phealth + $employee->hdf + $employee->lodging + $employee->others;
+                                                    @endphp
+                                                    <div class="col-6 text-right float-right">{{ $totalD }}.00</div>
+                                                    <strong class="col-6 text-right float-left">Net Pay:</strong>
+                                                    @php
+                                                    $gross = $finalBasic;
+                                                    @endphp
+                                                    <div class="col-6 text-right float-right">{{ $gross - $totalD }}.00</div>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="col-12">
+                                                    <div class="m-t-30 text-right signature">___________________________<br />SIGNATURE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endfor
                                 @endforeach
                             </div>
                         </div>

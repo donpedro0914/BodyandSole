@@ -63,7 +63,7 @@ class ReportsController extends Controller
             group by b.fullname
             ');
 
-        return view('admin.report.payroll', compact('payroll_therapist'), ['startDate' => $startDate, 'endDate' => $endDate]);
+        return view('admin.report.payroll', compact('payroll_therapist'), ['startDate' => $startDate, 'endDate' => $endDate, 'day' => $day]);
     }
 
     public function weekly_commission_reports() {
