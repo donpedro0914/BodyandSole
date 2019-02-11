@@ -388,6 +388,18 @@ class FrontController extends Controller
         return view('attendance', ['day' => $day, 'month' => $month, 'startDate' => $startDate, 'endDate' => $endDate]);
     }
 
+    public function f_attendance_filter(Request $request)
+    {
+        $now = Carbon::now();
+        $startDate = $request->get('startDate');
+        $endDate = $request->get('endDate');
+        $day = Carbon::now()->format('N');
+        // dd($day);
+        $month = Carbon::now()->format('m');
+
+        return view('attendance', ['day' => $day, 'month' => $month, 'startDate' => $startDate, 'endDate' => $endDate]);
+    }
+
     public function checkpin($id)
     {
         $info = explode(',', $id);

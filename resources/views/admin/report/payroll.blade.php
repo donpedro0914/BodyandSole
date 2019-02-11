@@ -108,48 +108,33 @@
                                     </tr>
                                     @endforeach
                                     @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
-                                        @for ($i = 1; $i <= 7; $i++)
-                                            @foreach (\App\Attendance::whereRaw('user_id = '. $employee->id.' AND day = '.$i.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
-                                            <tr>
-                                                    <td>{{ $employee->fullname }}</td>
-                                                    <td>
-                                                        @php
-                                                            $ot = '0';
-                                                            $days = '0';
-                                                            
-                                                            $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
-
-                                                            if($hourdiff == 9) {
-                                                                $days += '1';
-                                                            } else if($hourdiff > 9) {
-                                                                $hourdiff2 = $hourdiff - 1;
-                                                                $ot += $hourdiff2 % 8;
-                                                                $days += '1';
-                                                            } else {
-                                                                $days += '0';
-                                                            }
-                                                            
-                                                            $otFormula = (int)($employee->basic / 8);
-                                                            $basicPay = $employee->basic * $days;
-                                                            $otPay = $otFormula * $ot;
-                                                            $finalBasic = $basicPay + $otPay;
-                                                        @endphp
-                                                        {{ $finalBasic }}
-                                                    </td>
-                                                    <td class="text-right">0</td>
-                                                    <td class="text-right">0</td>
-                                                    <td>{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
-                                                    <td class="text-right">{{ $finalBasic }}</td>
-                                                    <td>
-                                                        @php
-                                                        $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
-                                                        $gross = $finalBasic;
-                                                        @endphp
-                                                        {{ $gross - $totalDeduction }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endfor
+                                        @foreach(\App\Attendance::selectRaw('sum(time_format(timediff(time_out,time_in),"%H")) as timediff, count(day) as days')->whereRaw('user_id = '. $employee->id.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
+                                        <tr>
+                                            <td>{{ $employee->fullname }}</td>
+                                            <td class="text-right">
+                                                @php
+                                                    $otFormula = (int)($employee->basic / 8);
+                                                    $basicPay = $employee->basic * $attendance->days;
+                                                    $getOt = $attendance->days * 8;
+                                                    $finalOTCount = $attendance->timediff - $attendance->days - $getOt;
+                                                    $finalOT = $otFormula * $finalOTCount;
+                                                    $finalBasic = $basicPay + $finalOT;
+                                                @endphp
+                                                {{ $finalBasic }}
+                                            </td>
+                                            <td class="text-right">0</td>
+                                            <td class="text-right">0</td>
+                                            <td class="text-right">{{ $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others }}</td>
+                                            <td class="text-right">{{ $finalBasic }}</td>
+                                            <td>
+                                                @php
+                                                    $totalDeduction = $employee->lodging + $employee->sss + $employee->phealth + $employee->hdf + $employee->uniform + $employee->fare + $employee->others;
+                                                    $gross = $finalBasic;  
+                                                @endphp
+                                                {{ $gross - $totalDeduction }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
                                     @endforeach
                                 </tbody>
                                 <tfoot>
@@ -292,8 +277,7 @@
                                     </div>
                                 @endforeach
                                 @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
-                                    @for ($i = 1; $i <= 7; $i++)
-                                        @foreach (\App\Attendance::whereRaw('user_id = '. $employee->id.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
+                                    @foreach(\App\Attendance::selectRaw('sum(time_format(timediff(time_out,time_in),"%H")) as timediff, count(day) as days')->whereRaw('user_id = '. $employee->id.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
                                             <div class="card-box col-xl-12 table-bordered" style="overflow:auto;">
                                                 <h4>Body and Sole Spa</h4>
                                                 <h5>Payroll Period : {{ $startDate }} - {{ $endDate }}</h5>
@@ -318,30 +302,17 @@
                                                 <div class="col-6 float-left">
                                                     <h5>EARNINGS</h5>
                                                     @php
-                                                        $ot = '0';
-                                                        $days = '0';
-                                                        
-                                                        $hourdiff = round((strtotime($attendance->time_out) - strtotime($attendance->time_in))/3600, 1);
-
-                                                        if($hourdiff == 9) {
-                                                            $days += '1';
-                                                        } else if($hourdiff > 9) {
-                                                            $hourdiff2 = $hourdiff - 1;
-                                                            $ot += $hourdiff2 % 8;
-                                                            $days += '1';
-                                                        } else {
-                                                            $days += '0';
-                                                        }
-                                                        
                                                         $otFormula = (int)($employee->basic / 8);
-                                                        $basicPay = $employee->basic * $days;
-                                                        $otPay = $otFormula * $ot;
-                                                        $finalBasic = $basicPay + $otPay;
+                                                        $basicPay = $employee->basic * $attendance->days;
+                                                        $getOt = $attendance->days * 8;
+                                                        $finalOTCount = $attendance->timediff - $attendance->days - $getOt;
+                                                        $finalOT = $otFormula * $finalOTCount;
+                                                        $finalBasic = $basicPay + $finalOT;
                                                     @endphp
                                                     <div class="col-6 text-right float-left">Regular Pay:</div>
-                                                    <div class="col-6 text-right float-right">{{ $employee->basic }}.00</div>
+                                                    <div class="col-6 text-right float-right">{{ $basicPay }}.00</div>
                                                     <div class="col-6 text-right float-left">Overtime Pay:</div>
-                                                    <div class="col-6 text-right float-right">{{ $otPay }}.00</div>
+                                                    <div class="col-6 text-right float-right">{{ $finalOT }}.00</div>
                                                     <div class="col-6 text-right float-left">Holiday Pay:</div>
                                                     <div class="col-6 text-right float-right">0.00</div>
                                                     <div class="col-6 text-right float-left">Allowance:</div>
@@ -354,7 +325,7 @@
                                                     <div class="col-6 text-right float-right m-b-30">0.00</div>
                                                     <hr style="border-top:1px solid #9a9a9a;clear:both"/>
                                                     <strong class="col-6 text-right float-left">Gross Pay:</strong>
-                                                    <strong class="col-6 text-right float-right">{{ $finalBasic     }}.00</strong>
+                                                    <strong class="col-6 text-right float-right">{{ $finalBasic }}.00</strong>
                                                 </div>
                                                 <div class="col-6 float-right">
                                                     <h5>DEDUCTIONS</h5>
@@ -394,7 +365,6 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                    @endfor
                                 @endforeach
                             </div>
                         </div>

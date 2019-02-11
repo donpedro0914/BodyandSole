@@ -37,6 +37,7 @@ Route::get('/attendance', 'FrontController@attendance');
 Route::get('/attendance/checkpin/{id}', 'FrontController@checkpin');
 Route::post('/attendance/timein/{id}', 'FrontController@timein');
 Route::post('/attendance/timeout/{id}', 'FrontController@timeout');
+Route::get('/attendance/filtered', 'FrontController@f_attendance_filter')->name('f_attendance_filter');
 
 /* GC Front */
 Route::get('f_gift-certificate', 'FrontController@f_gift_certificate');

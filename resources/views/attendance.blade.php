@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <form action="" method="get">
+                            <form action="{{ route('f_attendance_filter') }}" method="get">
                                 <input type="hidden" name="startDate" id="startDate" value="{{ $startDate }}"/>
                                 <input type="hidden" name="endDate" id="endDate" value="{{ $endDate }}"/>
                                 <label>Date Range Filter</label>
