@@ -288,7 +288,7 @@
                                                         <td>{{ $employee->id }}</td>
                                                         <td width="20%"></td>
                                                         <td>Department:</td>
-                                                        <td>SF</td>
+                                                        <td>BALIBAGO</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Name:</td>
