@@ -60,6 +60,7 @@ class ReportsController extends Controller
             from job_orders a, therapists b
             where a.therapist_fullname=b.id
             and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+            and a.status = "DONE"
             group by b.fullname
             ');
 
@@ -212,6 +213,7 @@ class ReportsController extends Controller
             from job_orders a, therapists b
             where a.therapist_fullname=b.id
             and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
+            and a.status = "DONE"
             group by b.fullname
             ');
 
