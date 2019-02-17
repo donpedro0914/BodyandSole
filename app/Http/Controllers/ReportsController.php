@@ -61,6 +61,8 @@ class ReportsController extends Controller
             where a.therapist_fullname=b.id
             and DATE_FORMAT(a.created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")
             and a.status = "DONE"
+            and b.status = "Active"
+            and b.basic is NULL
             group by b.fullname
             ');
 
