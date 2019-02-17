@@ -161,7 +161,7 @@
                                                 <td>{{ $p->id }}</td>
                                                 <td width="20%"></td>
                                                 <td>Department:</td>
-                                                <td>AC</td>
+                                                <td>BALIBAGO</td>
                                             </tr>
                                             <tr>
                                                 <td>Name:</td>
