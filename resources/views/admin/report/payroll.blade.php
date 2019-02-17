@@ -276,7 +276,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                @foreach(App\Therapist::whereNotNull('basic')->get() as $employee)
+                                @foreach(App\Therapist::whereNotNull('basic')->where('status', 'Active')->get() as $employee)
                                     @foreach(\App\Attendance::selectRaw('sum(time_format(timediff(time_out,time_in),"%H")) as timediff, count(day) as days')->whereRaw('user_id = '. $employee->id.' AND DATE_FORMAT(created_at, "%Y-%m-%d") BETWEEN DATE_FORMAT("'.$startDate.'", "%Y-%m-%d") AND DATE_FORMAT("'.$endDate.'", "%Y-%m-%d")')->get() as $attendance)
                                             <div class="card-box col-xl-12 table-bordered" style="overflow:auto;">
                                                 <h4>Body and Sole Spa</h4>
