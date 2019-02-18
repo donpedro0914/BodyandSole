@@ -35,7 +35,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach(App\Therapist::all() as $a)
+                                @foreach(App\Therapist::where('status', 'Active')->get() as $a)
                                 <tr>
                                     <td>{{ $a->fullname }}</td>
                                     <td> <!-- Day 1 -->
