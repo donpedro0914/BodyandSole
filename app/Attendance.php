@@ -12,6 +12,6 @@ class Attendance extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Therapist::class, 'user_id');
+        return $this->belongsTo('App\Therapist', 'user_id');
     }
 }
