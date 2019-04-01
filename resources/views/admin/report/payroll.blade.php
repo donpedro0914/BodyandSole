@@ -160,8 +160,8 @@
                                                 <td>Employee No.:</td>
                                                 <td>{{ $p->id }}</td>
                                                 <td width="20%"></td>
-                                                <td>Department:</td>
-                                                <td>SF</td>
+                                                <td>Branch:</td>
+                                                <td>Balibago</td>
                                             </tr>
                                             <tr>
                                                 <td>Name:</td>
@@ -287,8 +287,8 @@
                                                         <td>Employee No.:</td>
                                                         <td>{{ $employee->id }}</td>
                                                         <td width="20%"></td>
-                                                        <td>Department:</td>
-                                                        <td>SF</td>
+                                                        <td>Branch:</td>
+                                                        <td>Balibago</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Name:</td>
