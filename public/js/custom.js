@@ -544,7 +544,7 @@ $(document).ready(function() {
 	                }
 				);
 				
-				jsWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=BIXOLON SRP-350');
+				jsWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=Epson Tm-t8211');
 
 				setTimeout(function() {
 					location.reload();
