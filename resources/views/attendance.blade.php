@@ -9,11 +9,11 @@
                     <div class="col-12">
                         <div class="form-group">
                             <form action="{{ route('f_attendance_filter') }}" method="get">
-                                <input type="hidden" name="startDate" id="startDate" value="{{ $startDate }}"/>
-                                <input type="hidden" name="endDate" id="endDate" value="{{ $endDate }}"/>
+                                <input type="hidden" name="startDate" id="startDate" value="{{ $startDate . ' 00:00:00' }}"/>
+                                <input type="hidden" name="endDate" id="endDate" value="{{ $endDate . ' 23:59:59' }}"/>
                                 <label>Date Range Filter</label>
                                 <div class="input-group">
-                                    <input class="form-control input-daterange-datepicker" id="daterange" type="text" value="{{ $startDate }} - {{ $endDate }}"/>
+                                    <input class="form-control input-daterange-datepicker" id="daterange" type="text" value="{{ $startDate . ' 00:00:00' }} - {{ $endDate . ' 23:59:59' }}"/>
                                     <div class="input-group-append">
                                         <button class="btn btn-primary waves-effect waves-light" id="date_filter" type="submit">Filter</button>
                                     </div>
@@ -50,7 +50,7 @@
                                                 <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
                                             @endif
                                         @else
-                                            @forelse ($a->attendances->where('created_at', '>=', $startDate)->where('created_at', '<=', $endDate)->where('day', '1') as $attendance)
+                                            @forelse ($a->attendances->where('created_at', '>=', $startDate . ' 00:00:00')->where('created_at', '<=', $endDate . ' 23:59:59')->where('day', '1') as $attendance)
                                                 @if ($attendance->day == '1')
                                                     @if ($attendance->time_in AND $attendance->time_out)
                                                         <table class="table table-bordered" id="attendance_table">
@@ -123,7 +123,7 @@
                                                 <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
                                             @endif
                                         @else
-                                            @forelse ($a->attendances->where('created_at', '>=', $startDate)->where('created_at', '<=', $endDate)->where('day', '2') as $attendance)
+                                            @forelse ($a->attendances->where('created_at', '>=', $startDate . ' 00:00:00')->where('created_at', '<=', $endDate . ' 23:59:59')->where('day', '2') as $attendance)
                                                 @if ($attendance->day == '2')
                                                     @if ($attendance->time_in AND $attendance->time_out)
                                                         <table class="table table-bordered" id="attendance_table">
@@ -196,7 +196,7 @@
                                                 <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
                                             @endif
                                         @else
-                                            @forelse ($a->attendances->where('created_at', '>=', $startDate)->where('created_at', '<=', $endDate)->where('day', '3') as $attendance)
+                                            @forelse ($a->attendances->where('created_at', '>=', $startDate . ' 00:00:00')->where('created_at', '<=', $endDate . ' 23:59:59')->where('day', '3') as $attendance)
                                                 @if ($attendance->day == '3')
                                                     @if ($attendance->time_in AND $attendance->time_out)
                                                         <table class="table table-bordered" id="attendance_table">
@@ -269,7 +269,7 @@
                                                 <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
                                             @endif
                                         @else
-                                            @forelse ($a->attendances->where('created_at', '>=', $startDate)->where('created_at', '<=', $endDate)->where('day', '4') as $attendance)
+                                            @forelse ($a->attendances->where('created_at', '>=', $startDate . ' 00:00:00' . ' 00:00:00')->where('created_at', '<=', $endDate . ' 23:59:59' . ' 23:59:59')->where('day', '4')  as $attendance)
                                                 @if ($attendance->day == '4')
                                                     @if ($attendance->time_in AND $attendance->time_out)
                                                         <table class="table table-bordered" id="attendance_table">
@@ -342,7 +342,7 @@
                                                 <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
                                             @endif
                                         @else
-                                            @forelse ($a->attendances->where('created_at', '>=', $startDate)->where('created_at', '<=', $endDate)->where('day', '5') as $attendance)
+                                            @forelse ($a->attendances->where('created_at', '>=', $startDate . ' 00:00:00')->where('created_at', '<=', $endDate . ' 23:59:59')->where('day', '5') as $attendance)
                                                 @if ($attendance->day == '5')
                                                     @if ($attendance->time_in AND $attendance->time_out)
                                                         <table class="table table-bordered" id="attendance_table">
@@ -415,7 +415,7 @@
                                                 <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
                                             @endif
                                         @else
-                                            @forelse ($a->attendances->where('created_at', '>=', $startDate)->where('created_at', '<=', $endDate)->where('day', '6') as $attendance)
+                                            @forelse ($a->attendances->where('created_at', '>=', $startDate . ' 00:00:00')->where('created_at', '<=', $endDate . ' 23:59:59')->where('day', '6') as $attendance)
                                                 @if ($attendance->day == '6')
                                                     @if ($attendance->time_in AND $attendance->time_out)
                                                         <table class="table table-bordered" id="attendance_table">
@@ -488,7 +488,7 @@
                                                 <div><button class="btn btn-block btn-sm btn-danger" disabled>Time Out</button></div>
                                             @endif
                                         @else
-                                            @forelse ($a->attendances->where('created_at', '>=', $startDate)->where('created_at', '<=', $endDate)->where('day', '7') as $attendance)
+                                            @forelse ($a->attendances->where('created_at', '>=', $startDate . ' 00:00:00')->where('created_at', '<=', $endDate . ' 23:59:59')->where('day', '7') as $attendance)
                                                 @if ($attendance->day == '7')
                                                     @if ($attendance->time_in AND $attendance->time_out)
                                                         <table class="table table-bordered" id="attendance_table">

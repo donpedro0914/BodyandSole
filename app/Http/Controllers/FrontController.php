@@ -381,6 +381,7 @@ class FrontController extends Controller
         $now = Carbon::now();
         $startDate = $now->startOfWeek(Carbon::FRIDAY)->format('Y-m-d');
         $endDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+        // dd($endDate);
         $day = Carbon::now()->format('N');
         // dd($day);
         $month = Carbon::now()->format('m');
