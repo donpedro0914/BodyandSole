@@ -161,7 +161,7 @@
                                                 <td>{{ $p->id }}</td>
                                                 <td width="20%"></td>
                                                 <td>Branch:</td>
-                                                <td>San Fernando</td>
+                                                <td>Balibago</td>
                                             </tr>
                                             <tr>
                                                 <td>Name:</td>
@@ -288,7 +288,7 @@
                                                         <td>{{ $employee->id }}</td>
                                                         <td width="20%"></td>
                                                         <td>Branch:</td>
-                                                        <td>San Fernando</td>
+                                                        <td>Balibago</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Name:</td>
