@@ -43,6 +43,7 @@
                                         <th>Ref No</th>
                                         <th>Payee Name</th>
                                         <th>Category</th>
+										<th>Particulars</th>
                                         <th>Value</th>
                                         <th>Added On</th>
                                         <th>Action</th>
@@ -54,6 +55,7 @@
                                         <td>{{ $e->ref_no }}</td>
                                         <td>{{ $e->therapist }}</td>
                                         <td>{{ $e->category }}</td>
+										<td>{{ $e->particulars }}</td>
                                         <td>{{ $e->value }}</td>
                                         <td>{{ $e->created_at }}</td>
                                         <td class="text-center">

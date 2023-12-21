@@ -543,8 +543,6 @@ $(document).ready(function() {
 	                    type: 'success'
 	                }
 				);
-				
-				jsWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=BIXOLON SRP-350');
 
 				setTimeout(function() {
 					location.reload();

@@ -30,8 +30,6 @@ class FrontController extends Controller
 {
     public function index() {
 
-        $wcpScript = WebClientPrint::createScript(action('WebClientPrintController@processRequest'), action('FrontController@printCommands'), Session::getId());
-
     	$now = Carbon::now()->format('Y-m-d');
         $en = Carbon::parse($now);
         $start = $en->startOfWeek(Carbon::FRIDAY);
@@ -68,7 +66,7 @@ class FrontController extends Controller
 
 
         $jobOrderCount = JobOrder::orderBy('id', 'desc')->first();
-        return view('home', compact('rooms', 'lounge', 'alltherapists', 'therapists', 'day', 'service', 'packages', 'client', 'joborder'), ['wcpScript' => $wcpScript, 'jobOrderCount' => $jobOrderCount, 'day' => $day]);
+        return view('home', compact('rooms', 'lounge', 'alltherapists', 'therapists', 'day', 'service', 'packages', 'client', 'joborder'), ['jobOrderCount' => $jobOrderCount, 'day' => $day]);
     }
 
     public function printCommands(Request $request){
