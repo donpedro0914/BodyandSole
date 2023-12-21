@@ -27,9 +27,19 @@ class ReportsController extends Controller
                     ->where('status', 'Done')
                     ->whereDate('created_at', Carbon::today())
                     ->sum('price');
+        $dailyCashSales = DB::table('job_orders')
+                    ->where('status', 'Done')
+                    ->where('payment', 'Cash')
+                    ->whereDate('created_at', Carbon::today())
+                    ->sum('price');
+        $dailyGcashSales = DB::table('job_orders')
+                    ->where('status', 'Done')
+                    ->where('payment', 'Gcash')
+                    ->whereDate('created_at', Carbon::today())
+                    ->sum('price');
         $dailySales += Giftcertificate::whereDate('created_at', Carbon::today())->sum('value');
         $dailyExpenses = PettyExpense::whereDate('created_at', Carbon::today())->sum('value');
-        return view('admin.report.sales', compact('job_orders', 'gc'),['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
+        return view('admin.report.sales', compact('job_orders', 'gc'),['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses, 'dailyCashSales' => $dailyCashSales, 'dailyGcashSales' => $dailyGcashSales]);
     }
 
     public function ds_filter(Request $request) {
@@ -40,9 +50,19 @@ class ReportsController extends Controller
                     ->where('status', 'Done')
                     ->whereDate('created_at', $day)
                     ->sum('price');
+        $dailyCashSales = DB::table('job_orders')
+                    ->where('status', 'Done')
+                    ->where('payment', 'Cash')
+                    ->whereDate('created_at', $day)
+                    ->sum('price');
+        $dailyGcashSales = DB::table('job_orders')
+                    ->where('status', 'Done')
+                    ->where('payment', 'Gcash')
+                    ->whereDate('created_at', $day)
+                    ->sum('price');
                     $dailySales += Giftcertificate::whereDate('created_at', $day)->sum('value');
         $dailyExpenses = PettyExpense::whereDate('created_at', $day)->sum('value');
-        return view('admin.report.sales', compact('job_orders', 'gc'),['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
+        return view('admin.report.sales', compact('job_orders', 'gc'),['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses, 'dailyCashSales' => $dailyCashSales, 'dailyGcashSales' => $dailyGcashSales]);
     }
 
     public function payroll_reports() {

@@ -27,7 +27,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-3">
                         <div class="card-box">
                             <h4 class="header-title">Daily Sales</h4>
                             <p class="text-muted">{{ $day }}</p>
@@ -36,7 +36,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-3">
+                        <div class="card-box">
+                            <h4 class="header-title">Cash Sales</h4>
+                            <p class="text-muted">{{ $day }}</p>
+                            <div class="mb-3 mt-4">
+                                <h2 class="font-weight-light">₱{{ $dailyCashSales }}.00</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="card-box">
+                            <h4 class="header-title">Gcash Sales</h4>
+                            <p class="text-muted">{{ $day }}</p>
+                            <div class="mb-3 mt-4">
+                                <h2 class="font-weight-light">₱{{ $dailyGcashSales }}.00</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
                         <div class="card-box">
                             <h4 class="header-title">Daily Expenses</h4>
                             <p class="text-muted">{{ $day }}</p>
