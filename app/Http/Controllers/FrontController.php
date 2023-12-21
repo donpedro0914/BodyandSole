@@ -182,6 +182,7 @@ class FrontController extends Controller
     		'payment' => $request->input('payment'),
     		'care_of' => $request->input('care_of'),
             'gcno' => $request->input('gcno'),
+            'gcash' => $request->input('gcash'),
     		'price' => $request->input('price'),
     		'status' => 'Active',
             $day => $request->input('commmission'),

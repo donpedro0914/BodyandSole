@@ -119,10 +119,17 @@
                                     <label class="custom-control-label gc_checker" for="customRadio4">Gift Cert</label>
                                 </div>
                                 <input type="text" class="form-control" id="gc_no" name="gcno" placeholder="Enter gift cert number.." style="display:none;"/>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="customRadio5" name="payment" class="custom-control-input" value="Care of">
-                                    <label class="custom-control-label" for="customRadio5">Care of</label>
+								<div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio5" name="payment" class="custom-control-input" value="Gcash">
+                                    <label class="custom-control-label gcash_checker" for="customRadio5">Gcash</label>
                                 </div>
+								<input type="text" class="form-control" id="gcash" name="gcash" placeholder="Enter gcash reference number.." style="display:none;"/>
+
+								<div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio6" name="payment" class="custom-control-input" value="Care of">
+                                    <label class="custom-control-label" for="customRadio6">Care of</label>
+                                </div>
+
                                 <input type="text" class="form-control" id="careof" name="care_of" placeholder="Enter name.." style="display:none;"/>
 							</div>
 						</div>

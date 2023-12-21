@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="form-group col-md-4 col-xs-12">
                                         <label>Payment</label>
-                                        <input type="text" class="form-control" name="payment" id="payment" value="{{ $joborder->payment }}" readonly="" />
+                                        <input type="text" class="form-control" name="payment" id="payment" value="{{ $joborder->payment }}@if($joborder->payment == 'Gcash'): - {{ $joborder->gcash }} @endif" readonly="" />
                                     </div>
                                     <div class="form-group col-md-4 col-xs-12">
                                         <label>Price</label>
