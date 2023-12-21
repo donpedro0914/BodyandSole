@@ -34,7 +34,7 @@ class JobOrderController extends Controller
         $endDate = $en->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
 
 
-        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id', 'packages.package_name as package_name', 'job_orders.addon as addon')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->leftJoin('packages', 'job_orders.service', '=', 'packages.id')->orderBy('job_orders.id', 'desc')->where('created_at', '>=', '2023-11-01 00:00:00')->get();
+        $joborder = JobOrder::select('job_orders.*', 'therapists.fullname as therapistname', 'services.service_name as service_name', 'services.id', 'packages.package_name as package_name', 'job_orders.addon as addon')->leftJoin('therapists', 'job_orders.therapist_fullname', '=', 'therapists.id')->leftJoin('services', 'job_orders.service', '=', 'services.id')->leftJoin('packages', 'job_orders.service', '=', 'packages.id')->orderBy('job_orders.id', 'desc')->where('job_orders.created_at', '>=', '2023-11-01 00:00:00')->get();
 
         $therapists = DB::select('select * from therapists where basic IS NULL and id not in (select therapist_fullname from job_orders where status ="Active")
             union
