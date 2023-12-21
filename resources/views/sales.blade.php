@@ -40,6 +40,10 @@
                                     <td>₱{{ $dailyExpenses }}.00</td>
                                 </tr>
                                 <tr>
+                                    <th>Gcash Payment</th>
+                                    <td>₱{{ $dailyGcashSales }}.00</td>
+                                </tr>
+                                <tr>
                                     <th>Net Sales</th>
                                     <td>₱{{ $dailySales - $dailyExpenses}}.00</td>
                                 </tr>

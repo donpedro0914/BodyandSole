@@ -512,10 +512,15 @@ class FrontController extends Controller
                     ->where('status', 'Done')
                     ->whereDate('created_at', Carbon::today())
                     ->sum('price');
+        $dailyGcashSales = DB::table('job_orders')
+                    ->where('status', 'Done')
+                    ->whereNotNull('gcash')
+                    ->whereDate('created_at', Carbon::today())
+                    ->sum('price');
         $dailySales += Giftcertificate::whereDate('created_at', Carbon::today())->sum('value');
         $dailyExpenses = PettyExpense::whereDate('created_at', Carbon::today())->sum('value');
         $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
-        return view('sales', compact('job_orders', 'gc', 'alltherapists'),['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
+        return view('sales', compact('job_orders', 'gc', 'alltherapists'),['day' => $day, 'dailyGcashSales' => $dailyGcashSales, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
     }
 
     public function st_filter(Request $request)
@@ -527,9 +532,14 @@ class FrontController extends Controller
                     ->where('status', 'Done')
                     ->whereDate('created_at', $day)
                     ->sum('price');
+        $dailyGcashSales = DB::table('job_orders')
+                                ->where('status', 'Done')
+                                ->whereNotNull('gcash')
+                                ->whereDate('created_at', $day)
+                                ->sum('price');
         $dailySales += Giftcertificate::whereDate('created_at', $day)->sum('value');
         $dailyExpenses = PettyExpense::whereDate('created_at', $day)->sum('value');
         $alltherapists = Therapist::where('status', 'Active')->where('basic', '!=', NULL)->get();
-        return view('sales', compact('job_orders', 'gc', 'alltherapists'),['day' => $day, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
+        return view('sales', compact('job_orders', 'gc', 'alltherapists'),['day' => $day, 'dailyGcashSales' => $dailyGcashSales, 'dailySales' => $dailySales, 'dailyExpenses' => $dailyExpenses]);
     }
 }

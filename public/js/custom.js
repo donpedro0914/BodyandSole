@@ -543,8 +543,6 @@ $(document).ready(function() {
 	                    type: 'success'
 	                }
 				);
-				
-				jsWebClientPrint.print('id='+data['job_order']+'&useDefaultPrinter=checked&printerName=BIXOLON SRP-350');
 
 				setTimeout(function() {
 					location.reload();
@@ -1313,12 +1311,12 @@ $(document).ready(function() {
 			$('#gc_no').hide();
 			$('#careof').hide();
 			$('#gcash').show();
-		} else {
+		}  else {
 			$('#careof').hide();
 			$('#jobOrderFormBtn').removeAttr('disabled');
 			$('#gc_no').hide();
-			$('#gcash').hide();
 			$('.gc_checker').empty();
+			$('#gcash').hide();
 			$('.gc_checker').html('Gift Cert');
 			if($('input[type=radio][name=category]:checked').val() == 'Package') {
 				var price = $('#total_package_price').val();
