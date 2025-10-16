@@ -58,7 +58,9 @@ class GiftcertificateController extends Controller
     public function edit($id) {
         $gc = Giftcertificate::where('id', $id)->first();
         $service = Services::where('status', 'Active')->pluck('service_name', 'id');
-        return view('admin.edit.gc', ['gc' => $gc, 'service' => $service]);        
+        $joborders = JobOrder::where('gcno', $gc->gc_no)->get();
+        $gccount = JobOrder::where('gcno', $gc->gc_no)->count();
+        return view('admin.edit.gc', compact('joborders'), ['gc' => $gc, 'service' => $service, 'gccount' => $gccount]);        
     }
 
     public function update(Request $request, $id)

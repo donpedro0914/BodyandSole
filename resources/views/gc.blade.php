@@ -25,6 +25,7 @@
                                         <th>Service</th>
                                         <th># of use</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,6 +42,9 @@
                                             @else
                                             <span class="badge badge-danger">Not Active</span>
                                             @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="/f_gift-certificate/view/{{ $g->id }}" class="btn btn-xs btn-default btn-edit">View</a>
                                         </td>
                                     </tr>
                                     @endforeach

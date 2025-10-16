@@ -1350,16 +1350,20 @@ $(document).ready(function() {
 			url: baseurl + '/gc/checker',
 			data: {'gc_no':gc},
 			success:function(data) {
-				if(data) {
-					$('.gc_checker').empty();
+				$('.gc_checker').empty();
+
+				if (data.status === 'valid') {
 					$('.gc_checker').html('Gift Cert <i class="text-success mdi mdi-check-circle"></i>');
 					$('#gc_no').addClass('validuser');
-					ifValid(data);
-				} else {
-					$('.gc_checker').empty();
-					$('.gc_checker').html('Gift Cert <i class="text-danger mdi mdi-close-circle"></i>');
+					ifValid(data.data); // pass the certificate details
+				} else if (data.status === 'used') {
+					$('.gc_checker').html('Gift Cert <i class="text-danger mdi mdi-close-circle"></i> - ' + data.message);
 					$('#gc_no').removeClass('validuser');
-					ifValid()
+					ifValid();
+				} else {
+					$('.gc_checker').html('Gift Cert <i class="text-danger mdi mdi-close-circle"></i> - ' + data.message);
+					$('#gc_no').removeClass('validuser');
+					ifValid();
 				}
 			}
 		});

@@ -233,10 +233,28 @@ class FrontController extends Controller
 
     public function checker(Request $request) {
         $checkgc = Giftcertificate::where('gc_no', request('gc_no'))->first();
+        $checkuse = JobOrder::where('gcno', request('gc_no'))->count();
 
-        if($checkgc) {
-            return response()->json($checkgc);
-        }        
+        if ($checkgc) {
+            if ($checkuse < $checkgc->use) {
+                // Valid GC
+                return response()->json([
+                    'status' => 'valid',
+                    'data'   => $checkgc
+                ]);
+            } else {
+                // Fully used
+                return response()->json([
+                    'status'  => 'used',
+                    'message' => 'Gift certificate is already fully used.'
+                ]);
+            }
+        }
+
+        return response()->json([
+            'status'  => 'not_found',
+            'message' => 'Gift certificate not found.'
+        ]);
     }
 
     public function checkavailable() {
@@ -312,6 +330,14 @@ class FrontController extends Controller
         $gcCount = Giftcertificate::count();
 
         return view('gc', compact('services', 'gc', 'client', 'alltherapists', 'day'),['gcCount' => $gcCount, 'day' => $day]);
+    }
+
+    public function f_gift_certificate_view(Request $request, $id) {        
+        $gc = Giftcertificate::where('id', $id)->first();
+        $service = Services::where('status', 'Active')->pluck('service_name', 'id');
+        $joborders = JobOrder::where('gcno', $gc->gc_no)->get();
+        $gccount = JobOrder::where('gcno', $gc->gc_no)->count();
+        return view('gc_view', compact('joborders'), ['gc' => $gc, 'service' => $service, 'gccount' => $gccount]);
     }
 
     public function f_gc_store(Request $request) {

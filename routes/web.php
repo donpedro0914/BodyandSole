@@ -41,6 +41,7 @@ Route::get('/attendance/filtered', 'FrontController@f_attendance_filter')->name(
 
 /* GC Front */
 Route::get('f_gift-certificate', 'FrontController@f_gift_certificate');
+Route::get('f_gift-certificate/view/{id}', 'FrontController@f_gift_certificate_view');
 Route::post('f_gc/store', 'FrontController@f_gc_store');
 
 /* Expenses  Front */
